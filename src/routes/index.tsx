@@ -1,29 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
 
+import { ConditionsSection } from "../components/site/ConditionsSection";
+import { Footer } from "../components/site/Footer";
+import { HeroSection } from "../components/site/HeroSection";
+import { LeisureSection } from "../components/site/LeisureSection";
+import { LocationSection } from "../components/site/LocationSection";
+import { VictaSection } from "../components/site/VictaSection";
+
+const TITLE = "Victa Viver Bosque | Apartamentos na Messejana";
+const DESCRIPTION =
+  "Apartamentos de 2 quartos em condomínio fechado na Messejana, a poucos passos da Av. Frei Cirilo. Lazer completo e condições do Minha Casa, Minha Vida.";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Squad — Nova landing page" },
-      {
-        name: "description",
-        content: "Base limpa pronta para receber a futura landing page da Squad.",
-      },
-      { property: "og:title", content: "Squad — Nova landing page" },
-      {
-        property: "og:description",
-        content: "Base limpa pronta para receber a futura landing page da Squad.",
-      },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });
 
 function Index() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto w-full max-w-6xl px-6 py-16" />
-    </main>
+    <>
+      <HeroSection />
+      <LocationSection />
+      <LeisureSection />
+      <ConditionsSection />
+      <VictaSection />
+      <Footer />
+    </>
   );
 }
