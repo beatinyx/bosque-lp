@@ -271,8 +271,12 @@
 
   /*
    * Cursor de lupa das imagens que abrem em lightbox — mesmo recurso da LP do
-   * Sun In. O disco é o terracota da marca em ~70% de opacidade, que é a cor dos
-   * controles do próprio lightbox, então o cursor já anuncia o que vai abrir.
+   * Sun In. O disco é o lima da marca (#e9f3b4) em ~92% de opacidade.
+   *
+   * A lupa é desenhada em verde profundo (#0f2f19), não em branco: sobre um
+   * disco claro desses o traço branco desapareceria. Opacidade alta de
+   * propósito — o cursor é pequeno e precisa ser lido de imediato, inclusive
+   * sobre as fotos mais claras do carrossel (piscina, céu).
    *
    * O hotspot (21 21) fica no centro da lente, não no canto do SVG, senão o
    * clique parece deslocado do desenho. `zoom-in` é o fallback para quando o
@@ -280,7 +284,7 @@
    */
   .cursor-lupa {
     cursor:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='22' fill='%23c22802b3'/%3E%3Ccircle cx='21' cy='21' r='8' fill='none' stroke='%23ffffff' stroke-width='2'/%3E%3Cline x1='21' y1='17.5' x2='21' y2='24.5' stroke='%23ffffff' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='17.5' y1='21' x2='24.5' y2='21' stroke='%23ffffff' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='27' y1='27' x2='33' y2='33' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E")
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='22' fill='%23e9f3b4eb'/%3E%3Ccircle cx='21' cy='21' r='8' fill='none' stroke='%230f2f19' stroke-width='2'/%3E%3Cline x1='21' y1='17.5' x2='21' y2='24.5' stroke='%230f2f19' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='17.5' y1='21' x2='24.5' y2='21' stroke='%230f2f19' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='27' y1='27' x2='33' y2='33' stroke='%230f2f19' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E")
         21 21,
       zoom-in;
   }
