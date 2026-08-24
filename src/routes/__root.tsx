@@ -77,14 +77,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Squad" },
-      { name: "description", content: "Projeto Squad." },
-      { name: "author", content: "Squad" },
-      { property: "og:title", content: "Squad" },
-      { property: "og:description", content: "Projeto Squad." },
+      { title: "Victa Viver Bosque | Apartamentos na Messejana" },
+      {
+        name: "description",
+        content:
+          "Apartamentos de 2 quartos em condomínio fechado na Messejana, a poucos passos da Av. Frei Cirilo. Lazer completo e condições do Minha Casa, Minha Vida.",
+      },
+      { name: "author", content: "VICTA" },
+      { property: "og:title", content: "Victa Viver Bosque | Apartamentos na Messejana" },
+      {
+        property: "og:description",
+        content:
+          "Apartamentos de 2 quartos em condomínio fechado na Messejana, a poucos passos da Av. Frei Cirilo. Lazer completo e condições do Minha Casa, Minha Vida.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -92,6 +99,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      /*
+       * Fraunces é a serifada do folder. Articulat CF é licenciada e não está no
+       * Google Fonts — Figtree entra como fallback mais próximo (ver styles.css).
+       */
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Figtree:ital,wght@0,300..800;1,300..800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -102,7 +119,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>

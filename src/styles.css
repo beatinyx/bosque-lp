@@ -61,6 +61,55 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/*
+ * Design system da landing page.
+ *
+ * Duas paletas convivem aqui e NÃO devem ser misturadas:
+ *
+ * 1. `brand-*` — paleta do Victa Viver Bosque, usada da dobra 1 à dobra 4.
+ *    Os valores vêm dos operadores CMYK do folder oficial
+ *    (FOLDER VIVER BOSQUE_3.pdf), convertidos para sRGB; o hex de origem
+ *    está ao lado de cada um.
+ * 2. `victa-*` (+ bark/stone) — paleta institucional da Victa, usada apenas
+ *    do institucional para baixo (dobra 5 e rodapé), que seguem o padrão das
+ *    demais LPs da Victa.
+ *
+ * Tipografia do produto: o folder monta as manchetes misturando duas famílias
+ * na mesma frase — a parte enfática em serifada (Fraunces) e o resto em sans
+ * (Articulat CF). Isso é o marcador visual mais forte da marca; use a classe
+ * `.emphasis` para a palavra serifada em vez de negrito.
+ *
+ * Articulat CF é uma fonte licenciada (Connary Fagen) e não está no Google
+ * Fonts. A pilha declara Articulat CF primeiro — se a fonte for licenciada e
+ * auto-hospedada, a página passa a usá-la sem nenhuma outra mudança. Até lá o
+ * fallback é Figtree, o parente mais próximo disponível no Google Fonts.
+ */
+@theme {
+  --font-sans: "Articulat CF", "Figtree", system-ui, -apple-system, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+
+  /* Produto — dobras 1 a 4 */
+  --color-brand: oklch(0.2742 0.0555 151.29); /* #0f2f19 — verde profundo, superfícies escuras */
+  --color-brand-deep: oklch(0.4314 0.1041 147.35); /* #1f5f2c — verde médio */
+  --color-brand-leaf: oklch(0.5158 0.1289 137.3); /* #407826 — verde folha, cor principal */
+  --color-brand-sage: oklch(0.444 0.0452 151.35); /* #415b47 — verde do grafismo orgânico */
+  --color-brand-moss: oklch(0.5104 0.0731 131.41); /* #576f42 — musgo, tags do carrossel */
+  --color-brand-cream: oklch(0.8933 0.0511 89.76); /* #e9dbb6 — creme, setas do carrossel */
+  --color-brand-lime: oklch(0.9415 0.0819 115.33); /* #e9f3b4 — lima claro, destaques */
+  --color-brand-sand: oklch(0.9154 0.0288 84.59); /* #ece2ce — areia, fundo das seções claras */
+  --color-brand-amber: oklch(
+    0.8466 0.1651 86.88
+  ); /* #fbc427 — âmbar, selo de lançamento e ícones */
+  --color-brand-clay: oklch(0.5289 0.1936 33.06); /* #c22802 — terracota, cor dos CTAs */
+
+  /* Institucional Victa — dobra 5 e rodapé */
+  --color-victa-green: oklch(0.5117 0.129 148.93); /* #1f7a3a */
+  --color-victa-green-deep: oklch(0.4414 0.1102 149.45); /* #17632f */
+  --color-victa-mist: oklch(0.9376 0.0559 117.31); /* #e7f0c6 */
+  --color-bark: oklch(0.3901 0.0336 144.9); /* #3a4a3a */
+  --color-stone: oklch(0.3301 0.0327 144.79); /* #2b3a2b */
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -137,8 +186,154 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--color-brand-sand);
+    color: var(--color-brand);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Largura padrão de conteúdo das LPs da Victa. */
+  .lp-container {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  /*
+   * Palavra enfática das manchetes: serifada em vez de negrito, como no folder.
+   * Fraunces tem eixos variáveis — SOFT arredonda os terminais e WONK liga as
+   * alternativas caligráficas, que é o desenho usado nas peças impressas.
+   */
+  .emphasis {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-variation-settings:
+      "SOFT" 40,
+      "WONK" 1;
+    letter-spacing: -0.01em;
+  }
+
+  /*
+   * Ajustes do formulário do RD Station dentro do card do hero. O markup vem
+   * pronto do RD, então os seletores são os dele e precisam de !important.
+   *
+   * O card fica sobre areia, e o tema do formulário é configurado no painel do
+   * RD — se ele vier desenhado para fundo escuro, os rótulos sairiam claros e
+   * ilegíveis aqui. Por isso a paleta é forçada abaixo em vez de confiar no que
+   * o embed traz.
+   */
+  .rd-form-card .bricks-form__field:has(input[class*="js-field-cf_utm_"]) {
+    display: none !important; /* UTMs são preenchidas via URL, não pelo usuário */
+  }
+
+  .rd-form-card .bricks-form__label,
+  .rd-form-card label {
+    color: var(--color-brand-sage) !important;
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+  }
+
+  .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
+  .rd-form-card select,
+  .rd-form-card textarea {
+    border: 1px solid color-mix(in oklab, var(--color-brand) 15%, transparent) !important;
+    border-radius: 0.375rem !important;
+    background-color: #fff !important;
+    color: var(--color-brand) !important;
+    font-size: 0.95rem !important;
+  }
+
+  .rd-form-card .rd-button {
+    border-radius: 9999px !important;
+    background-color: var(--color-brand-clay) !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  /* O RD já dá margem embaixo do botão; sem isso o disclaimer fica longe demais. */
+  .rd-form-card form {
+    margin-bottom: 0 !important;
+  }
+
+  /*
+   * Cursor de lupa das imagens que abrem em lightbox — mesmo recurso da LP do
+   * Sun In. O disco é o terracota da marca em ~70% de opacidade, que é a cor dos
+   * controles do próprio lightbox, então o cursor já anuncia o que vai abrir.
+   *
+   * O hotspot (21 21) fica no centro da lente, não no canto do SVG, senão o
+   * clique parece deslocado do desenho. `zoom-in` é o fallback para quando o
+   * navegador recusa o cursor customizado.
+   */
+  .cursor-lupa {
+    cursor:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='22' fill='%23c22802b3'/%3E%3Ccircle cx='21' cy='21' r='8' fill='none' stroke='%23ffffff' stroke-width='2'/%3E%3Cline x1='21' y1='17.5' x2='21' y2='24.5' stroke='%23ffffff' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='17.5' y1='21' x2='24.5' y2='21' stroke='%23ffffff' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='27' y1='27' x2='33' y2='33' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E")
+        21 21,
+      zoom-in;
+  }
+
+  /*
+   * Chanfro do canto superior direito — a moldura de foto e de card do folder
+   * (aparece no card da legenda do mapa e em todas as perspectivas).
+   * O tamanho do corte acompanha o container via --chamfer.
+   */
+  .chamfer {
+    --chamfer: 40px;
+    clip-path: polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%);
+  }
+
+  .chamfer-sm {
+    --chamfer: 22px;
+  }
+
+  .chamfer-lg {
+    --chamfer: 64px;
+  }
+
+  /* Trilha do carrossel: rola na horizontal sem mostrar a barra de rolagem. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /*
+   * Placeholder listrado exibido enquanto a imagem final não é enviada para
+   * /public/images. Basta soltar o arquivo no caminho esperado para substituir.
+   */
+  .img-placeholder {
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    text-align: center;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.04),
+        rgba(0, 0, 0, 0.04) 12px,
+        rgba(0, 0, 0, 0.08) 12px,
+        rgba(0, 0, 0, 0.08) 24px
+      ),
+      #cfd8d2;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 }
