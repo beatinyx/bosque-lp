@@ -288,3 +288,11 @@ export const IconSneaker = (props: IconProps) => (
     <path d="M9.9 13.1 8.5 15M13 14.5 11.6 16.4M16.1 15.9 14.7 17.8" />
   </svg>
 );
+
+/** Folha da marca — sobretítulo ("eyebrow") de todas as dobras. */
+export const IconLeaf = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M20.2 3.8c0 8.4-4.6 12.9-10 12.9a6.3 6.3 0 0 1-6.3-6.3c0-4.6 5.3-6.6 16.3-6.6Z" />
+    <path d="M4.2 20.2 12.6 11" />
+  </svg>
+);
