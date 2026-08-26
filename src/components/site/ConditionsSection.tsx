@@ -71,7 +71,7 @@ export function ConditionsSection() {
           <p className="mt-5 max-w-[56ch] text-[0.95rem] leading-[1.8] text-brand-sand/85">
             O Viver Bosque faz parte do programa Minha Casa, Minha Vida (com facilidades para a{" "}
             <strong className="font-bold text-white">Faixa 3</strong>). Com renda familiar a partir
-            de <strong className="font-bold text-white">R$ 5.000,00</strong>, você acessa taxas de
+            de <strong className="font-bold text-white">R$ 4.200,00</strong>, você acessa taxas de
             juros reduzidas no financiamento de apartamento em Fortaleza e transforma o valor do
             aluguel na parcela da sua própria conquista.
           </p>
