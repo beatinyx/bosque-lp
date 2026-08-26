@@ -1,6 +1,6 @@
 import type { ComponentType, SVGProps } from "react";
 
-import { IconArrowRight, IconBank, IconKey, IconWallet } from "./Icons";
+import { IconArrowRight, IconBank, IconKey, IconLeaf, IconWallet } from "./Icons";
 import { Img } from "./Img";
 
 const CONDITIONS: Array<{
@@ -60,21 +60,20 @@ export function ConditionsSection() {
         />
 
         <div className="flex flex-col items-start text-brand-sand max-lg:items-center max-lg:text-center">
-          <span className="text-[0.7rem] font-bold tracking-[0.22em] text-brand-amber uppercase">
+          <span className="inline-flex items-center gap-2 text-[0.7rem] font-bold tracking-[0.22em] text-brand-amber uppercase">
+            <IconLeaf className="size-3.5 shrink-0" aria-hidden="true" />
             Condições
           </span>
           <h2 className="mt-3 max-w-[24ch] text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.15] font-light text-balance text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">
-            As condições que você buscava para o{" "}
-            <span className="emphasis">apê que você sempre quis</span>
+            As condições que faltavam para o <span className="emphasis">seu novo apê</span>
           </h2>
 
           <p className="mt-5 max-w-[56ch] text-[0.95rem] leading-[1.8] text-brand-sand/85">
-            O empreendimento conta com as facilidades do programa Minha Casa, Minha Vida (com
-            condições especiais para a <strong className="font-bold text-white">Faixa 3</strong>). A
-            oportunidade definitiva para quem busca o melhor financiamento de apartamento em
-            Fortaleza para sair do aluguel. Com renda familiar a partir de{" "}
-            <strong className="font-bold text-white">R$ 5.000,00</strong>, você acessa taxas
-            reduzidas que tornam esse passo uma realidade.
+            O Viver Bosque faz parte do programa Minha Casa, Minha Vida (com facilidades para a{" "}
+            <strong className="font-bold text-white">Faixa 3</strong>). Com renda familiar a partir
+            de <strong className="font-bold text-white">R$ 5.000,00</strong>, você acessa taxas de
+            juros reduzidas no financiamento de apartamento em Fortaleza e transforma o valor do
+            aluguel na parcela da sua própria conquista.
           </p>
 
           {/*

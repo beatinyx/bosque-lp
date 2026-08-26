@@ -1,211 +1,232 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
-import { IconArrowLeft, IconArrowRight, IconClose } from "./Icons";
+import { IconArrowLeft, IconArrowRight } from "./Icons";
 import { Img } from "./Img";
+import { Lightbox, type Slide } from "./Lightbox";
 
-export type Slide = {
-  /** Nome do arquivo em /public/images, com extensão. */
-  file: string;
-  label: string;
-};
+export type { Slide };
+
+/** Arrasto mínimo, em px, para contar como troca de imagem em vez de clique. */
+const SWIPE_THRESHOLD = 45;
 
 /**
- * Carrossel de perspectivas: um slide grande por vez, com o próximo aparecendo
- * na borda. Clicar em um slide abre o lightbox.
+ * Carrossel de perspectivas.
+ *
+ * A imagem atual fica no centro, em tamanho cheio, e as vizinhas aparecem dos
+ * dois lados em escala reduzida, sangrando pelas bordas da tela — é o corte na
+ * borda que dá a sensação de fila contínua. Para isso o componente precisa ser
+ * montado fora do `lp-container`, com a largura da página inteira; as larguras
+ * abaixo são porcentagens dela.
+ *
+ * COMO A ANIMAÇÃO FUNCIONA
+ *
+ * Todas as imagens ficam montadas o tempo todo, numa fila, e a troca muda só a
+ * LARGURA de cada uma conforme a distância até a atual: a do centro tem a
+ * largura cheia, as vizinhas a reduzida, e as demais ficam com largura zero.
+ * Quem está na lateral cresce até o centro enquanto a do centro encolhe para o
+ * lado, e o deslocamento sai de graça — é o próprio layout do flex reposicionando
+ * os vizinhos conforme as larguras animam.
+ *
+ * Isso é o oposto de trocar o conteúdo com fade: nada desmonta, nada pisca, e a
+ * fila inteira desliza junto. A contrapartida é animar `width`, que passa pelo
+ * layout a cada quadro em vez de rodar na GPU. Nesta escala (poucos elementos,
+ * uma seção) sai fluido; numa lista grande não seria a escolha.
+ *
+ * Os espaçadores das pontas seguem a mesma regra e existem pelo mesmo motivo de
+ * antes: sem eles a imagem atual sairia do meio da tela na primeira e na última.
+ *
+ * Quatro formas de navegar: as setas sobre a imagem, um clique na imagem
+ * lateral, o arrasto no toque e as setas do teclado dentro do lightbox. Clicar
+ * na imagem central abre o lightbox.
  */
 export function Carousel({ slides }: { slides: Slide[] }) {
-  const trackRef = useRef<HTMLUListElement>(null);
-  const [atStart, setAtStart] = useState(true);
-  const [atEnd, setAtEnd] = useState(false);
+  const [index, setIndex] = useState(0);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const updateEdges = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    setAtStart(track.scrollLeft <= 1);
-
-    // O fim é quando o último slide real encosta à esquerda — não quando a
-    // trilha chega ao scroll máximo, que inclui o espaçador do final.
-    const lastSlide = track.querySelector<HTMLElement>("[data-last-slide]");
-    if (!lastSlide) return;
-    setAtEnd(lastSlide.getBoundingClientRect().left - track.getBoundingClientRect().left <= 1);
-  }, []);
-
-  useEffect(() => {
-    updateEdges();
-    window.addEventListener("resize", updateEdges);
-    return () => window.removeEventListener("resize", updateEdges);
-  }, [updateEdges]);
-
   const total = slides.length;
 
-  /** Navegação do lightbox: setas do teclado e Esc, além do scroll travado. */
-  useEffect(() => {
-    if (openIndex === null) return;
+  const go = useCallback(
+    (direction: 1 | -1) => {
+      setIndex((i) => Math.min(total - 1, Math.max(0, i + direction)));
+    },
+    [total],
+  );
 
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpenIndex(null);
-      if (event.key === "ArrowRight") setOpenIndex((i) => (i === null ? i : (i + 1) % total));
-      if (event.key === "ArrowLeft")
-        setOpenIndex((i) => (i === null ? i : (i - 1 + total) % total));
-    }
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [openIndex, total]);
+  /*
+   * Arrasto: a trilha antiga rolava sozinha porque era `overflow-x: auto`, e
+   * este layout não rola. Sem isto o toque perderia a navegação por gesto.
+   * `swiped` impede que o mesmo gesto conte como clique e abra o lightbox.
+   */
+  const dragStartX = useRef<number | null>(null);
+  const swiped = useRef(false);
 
   if (!total) return null;
 
-  /** Rola a trilha em um card na direção informada (-1 anterior, 1 próximo). */
-  function scrollByCard(direction: 1 | -1) {
-    const track = trackRef.current;
-    if (!track) return;
-    const slide = track.querySelector("li");
-    const step = slide ? slide.getBoundingClientRect().width + 16 : track.clientWidth * 0.85;
-    track.scrollBy({ left: direction * step, behavior: "smooth" });
+  const atStart = index === 0;
+  const atEnd = index === total - 1;
+
+  function onPointerDown(event: React.PointerEvent) {
+    dragStartX.current = event.clientX;
+    swiped.current = false;
   }
 
-  /* Setas da trilha: traço solto, sem moldura, abaixo do carrossel. */
-  const trackNav =
-    "cursor-pointer text-brand-cream transition hover:opacity-65 disabled:cursor-default disabled:opacity-25";
-  /* Setas do lightbox: sobre a foto em tela cheia, aí o círculo ajuda a achar. */
-  const navButton =
-    "pointer-events-auto grid size-12 cursor-pointer place-items-center rounded-full bg-brand-clay text-white shadow-[0_10px_26px_rgba(0,0,0,0.35)] transition hover:brightness-105";
-  const current = openIndex === null ? null : slides[openIndex];
+  function onPointerUp(event: React.PointerEvent) {
+    const start = dragStartX.current;
+    dragStartX.current = null;
+    if (start === null) return;
+
+    const dx = event.clientX - start;
+    if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+
+    swiped.current = true;
+    go(dx < 0 ? 1 : -1);
+  }
+
+  /** Um clique que veio de um arrasto não deve navegar nem abrir o lightbox. */
+  function handleClick(action: () => void) {
+    return () => {
+      if (swiped.current) {
+        swiped.current = false;
+        return;
+      }
+      action();
+    };
+  }
+
+  function closeLightbox() {
+    // A trilha acompanha onde o lightbox parou, senão fechar volta para trás.
+    if (openIndex !== null) setIndex(openIndex);
+    setOpenIndex(null);
+  }
+
+  /*
+   * Larguras em % da fila. A lateral fica em torno de 46% da central, que é a
+   * proporção da referência, e a soma passa de 100% de propósito — é o que faz
+   * as laterais serem cortadas pelas bordas. As margens entram na conta da
+   * animação junto com a largura, senão o vão entre as imagens saltaria.
+   */
+  const CENTER = "mx-[1.5%] w-[78%] sm:w-[64%] lg:w-[50%]";
+  const PEEK = "mx-[1.5%] w-[36%] sm:w-[30%] lg:w-[23%]";
+  const HIDDEN = "mx-0 w-0";
+
+  const sizeFor = (distance: number) => (distance === 0 ? CENTER : distance === 1 ? PEEK : HIDDEN);
+
+  const slot =
+    "relative shrink-0 grow-0 overflow-hidden transition-[width,margin] duration-[420ms] ease-out motion-reduce:transition-none";
+
+  /*
+   * A FILA TEM ALTURA PRÓPRIA E FIXA, e é isso que impede o efeito sanfona.
+   *
+   * Cada imagem continua em 3:2, tirando a altura da própria largura — é o que
+   * dá o enquadramento certo em qualquer tamanho. Só que, com a largura
+   * animando, a altura delas anima junto: a central encolhe de 475 para ~365 no
+   * meio do movimento e volta. Se a fila acompanhasse esse pico, a seção
+   * inteira subiria e desceria a cada troca.
+   *
+   * Então a fila não se mede pelo conteúdo: a proporção aqui é calculada sobre
+   * a largura da PÁGINA, que não muda durante a animação. Os valores saem de
+   * manter a central em 3:2 quando está parada — no desktop ela ocupa 50% da
+   * largura, logo a altura é 50% × 2/3 = 1/3 da página, ou seja `3/1`. Mesma
+   * conta para os outros breakpoints, com 64% e 78%.
+   *
+   * Com `items-center`, o que encolhe no meio do caminho apenas sobra espaço
+   * transparente em cima e embaixo, dentro de uma caixa que não se mexe.
+   */
+  const row = "aspect-[1.92/1] sm:aspect-[2.34/1] lg:aspect-[3/1]";
+
+  /* Setas: ficam fora da fila animada, ancoradas nas bordas da imagem central.
+     Como a central é centrada e tem largura conhecida, a borda dela está a
+     metade dessa largura do meio — daí os `calc` por breakpoint. */
+  const arrow =
+    "absolute top-1/2 z-10 grid size-11 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-white/70 text-white transition hover:border-brand-moss hover:bg-brand-moss disabled:cursor-default disabled:opacity-0";
 
   return (
-    /*
-     * A raiz mantém a largura do container (é a âncora das setas, que ficam
-     * alinhadas com o resto do conteúdo). Só a trilha vaza até a borda direita
-     * da tela — o `overflow-x: hidden` do body corta o que passa disso.
-     */
-    <div className="relative">
-      <ul
-        ref={trackRef}
-        onScroll={updateEdges}
-        className="no-scrollbar mr-[calc(-100vw+100%)] flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth"
+    <div className="relative overflow-hidden">
+      <div
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerCancel={() => (dragStartX.current = null)}
+        className={`flex touch-pan-y items-center justify-center select-none ${row}`}
       >
-        {slides.map((slide, index) => (
-          <li
-            key={slide.file}
-            data-last-slide={index === total - 1 ? "" : undefined}
-            className="flex-none basis-[82%] snap-start sm:basis-[72%] lg:basis-[64%]"
-          >
-            <button
-              type="button"
-              onClick={() => setOpenIndex(index)}
-              aria-label={`Ampliar imagem: ${slide.label}`}
-              className="group relative cursor-lupa block w-full overflow-hidden bg-white/8"
-            >
-              <Img
-                src={`/images/${slide.file}`}
-                alt={slide.label}
-                label={slide.file}
-                className="aspect-3/2 w-full object-cover transition duration-500 group-hover:scale-[1.02]"
-              />
-              <span className="absolute bottom-4 left-4 bg-brand-moss px-4 py-2.5 text-[0.62rem] font-bold tracking-[0.14em] text-white uppercase">
-                {slide.label}
-              </span>
-            </button>
-          </li>
-        ))}
+        {/* Espaçador da ponta: só tem largura quando falta a vizinha da esquerda. */}
+        <div aria-hidden="true" className={`${slot} ${atStart ? PEEK : HIDDEN}`} />
 
-        {/*
-          Espaçador com a largura que sobra ao lado de um slide. Sem ele a
-          trilha para de rolar cedo demais e o último slide fica cortado na
-          borda, em vez de encostar à esquerda como todos os outros.
-        */}
-        <li aria-hidden="true" className="flex-none basis-[18%] sm:basis-[28%] lg:basis-[36%]" />
-      </ul>
+        {slides.map((slide, i) => {
+          const distance = Math.abs(i - index);
+          const isCenter = distance === 0;
+          const isNeighbour = distance === 1;
+          const visible = distance <= 1;
+
+          return (
+            <div key={slide.file} className={`${slot} ${sizeFor(distance)}`}>
+              <button
+                type="button"
+                // Fora da janela a imagem tem largura zero: o botão sai da ordem
+                // de tabulação para o teclado não parar em nada invisível.
+                disabled={!visible}
+                onClick={handleClick(() => (isCenter ? setOpenIndex(i) : go(i > index ? 1 : -1)))}
+                aria-hidden={!visible}
+                aria-label={
+                  isCenter
+                    ? `Ampliar imagem: ${slide.label}`
+                    : `Ver ${i > index ? "próxima" : "anterior"} imagem: ${slide.label}`
+                }
+                className={`group block w-full ${isCenter ? "cursor-lupa" : "cursor-pointer"} bg-white/8`}
+              >
+                <Img
+                  src={`/images/${slide.file}`}
+                  alt={isCenter ? slide.label : ""}
+                  label={slide.file}
+                  // A janela carrega adiantado: uma imagem que entra vindo da
+                  // largura zero não tem tempo de carregar durante o movimento.
+                  loading={distance <= 2 ? "eager" : "lazy"}
+                  className="aspect-3/2 w-full object-cover"
+                />
+                {isCenter && (
+                  <span className="absolute bottom-4 left-4 bg-brand-moss px-4 py-2.5 text-[0.62rem] font-bold tracking-[0.14em] text-white uppercase">
+                    {slide.label}
+                  </span>
+                )}
+              </button>
+              {isNeighbour && <span className="sr-only">{slide.label}</span>}
+            </div>
+          );
+        })}
+
+        {/* Espaçador da outra ponta. */}
+        <div aria-hidden="true" className={`${slot} ${atEnd ? PEEK : HIDDEN}`} />
+      </div>
 
       {/*
-        As duas setas ficam sempre montadas e só desabilitam nas pontas. Se
-        fossem removidas condicionalmente, a linha mudaria de largura no meio da
-        rolagem e as setas pulariam de lugar.
+        As setas ficam montadas nas duas pontas e apenas desaparecem quando não
+        há para onde ir (`disabled:opacity-0`). Removê-las do DOM mudaria o foco
+        de lugar no meio da navegação por teclado.
       */}
-      {total > 1 && (
-        <div className="mt-7 flex items-center justify-end gap-7">
-          <button
-            type="button"
-            disabled={atStart}
-            onClick={() => scrollByCard(-1)}
-            aria-label="Imagem anterior"
-            className={trackNav}
-          >
-            <IconArrowLeft className="size-7" />
-          </button>
-          <button
-            type="button"
-            disabled={atEnd}
-            onClick={() => scrollByCard(1)}
-            aria-label="Próxima imagem"
-            className={trackNav}
-          >
-            <IconArrowRight className="size-7" />
-          </button>
-        </div>
-      )}
+      <button
+        type="button"
+        disabled={atStart}
+        onClick={() => go(-1)}
+        aria-label="Imagem anterior"
+        className={`${arrow} left-[calc(11%+0.75rem)] sm:left-[calc(18%+1rem)] lg:left-[calc(25%+1rem)]`}
+      >
+        <IconArrowLeft className="size-5" />
+      </button>
+      <button
+        type="button"
+        disabled={atEnd}
+        onClick={() => go(1)}
+        aria-label="Próxima imagem"
+        className={`${arrow} right-[calc(11%+0.75rem)] sm:right-[calc(18%+1rem)] lg:right-[calc(25%+1rem)]`}
+      >
+        <IconArrowRight className="size-5" />
+      </button>
 
-      {current && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={current.label}
-          onClick={() => setOpenIndex(null)}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black/88 p-4 sm:p-8"
-        >
-          <img
-            src={`/images/${current.file}`}
-            alt={current.label}
-            onClick={(event) => event.stopPropagation()}
-            className="max-h-[80vh] max-w-full cursor-default object-contain"
-          />
-
-          <div
-            onClick={(event) => event.stopPropagation()}
-            className="flex items-center gap-4 text-white"
-          >
-            <button
-              type="button"
-              onClick={() => setOpenIndex((i) => (i === null ? i : (i - 1 + total) % total))}
-              aria-label="Imagem anterior"
-              className={navButton}
-            >
-              <IconArrowLeft className="size-5" />
-            </button>
-
-            <p className="min-w-[10rem] text-center text-[0.72rem] font-bold tracking-[0.14em] uppercase">
-              {current.label}
-              <span className="mt-1 block text-[0.68rem] font-medium tracking-normal text-white/55 normal-case">
-                {openIndex! + 1} de {total}
-              </span>
-            </p>
-
-            <button
-              type="button"
-              onClick={() => setOpenIndex((i) => (i === null ? i : (i + 1) % total))}
-              aria-label="Próxima imagem"
-              className={navButton}
-            >
-              <IconArrowRight className="size-5" />
-            </button>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setOpenIndex(null)}
-            aria-label="Fechar"
-            className="absolute top-4 right-4 grid size-11 cursor-pointer place-items-center rounded-full bg-white/12 text-white transition hover:bg-white/20 sm:top-6 sm:right-6"
-          >
-            <IconClose className="size-5" />
-          </button>
-        </div>
+      {openIndex !== null && (
+        <Lightbox
+          slides={slides}
+          index={openIndex}
+          onIndexChange={setOpenIndex}
+          onClose={closeLightbox}
+        />
       )}
     </div>
   );

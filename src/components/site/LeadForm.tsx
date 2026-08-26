@@ -14,10 +14,24 @@ declare global {
 /**
  * Formulário de captação da dobra 1 — embed do RD Station.
  *
- * Os campos e o botão vêm prontos do RD; os ajustes para caber no card ficam em
- * `.rd-form-card` no styles.css (esconde os campos de UTM, aplica a paleta da
- * marca nos rótulos e nos inputs e troca o botão pelo CTA terracota).
+ * O formulário fica solto sobre a foto do hero, sem card: por isso os textos
+ * são claros e os inputs, areia. Os campos e o botão vêm prontos do RD; os
+ * ajustes ficam em `.rd-form-card` no styles.css (esconde os campos de UTM,
+ * aplica a paleta da marca nos rótulos e nos inputs e troca o botão pelo CTA
+ * terracota).
  */
+/**
+ * Div que já foi entregue ao RD. Vive fora do componente de propósito: o
+ * `createForm()` do RD monta o formulário de forma assíncrona, então contar os
+ * filhos da div não fecha a corrida — dois efeitos disparados perto um do outro
+ * (HMR no dev, remount, StrictMode) veem a div ainda vazia e mandam montar duas
+ * vezes, e o formulário aparece duplicado. A trava é marcada antes da chamada.
+ *
+ * A trava guarda o elemento, não um booleano: se a div for de fato recriada num
+ * remount, o nó é outro e o formulário volta a ser montado.
+ */
+let initializedNode: HTMLElement | null = null;
+
 export function LeadForm() {
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -25,39 +39,49 @@ export function LeadForm() {
     let cancelled = false;
 
     function createForm() {
-      if (cancelled || !window.RDStationForms || !formRef.current) return;
-      // Evita duplicar o formulário em re-render / StrictMode
-      if (formRef.current.childElementCount > 0) return;
+      const node = formRef.current;
+      if (cancelled || !window.RDStationForms || !node) return;
+      if (initializedNode === node || node.childElementCount > 0) return;
+      initializedNode = node;
       new window.RDStationForms(RD_FORM_ID, RD_TOKEN).createForm();
     }
 
-    const existing = document.querySelector<HTMLScriptElement>(`script[src="${RD_SCRIPT_SRC}"]`);
+    // O script é único na página: se já está lá, só aguardamos o load dele.
+    let script = document.querySelector<HTMLScriptElement>(`script[src="${RD_SCRIPT_SRC}"]`);
 
     if (window.RDStationForms) {
       createForm();
-    } else if (existing) {
-      existing.addEventListener("load", createForm);
     } else {
-      const script = document.createElement("script");
-      script.src = RD_SCRIPT_SRC;
-      script.async = true;
+      if (!script) {
+        script = document.createElement("script");
+        script.src = RD_SCRIPT_SRC;
+        script.async = true;
+        document.body.appendChild(script);
+      }
       script.addEventListener("load", createForm);
-      document.body.appendChild(script);
     }
 
     return () => {
       cancelled = true;
-      existing?.removeEventListener("load", createForm);
+      // Remove do script em que o listener foi realmente registrado.
+      script?.removeEventListener("load", createForm);
     };
   }, []);
 
   return (
     <div
       id="cadastro"
-      className="rd-form-card chamfer chamfer-lg w-full max-w-[460px] justify-self-center bg-brand-sand p-7 shadow-[0_24px_60px_rgba(0,0,0,0.34)] sm:p-9 lg:justify-self-end"
+      className="rd-form-card w-full max-w-[460px] justify-self-center lg:order-1 lg:justify-self-start"
     >
-      <h2 className="text-[clamp(1.15rem,2vw,1.45rem)] leading-[1.2] text-brand">
-        O endereço certo para <span className="emphasis whitespace-nowrap">sair do aluguel</span>
+      {/*
+        Centralizado para casar com o formulário: o embed do RD vem dentro de um
+        wrapper com 20px de padding nas duas laterais, então o conteúdo dele já
+        está centrado nesta div — é o eixo central, não a borda esquerda, que os
+        dois têm em comum.
+      */}
+      <h2 className="text-center text-[clamp(1.15rem,2vw,1.45rem)] leading-[1.2] text-white [text-shadow:0_2px_18px_rgba(15,47,25,0.75)]">
+        O endereço certo para{" "}
+        <span className="emphasis whitespace-nowrap text-brand-lime">sair do aluguel</span>
       </h2>
 
       {/*

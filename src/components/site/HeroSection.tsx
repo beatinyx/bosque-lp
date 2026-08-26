@@ -1,3 +1,4 @@
+import { IconPin } from "./Icons";
 import { Img } from "./Img";
 import { LeadForm } from "./LeadForm";
 import { ProductLogo } from "./ProductLogo";
@@ -5,66 +6,133 @@ import { ProductLogo } from "./ProductLogo";
 /** DOBRA 1 — Produto. */
 export function HeroSection() {
   return (
-    <header id="inicio" className="relative isolate bg-brand text-white">
-      {/* Faixa de lançamento: atravessa a largura da página, acima da imagem. */}
-      <div className="relative z-10 bg-brand-amber py-3 text-center">
-        <span className="text-[0.72rem] font-extrabold tracking-[0.26em] text-brand uppercase sm:text-[0.8rem]">
-          Lançamento na Messejana
-        </span>
-      </div>
+    <header id="inicio" className="relative isolate overflow-hidden bg-brand text-white">
+      {/*
+        Cena de piscina em movimento, sangrando na dobra inteira — mesmo esquema
+        da dobra de condições: `poster` é um frame do próprio vídeo, então o
+        enquadramento não salta quando o autoplay é bloqueado (iOS em baixo
+        consumo) nem enquanto o arquivo carrega. Sem áudio: `muted` é o que
+        libera o autoplay, e o arquivo foi recodificado sem faixa de som.
+      */}
+      <video
+        aria-hidden="true"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="/images/hero-piscina-poster.webp"
+        className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-[50%_42%] motion-reduce:hidden"
+      >
+        <source src="/video/hero-piscina.mp4" type="video/mp4" />
+      </video>
+      {/* Mesmo frame do vídeo para quem pediu menos movimento no sistema. */}
+      <Img
+        src="/images/hero-piscina-poster.webp"
+        alt=""
+        className="pointer-events-none absolute inset-0 -z-10 hidden size-full object-cover object-[50%_42%] motion-reduce:block"
+        loading="eager"
+        fetchPriority="high"
+      />
+      {/*
+        Véu em duas camadas, e as duas leves de propósito.
 
-      {/* A imagem cobre só o que vem abaixo da faixa, por isso o isolate aqui. */}
-      <div className="relative isolate overflow-hidden">
+        A cena é de dia, e é o ponto mais claro da página. Um véu forte o
+        bastante para o texto se ler só com ele apagava a água e o verde — a
+        dobra ficava uma mancha escura com letras em cima. A decisão foi manter
+        o vídeo claro: o véu só assenta a imagem, e a leitura do texto fica por
+        conta das sombras de cada bloco.
+
+        A contrapartida está assumida: nenhum texto desta dobra alcança 4,5:1 de
+        contraste. Sombra ajuda na leitura real, mas não entra no cálculo da
+        WCAG. Não "conserte" escurecendo o véu sem antes conversar — já foi
+        tentado, e foi recusado por apagar o vídeo.
+
+        O escurecimento é preto, não verde: a lavagem de `brand` deixava a dobra
+        monocromática. O preto preserva as cores, e a camada de marca entra por
+        último só como tom.
+      */}
+      <div className="absolute inset-0 -z-10 bg-black/30 lg:bg-linear-to-r lg:from-black/26 lg:via-black/30 lg:via-50% lg:to-black/36" />
+      <div className="absolute inset-0 -z-10 bg-brand/22" />
+
+      <div className="lp-container flex flex-col gap-10 py-14 lg:min-h-[84vh] lg:justify-center lg:gap-14 lg:py-20">
         {/*
-          Perspectiva da fachada ao pôr do sol, sangrando na dobra inteira. O
-          `object-position` puxa o enquadramento para a esquerda e para cima: é
-          onde está a torre, e assim o céu aberto do render fica atrás do
-          formulário, à direita.
+          Selo de lançamento + marca formam um só lockup, e ele abre a dobra
+          centralizado, acima das duas colunas. A frase era uma faixa âmbar
+          atravessando a página; aqui ela volta ao papel de sobretítulo, na mesma
+          tipografia dos olhos das outras dobras. O `w-fit` faz o bloco medir o
+          mais largo entre a frase e o logo, e é essa largura que o traço de
+          divisória acompanha — no lugar do contraste de fundo que a faixa fazia.
         */}
-        <Img
-          src="/images/fachada.webp"
-          alt="Perspectiva da fachada do Victa Viver Bosque ao pôr do sol"
-          label="fachada.webp"
-          className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-[42%_16%]"
-          loading="eager"
-          fetchPriority="high"
-        />
+        <div className="flex w-fit flex-col items-center gap-4 self-center">
+          {/*
+            Sem mancha de fundo aqui: em texto solto ela aparecia como borrão.
+            A legibilidade fica por conta da sombra do próprio texto — uma bem
+            fechada, que segura o traço contra a fachada clara, mais uma aberta
+            que dá o descolamento. Sombra não entra no cálculo de contraste da
+            WCAG, então sobre os pontos mais claros da cena este sobretítulo
+            fica abaixo de 4,5:1. É o preço de deixar o fundo claro.
+          */}
+          {/* Sem a folha dos outros olhos: aqui ela vinha logo acima do logo,
+              que já é um desenho, e as duas marcas competiam. */}
+          <span className="text-[0.7rem] font-bold tracking-[0.22em] whitespace-nowrap text-brand-sand uppercase [text-shadow:0_1px_2px_rgba(0,0,0,0.9),0_2px_16px_rgba(0,0,0,0.7)]">
+            Lançamento na Messejana
+          </span>
+          <span
+            aria-hidden="true"
+            className="h-px w-full bg-linear-to-r from-transparent via-brand-sand/45 to-transparent"
+          />
+          <ProductLogo variant="light" className="mt-1 h-auto w-[clamp(215px,27vw,320px)]" />
+        </div>
+
         {/*
-          Véu em duas camadas. O escurecimento é preto, não verde: uma lavagem de
-          `brand` forte o bastante para o texto branco apagava o pôr do sol do
-          render e deixava a dobra monocromática. O preto dá contraste preservando
-          as cores da imagem, e a segunda camada devolve só um tom da marca.
-          No mobile o véu é uniforme; no desktop fecha na esquerda (texto) e abre
-          na direita, deixando o céu aparecer atrás do formulário.
+          Formulário à esquerda, texto à direita — abaixo do lockup. No mobile a
+          ordem é outra: o texto vem primeiro e o formulário fecha a dobra, que é
+          a leitura natural de uma coluna só (argumento antes do cadastro). Daí o
+          `order` valer apenas no desktop.
         */}
-        <div className="absolute inset-0 -z-10 bg-black/52 lg:bg-linear-to-r lg:from-black/80 lg:via-black/46 lg:via-45% lg:to-black/10" />
-        <div className="absolute inset-0 -z-10 bg-brand/34" />
-
-        <div className="lp-container flex flex-col gap-10 py-14 lg:grid lg:min-h-[84vh] lg:grid-cols-[1fr_0.82fr] lg:items-center lg:gap-14 lg:py-20">
-          <div className="flex flex-col items-start gap-8 max-lg:items-center max-lg:text-center">
-            <ProductLogo variant="light" className="h-auto w-[clamp(215px,27vw,320px)]" />
-
+        <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[0.82fr_1fr] lg:items-center lg:gap-14">
+          <div className="flex flex-col items-start gap-8 max-lg:items-center max-lg:text-center lg:order-2">
             {/*
-              A manchete é a linha descritiva (bairro + referência de endereço) e
-              a tagline é a linha de campanha. A tagline vem maior de propósito:
-              é ela que carrega o conceito, a manchete entra como apoio.
+              A manchete é a referência de endereço, dentro de uma moldura de
+              traço bege com o pin da dobra de localização. A tagline, logo
+              abaixo, é a linha de campanha e vem maior: é ela que carrega o
+              conceito.
+
+              `inline-flex` para o pin e o texto ficarem na mesma linha, e a
+              moldura ser uma só — num `span` inline comum a borda quebraria
+              junto com a linha e sobrariam pontas abertas no meio da frase.
+              O pin alinha pelo topo (não pelo centro) porque no mobile a frase
+              quebra em três linhas, e centrado ele desceria para o meio do
+              bloco em vez de acompanhar a primeira linha.
+
+              Cantos retos são o padrão do `border` — não há `rounded-*` aqui
+              nem herdado, então nada a desligar.
             */}
-            <h1 className="max-w-[34ch] text-[clamp(1.15rem,2.1vw,1.6rem)] leading-[1.25] font-light text-white [text-shadow:0_2px_28px_rgba(0,0,0,0.4)]">
-              O seu apartamento na Messejana{" "}
-              <span className="emphasis font-normal">a poucos passos da Avenida Frei Cirilo</span>
+            {/* A largura máxima aperta no mobile: como a caixa é `inline-flex`,
+                ela cresce até o limite do h1 — e na largura cheia do container
+                ficava larga demais para uma frase de duas linhas. */}
+            <h1 className="max-w-[22ch] text-[clamp(1.15rem,2.1vw,1.6rem)] leading-[1.25] font-light text-white sm:max-w-[28ch] lg:max-w-[34ch] [text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_2px_28px_rgba(0,0,0,0.6)]">
+              <span className="emphasis inline-flex items-start gap-2.5 border border-brand-sand px-3.5 py-2 font-normal">
+                <IconPin
+                  aria-hidden="true"
+                  className="mt-[0.18em] size-[1.05em] shrink-0 text-brand-sand"
+                />
+                <span>A poucos passos da Avenida Frei Cirilo</span>
+              </span>
             </h1>
 
-            {/* Tagline da campanha */}
-            <p className="flex items-start gap-4 text-[clamp(1.6rem,3.6vw,2.9rem)] leading-[1.14] text-brand-lime [text-shadow:0_2px_18px_rgba(15,47,25,0.75)]">
-              <span
-                aria-hidden="true"
-                className="mt-3 h-[4.5rem] w-[3px] shrink-0 rounded-full bg-brand-lime/60 max-lg:hidden"
-              />
-              <span>
-                Entre o <span className="emphasis">verde e a cidade,</span>
-                <br />
-                um lugar para <span className="emphasis">você</span>
-              </span>
+            {/*
+              Tagline da campanha, toda em Fraunces. Aqui a hierarquia não vem
+              da troca de família como no resto da página — vem do eixo: o corpo
+              da frase em itálico e leve, e a palavra enfática em romano e mais
+              pesada. Daí o `not-italic` nos `.emphasis`, que de outro modo
+              herdariam o itálico do parágrafo.
+            */}
+            <p className="font-serif text-[clamp(1.6rem,3.6vw,2.9rem)] leading-[1.14] font-light text-brand-lime italic [font-variation-settings:'SOFT'_0,'WONK'_0] [text-shadow:0_1px_3px_rgba(0,0,0,0.8),0_2px_20px_rgba(15,47,25,0.75)]">
+              Entre o <span className="emphasis font-semibold not-italic">verde e a cidade,</span>
+              <br />
+              um lugar para <span className="emphasis font-semibold not-italic">você</span>
             </p>
           </div>
 

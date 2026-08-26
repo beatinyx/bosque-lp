@@ -39,15 +39,30 @@ BOSQUE". Não é sobra de outro produto.
 
 ## Em uso na página
 
-**Dobra 1 — hero:** `logo-viver-bosque-branco.png` e `fachada.webp` (perspectiva
-da fachada ao pôr do sol, sangrando na dobra inteira)
+**Dobra 1 — hero:** `logo-viver-bosque-branco.png` e `hero-piscina-poster.webp`,
+que é o poster do vídeo de fundo. O vídeo em si é `/public/video/hero-piscina.mp4`:
+cena de piscina em 1920×1080, 10 s em loop, sem áudio, recodificado de 47 MB para
+3,3 MB (H.264, CRF 31, `+faststart`) — o arquivo entregue vinha em HEVC/h265, que
+Chrome e Firefox não tocam em `<video>`. Quem tem "reduzir movimento" ligado no
+sistema vê o poster em vez do vídeo.
 
-**Dobra 2 — localização:** `grafismo-folha.webp` (folha de monstera como marca
-d'água no fundo). O mapa em si é um embed do Google Maps apontando para o
-endereço da obra, não uma imagem.
+A cena é clara e o texto do hero fica direto sobre ela, sem card nem mancha por
+baixo — a decisão foi manter o vídeo claro, então o véu é leve e a legibilidade
+fica por conta das sombras do texto. **Nesse arranjo o texto do hero não alcança
+4,5:1 de contraste**; é uma escolha assumida, não um descuido.
 
-**Dobra 3 — carrossel de lazer**, só com renders oficiais de Messejana (a ordem
-segue o array `GALLERY` em `src/components/site/LeisureSection.tsx`):
+**Dobra 2 — localização:** `fachada-vertical.webp` na coluna da esquerda (abre em
+lightbox) e `grafismo-folha.webp` (folha de monstera como marca d'água, no canto
+superior esquerdo). O mapa é um embed do Google Maps apontando para o endereço da
+obra, abaixo das duas colunas.
+
+`fachada-vertical.webp` veio de um JPG de 2,9 MB e 1800×2000; aqui está em 1200
+de largura, webp q82. O original ficou em `assets-originais/images/`.
+
+**Dobra 3 — lazer:** `fundo-bosque.png` cobre a seção inteira (folha de monstera
+e mancha orgânica sobre o verde da marca). O carrossel usa só renders oficiais de
+Messejana (a ordem segue o array `GALLERY` em
+`src/components/site/LeisureSection.tsx`):
 
 `piscina` · `churrasqueira` · `salao-de-festas` · `academia` · `quadra` ·
 `playground` · `pet-place` · `redario` · `luau` · `yoga-cooper` · `espaco-jogos`
