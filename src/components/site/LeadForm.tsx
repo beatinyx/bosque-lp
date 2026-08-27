@@ -74,22 +74,12 @@ export function LeadForm() {
       className="rd-form-card w-full max-w-[460px] justify-self-center lg:order-1 lg:justify-self-start"
     >
       {/*
-        Centralizado para casar com o formulário: o embed do RD vem dentro de um
-        wrapper com 20px de padding nas duas laterais, então o conteúdo dele já
-        está centrado nesta div — é o eixo central, não a borda esquerda, que os
-        dois têm em comum.
+        Sem título próprio: o formulário entra direto, com os rótulos dos campos
+        dizendo o que preencher. A linha "Ao enviar, você concorda em ser
+        contatado…" do briefing já vem dentro do embed, configurada no painel do
+        RD — por isso ela também não aparece aqui.
       */}
-      <h2 className="text-center text-[clamp(1.15rem,2vw,1.45rem)] leading-[1.2] text-white [text-shadow:0_2px_18px_rgba(15,47,25,0.75)]">
-        O endereço certo para{" "}
-        <span className="emphasis whitespace-nowrap text-brand-lime">sair do aluguel</span>
-      </h2>
-
-      {/*
-        A linha "Ao enviar, você concorda em ser contatado…" do briefing já vem
-        dentro do embed, configurada no painel do RD — por isso ela não é
-        repetida aqui.
-      */}
-      <div role="main" id={RD_FORM_ID} ref={formRef} className="mt-6" />
+      <div role="main" id={RD_FORM_ID} ref={formRef} />
     </div>
   );
 }

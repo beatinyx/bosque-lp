@@ -82,7 +82,10 @@ export function ConditionsSection() {
             `backdrop-blur` é o que garante a leitura do texto sem precisar de
             fundo opaco: ele desfoca a folhagem em movimento atrás de cada box.
           */}
-          <ul className="mt-8 flex w-full flex-col gap-3 text-left">
+          {/* Coluna em `max-content`: a grade mede a condição de texto mais
+              longo e as três se esticam até ela. Caixas do tamanho do texto e
+              iguais entre si, em vez de largura cheia com sobra à direita. */}
+          <ul className="mt-8 grid w-fit max-w-full grid-cols-[minmax(0,max-content)] gap-3 text-left">
             {CONDITIONS.map(({ title, Icon }) => (
               <li
                 key={title}

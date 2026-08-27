@@ -101,7 +101,17 @@ export function LocationSection() {
               traço, sem preenchimento nem sombra, para não competirem com o
               CTA — o peso aqui é de informação, não de ação.
             */}
-            <ul className="mt-7 grid w-full gap-3 sm:grid-cols-2">
+            {/*
+              Empilhados, não lado a lado: em duas colunas a coluna fica estreita
+              e "ao Grand Shopping Messejana" quebra em duas linhas.
+
+              A coluna é `max-content`, então a grade mede o mais largo dos dois
+              e os dois se esticam até essa medida. É o que dá caixas curtas — do
+              tamanho do texto — e ainda assim iguais entre si; largura cheia
+              deixava uma sobra enorme à direita. O `max-w-full` segura o caso do
+              mobile, onde o texto mediria mais que a coluna disponível.
+            */}
+            <ul className="mt-7 grid w-fit max-w-full grid-cols-[minmax(0,max-content)] gap-3">
               {NEARBY.map(({ distance, place }) => (
                 <li
                   key={place}
