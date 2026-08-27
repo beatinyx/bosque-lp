@@ -8,11 +8,20 @@ export function HeroSection() {
   return (
     <header id="inicio" className="relative isolate overflow-hidden bg-brand text-white">
       {/*
-        Cena de piscina em movimento, sangrando na dobra inteira — mesmo esquema
-        da dobra de condições: `poster` é um frame do próprio vídeo, então o
-        enquadramento não salta quando o autoplay é bloqueado (iOS em baixo
-        consumo) nem enquanto o arquivo carrega. Sem áudio: `muted` é o que
-        libera o autoplay, e o arquivo foi recodificado sem faixa de som.
+        Cena de piscina em movimento — vista de dentro d'água, contra o sol —
+        sangrando na dobra inteira. Mesmo esquema da dobra de condições:
+        `poster` é o primeiro frame do próprio vídeo, então o enquadramento não
+        salta quando o autoplay é bloqueado (iOS em baixo consumo) nem enquanto
+        o arquivo carrega. Sem áudio: `muted` é o que libera o autoplay, e o
+        arquivo foi recodificado sem faixa de som.
+
+        O `object-position` puxa para cima (42%) porque o interesse da cena está
+        na faixa do sol e da superfície; o terço de baixo é só o fundo de
+        pastilha. No desktop isso quase não corta — a dobra fica com a proporção
+        do vídeo e sobra o quadro inteiro. No mobile o corte é o outro: a dobra é
+        bem mais alta que larga, então sobra só a coluna do meio — a nadadora,
+        que está à direita, fica de fora e o que se vê são os raios de sol na
+        água.
       */}
       <video
         aria-hidden="true"

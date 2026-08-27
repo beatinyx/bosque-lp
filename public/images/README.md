@@ -40,11 +40,24 @@ BOSQUE". Não é sobra de outro produto.
 ## Em uso na página
 
 **Dobra 1 — hero:** `logo-viver-bosque-branco.png` e `hero-piscina-poster.webp`,
-que é o poster do vídeo de fundo. O vídeo em si é `/public/video/hero-piscina.mp4`:
-cena de piscina em 1920×1080, 10 s em loop, sem áudio, recodificado de 47 MB para
-3,3 MB (H.264, CRF 31, `+faststart`) — o arquivo entregue vinha em HEVC/h265, que
-Chrome e Firefox não tocam em `<video>`. Quem tem "reduzir movimento" ligado no
-sistema vê o poster em vez do vídeo.
+que é o poster do vídeo de fundo (primeiro frame dele). O vídeo em si é
+`/public/video/hero-piscina.mp4`: piscina vista de dentro d'água contra o sol, com
+a nadadora à direita do quadro, em 1920×1080, 5 s em loop, sem áudio, recodificado
+de 14,6 MB para 1,1 MB (H.264, CRF 31, `+faststart`) — o arquivo entregue vinha em
+HEVC/h265 10 bits, que Chrome e Firefox não tocam em `<video>`. Quem tem "reduzir
+movimento" ligado no sistema vê o poster em vez do vídeo.
+
+O loop é corte seco, como o da dobra 4. Como o clipe é curto, o ponto de emenda
+volta a cada 5 s e dá para notar um pequeno salto da nadadora; se incomodar, dá
+para costurar com um crossfade de 0,7 s (fica ~4,4 s de loop, com meio segundo de
+fantasma dela no meio da transição).
+
+Cada nova tomada entregue substitui o `hero-piscina.mp4` (as versões anteriores
+ficam no histórico do git). Os originais em HEVC, fora do build, estão em
+`assets-originais/video/`: `hero-piscina-original-hevc.mp4` (cena de fora, 10 s,
+primeira entrega), `hero-piscina-imersao-original-hevc.mp4` (a que está no ar) e
+`hero-piscina-imersao-2-original-hevc.mp4` (tomada em que a nadadora cruza o
+quadro pelo centro, testada e descartada).
 
 A cena é clara e o texto do hero fica direto sobre ela, sem card nem mancha por
 baixo — a decisão foi manter o vídeo claro, então o véu é leve e a legibilidade
