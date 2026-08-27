@@ -3,19 +3,19 @@ import type { ComponentType, SVGProps } from "react";
 import { Carousel } from "./Carousel";
 import {
   IconArrowRight,
-  IconBlocks,
+  IconBike,
   IconCourt,
   IconDumbbell,
+  IconGamepad,
   IconGrill,
   IconHammock,
-  IconLaptop,
   IconLeaf,
   IconMoon,
   IconParty,
   IconPaw,
   IconPlayground,
   IconPool,
-  IconSun,
+  IconSprout,
 } from "./Icons";
 
 /**
@@ -28,7 +28,7 @@ import {
  */
 const GALLERY: Array<{ label: string; file: string }> = [
   { label: "Piscina", file: "piscina.webp" },
-  { label: "Churrasqueiras", file: "churrasqueira.webp" },
+  { label: "Churrasqueira", file: "churrasqueira.webp" },
   { label: "Salão de festas", file: "salao-de-festas.webp" },
   { label: "Academia", file: "academia.webp" },
   { label: "Quadra esportiva", file: "quadra.webp" },
@@ -41,26 +41,28 @@ const GALLERY: Array<{ label: string; file: string }> = [
 ];
 
 /**
- * Lazer do memorial, na ordem da legenda do folder.
+ * Lazer exibido na grade, na ordem e com os nomes definidos pelo cliente — não
+ * é a legenda completa do folder.
  *
- * São 12 dos 18 itens do memorial: a última linha da grade saiu a pedido. Os
- * que ficaram de fora — yoga e pista de cooper, horta e piquenique,
- * bicicletário, espaço de jogos, portaria e guarita, living externo — existem
- * no empreendimento, mas não aparecem mais em nenhum lugar da página.
+ * São 12 itens, o que fecha 2 linhas exatas de 6 no desktop. O memorial tem 18:
+ * ficaram de fora solarium, brinquedoteca, coworking, horta e piquenique,
+ * portaria e guarita e living externo. Todos existem no empreendimento, mas não
+ * aparecem em nenhum outro lugar da página.
  */
 const AMENITIES: Array<{ label: string; Icon: ComponentType<SVGProps<SVGSVGElement>> }> = [
-  { label: "Piscina adulto e infantil", Icon: IconPool },
-  { label: "Solarium", Icon: IconSun },
+  { label: "Piscina", Icon: IconPool },
+  { label: "Churrasqueira", Icon: IconGrill },
   { label: "Salão de festas", Icon: IconParty },
-  { label: "Churrasqueiras", Icon: IconGrill },
-  { label: "Academia", Icon: IconDumbbell },
-  { label: "Quadra esportiva", Icon: IconCourt },
+  { label: "Quadra", Icon: IconCourt },
   { label: "Playground", Icon: IconPlayground },
-  { label: "Brinquedoteca", Icon: IconBlocks },
-  { label: "Coworking", Icon: IconLaptop },
-  { label: "Pet place", Icon: IconPaw },
-  { label: "Redário", Icon: IconHammock },
   { label: "Espaço luau", Icon: IconMoon },
+  { label: "Redário", Icon: IconHammock },
+  // Sem ícone de yoga no conjunto: o broto é o mais próximo em espírito.
+  { label: "Espaço yoga", Icon: IconSprout },
+  { label: "Academia", Icon: IconDumbbell },
+  { label: "Espaço de jogos", Icon: IconGamepad },
+  { label: "Pet place", Icon: IconPaw },
+  { label: "Bicicletário", Icon: IconBike },
 ];
 
 /** DOBRA 3 — Áreas de lazer. */
@@ -87,8 +89,7 @@ export function LeisureSection() {
             Lazer
           </span>
           <h2 className="mx-auto mt-3 max-w-[24ch] text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.15] font-light text-balance">
-            Lazer completo para aproveitar, relaxar e{" "}
-            <span className="emphasis">estar junto com a família</span>
+            Lazer completo para aproveitar <span className="emphasis">junto à família</span>
           </h2>
           <p className="mx-auto mt-5 max-w-[52ch] text-[0.95rem] leading-[1.75] text-brand-sand/80">
             Criamos ambientes planejados para todas as idades, unindo diversão, descanso e segurança

@@ -94,10 +94,23 @@ export function HeroSection() {
         <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[0.82fr_1fr] lg:items-center lg:gap-14">
           <div className="flex flex-col items-start gap-8 max-lg:items-center max-lg:text-center lg:order-2">
             {/*
+              Tagline da campanha, toda em Fraunces, abrindo o bloco: é ela que
+              carrega o conceito, e por isso vem maior e primeiro. Aqui a
+              hierarquia não vem da troca de família como no resto da página —
+              vem do eixo: o corpo da frase em itálico e leve, e a palavra
+              enfática em romano e mais pesada. Daí o `not-italic` nos
+              `.emphasis`, que de outro modo herdariam o itálico do parágrafo.
+            */}
+            <p className="font-serif text-[clamp(1.6rem,3.6vw,2.9rem)] leading-[1.14] font-light text-brand-lime italic [font-variation-settings:'SOFT'_0,'WONK'_0] [text-shadow:0_1px_3px_rgba(0,0,0,0.8),0_2px_20px_rgba(15,47,25,0.75)]">
+              Entre o <span className="emphasis font-semibold not-italic">verde e a cidade,</span>
+              <br />
+              um lugar para <span className="emphasis font-semibold not-italic">você</span>
+            </p>
+
+            {/*
               A manchete é a referência de endereço, dentro de uma moldura de
-              traço bege com o pin da dobra de localização. A tagline, logo
-              abaixo, é a linha de campanha e vem maior: é ela que carrega o
-              conceito.
+              traço bege com o pin da dobra de localização — apoio da tagline,
+              logo abaixo dela.
 
               `inline-flex` para o pin e o texto ficarem na mesma linha, e a
               moldura ser uma só — num `span` inline comum a borda quebraria
@@ -106,12 +119,13 @@ export function HeroSection() {
               quebra em três linhas, e centrado ele desceria para o meio do
               bloco em vez de acompanhar a primeira linha.
 
+              A largura máxima aperta no mobile: como a caixa é `inline-flex`,
+              ela cresce até o limite do h1, e na largura cheia do container
+              ficava larga demais.
+
               Cantos retos são o padrão do `border` — não há `rounded-*` aqui
               nem herdado, então nada a desligar.
             */}
-            {/* A largura máxima aperta no mobile: como a caixa é `inline-flex`,
-                ela cresce até o limite do h1 — e na largura cheia do container
-                ficava larga demais para uma frase de duas linhas. */}
             <h1 className="max-w-[22ch] text-[clamp(1.15rem,2.1vw,1.6rem)] leading-[1.25] font-light text-white sm:max-w-[28ch] lg:max-w-[34ch] [text-shadow:0_1px_2px_rgba(0,0,0,0.85),0_2px_28px_rgba(0,0,0,0.6)]">
               <span className="emphasis inline-flex items-start gap-2.5 border border-brand-sand px-3.5 py-2 font-normal">
                 <IconPin
@@ -121,19 +135,6 @@ export function HeroSection() {
                 <span>A poucos passos da Avenida Frei Cirilo</span>
               </span>
             </h1>
-
-            {/*
-              Tagline da campanha, toda em Fraunces. Aqui a hierarquia não vem
-              da troca de família como no resto da página — vem do eixo: o corpo
-              da frase em itálico e leve, e a palavra enfática em romano e mais
-              pesada. Daí o `not-italic` nos `.emphasis`, que de outro modo
-              herdariam o itálico do parágrafo.
-            */}
-            <p className="font-serif text-[clamp(1.6rem,3.6vw,2.9rem)] leading-[1.14] font-light text-brand-lime italic [font-variation-settings:'SOFT'_0,'WONK'_0] [text-shadow:0_1px_3px_rgba(0,0,0,0.8),0_2px_20px_rgba(15,47,25,0.75)]">
-              Entre o <span className="emphasis font-semibold not-italic">verde e a cidade,</span>
-              <br />
-              um lugar para <span className="emphasis font-semibold not-italic">você</span>
-            </p>
           </div>
 
           <LeadForm />
