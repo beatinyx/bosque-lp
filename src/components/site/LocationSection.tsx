@@ -90,9 +90,8 @@ export function LocationSection() {
 
             <p className="mt-6 text-[0.95rem] leading-[1.8] text-brand-sage">
               O <strong className="font-bold text-brand">Viver Bosque</strong> coloca você no ponto
-              mais prático da região. Perto de comércios, serviços, restaurantes e dos principais
-              pontos da região, com praticidade para o dia a dia. Além de um entorno que traz mais
-              leveza à rotina.
+              mais prático da região: perto de comércios, serviços, restaurantes e dos principais
+              atrativos da localidade. Todo o entorno agrega leveza à sua rotina.
             </p>
 
             {/*
