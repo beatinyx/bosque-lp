@@ -1,19 +1,44 @@
 import { useState } from "react";
 
-import { IconArrowRight, IconLeaf, IconPin } from "./Icons";
+import { IconArrowRight, IconCar, IconLeaf, IconPin } from "./Icons";
 import { Img } from "./Img";
-import { Lightbox } from "./Lightbox";
+import { Lightbox, type Slide } from "./Lightbox";
 
 const ADDRESS = "Rua Nicolau Coelho, 200 - Messejana, Fortaleza - CE";
 const MAPS_QUERY = encodeURIComponent(ADDRESS);
-/** Embed sem chave de API; o link abre o mesmo endereço no Google Maps. */
-const MAPS_EMBED = `https://www.google.com/maps?q=${MAPS_QUERY}&z=16&hl=pt-BR&output=embed`;
 const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
 
-/** Pontos de referência do entorno, destacados em caixas abaixo do texto. */
+/** O mapa também abre no lightbox: é uma ilustração densa demais para caber
+    legível na largura do mobile. */
+const MAP = [
+  {
+    file: "mapa-messejana.webp",
+    label: "Mapa ilustrado da Messejana",
+  },
+];
+
+/**
+ * Tempos de carro até os pontos do entorno, abaixo do texto.
+ *
+ * Vieram do cliente nesta ordem — do mais perto ao mais longe — e substituem as
+ * duas caixas antigas ("1 km da Lagoa da Messejana" e "próximo ao Grand
+ * Shopping"). Mesma função, situar o comprador; a diferença é a unidade, que
+ * passou a ser minuto de carro. A Lagoa saiu com elas: não estava na lista
+ * entregue.
+ *
+ * Com o mapa limpo (sem os números do folder), esta lista é o único lugar da
+ * página que nomeia o entorno — é ela que carrega o argumento da dobra.
+ */
 const NEARBY = [
-  { distance: "1 km", place: "da Lagoa da Messejana" },
-  { distance: "Próximo", place: "ao Grand Shopping Messejana" },
+  { time: "1 min", place: "da Creche Irmã Zeferina Maria" },
+  { time: "3 min", place: "do Detran Messejana" },
+  { time: "3 min", place: "do Grand Shopping" },
+  { time: "4 min", place: "da Academia Top Up 24h" },
+  { time: "4 min", place: "da Padaria MM" },
+  { time: "5 min", place: "do Mega Atacadista" },
+  { time: "5 min", place: "do Terminal Messejana" },
+  { time: "5 min", place: "das Casas Freitas" },
+  { time: "5 min", place: "do Hospital do Coração" },
 ];
 
 /** A fachada abre no lightbox; o mesmo componente do carrossel, com um item só. */
@@ -26,7 +51,9 @@ const FACADE = [
 
 /** DOBRA 2 — Localização. */
 export function LocationSection() {
-  const [zoomed, setZoomed] = useState(false);
+  /* Duas peças abrem no lightbox nesta dobra — a fachada e o mapa —, então o
+     estado guarda qual delas está aberta em vez de um booleano só. */
+  const [zoomed, setZoomed] = useState<Slide[] | null>(null);
 
   return (
     <section
@@ -65,7 +92,7 @@ export function LocationSection() {
         <div className="grid items-stretch gap-10 lg:grid-cols-2 lg:gap-14">
           <button
             type="button"
-            onClick={() => setZoomed(true)}
+            onClick={() => setZoomed(FACADE)}
             aria-label="Ampliar imagem: perspectiva da fachada"
             className="chamfer chamfer-lg cursor-lupa block w-full overflow-hidden shadow-[0_18px_44px_rgba(15,47,25,0.16)]"
           >
@@ -90,41 +117,45 @@ export function LocationSection() {
 
             <p className="mt-6 text-[0.95rem] leading-[1.8] text-brand-sage">
               O <strong className="font-bold text-brand">Viver Bosque</strong> coloca você no ponto
-              mais prático da região: perto de comércios, serviços, restaurantes e dos principais
-              atrativos da localidade. Todo o entorno agrega leveza à sua rotina.
+              mais prático da região. Perto de comércios, serviços, restaurantes e dos principais
+              pontos da região, com praticidade para o dia a dia.
             </p>
 
             {/*
-              Os dois pontos de referência do entorno, destacados do parágrafo:
-              é o que o comprador de fato procura para se situar. Moldura de
-              traço, sem preenchimento nem sombra, para não competirem com o
-              CTA — o peso aqui é de informação, não de ação.
-            */}
-            {/*
-              Empilhados, não lado a lado: em duas colunas a coluna fica estreita
-              e "ao Grand Shopping Messejana" quebra em duas linhas.
+              Os pontos do entorno em minutos de carro: é o que o comprador de
+              fato procura para se situar, e o argumento desta dobra.
 
-              A coluna é `max-content`, então a grade mede o mais largo dos dois
-              e os dois se esticam até essa medida. É o que dá caixas curtas — do
-              tamanho do texto — e ainda assim iguais entre si; largura cheia
-              deixava uma sobra enorme à direita. O `max-w-full` segura o caso do
-              mobile, onde o texto mediria mais que a coluna disponível.
+              Eram duas caixas de moldura; com nove itens, nove molduras viravam
+              uma parede de traço ao lado da fachada. Aqui cada ponto é uma linha
+              separada por fio, no peso de informação — sem preenchimento nem
+              sombra, para não competir com o CTA.
+
+              Uma coluna só, mesmo sobrando largura: os nomes são longos ("da
+              Creche Irmã Zeferina Maria"), e em duas colunas quase todos
+              quebravam em duas linhas dentro de metade do grid.
+
+              O tempo vai em `strong` porque é o dado — a frase inteira é a
+              legenda dele.
             */}
-            <ul className="mt-7 grid w-fit max-w-full grid-cols-[minmax(0,max-content)] gap-3">
-              {NEARBY.map(({ distance, place }) => (
+            <ul className="mt-7 w-full divide-y divide-brand-moss/20 border-y border-brand-moss/20">
+              {NEARBY.map(({ time, place }) => (
                 <li
                   key={place}
                   /* #689F78 não está na paleta do folder — veio pedido direto,
                      como acento só deste hover. Por isso vai literal aqui em
                      vez de virar token `brand-*`. */
-                  className="flex items-start gap-3 border border-brand-moss/35 px-5 py-4 text-brand-sage transition-colors hover:border-[#689F78]"
+                  /* `group` porque o tempo em `strong` tem cor própria
+                     (`text-brand`) e não herda o hover da linha — sem isso a
+                     frase inteira acendia e só o "3 min" ficava para trás. */
+                  className="group flex items-center gap-3 py-2.5 text-[0.85rem] leading-snug text-brand-sage transition-colors hover:text-[#689F78]"
                 >
-                  <IconPin className="mt-0.5 size-4 shrink-0 text-brand-moss" aria-hidden="true" />
+                  <IconCar className="size-4 shrink-0 text-brand-moss" aria-hidden="true" />
                   <span>
-                    <span className="block text-[0.95rem] leading-tight font-bold text-brand">
-                      {distance}
-                    </span>
-                    <span className="mt-1 block text-[0.82rem] leading-snug">{place}</span>
+                    A{" "}
+                    <strong className="font-bold text-brand transition-colors group-hover:text-[#689F78]">
+                      {time}
+                    </strong>{" "}
+                    {place}
                   </span>
                 </li>
               ))}
@@ -132,21 +163,50 @@ export function LocationSection() {
           </div>
         </div>
 
-        {/* Mapa interativo do endereço da obra. O embed do Google não pede chave de API. */}
-        <div className="chamfer chamfer-lg mt-14 overflow-hidden bg-white shadow-[0_18px_44px_rgba(15,47,25,0.16)]">
-          <iframe
-            title={`Mapa de localização do Victa Viver Bosque — ${ADDRESS}`}
-            src={MAPS_EMBED}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-            className="block h-[22rem] w-full border-0 sm:h-[30rem]"
-          />
+        {/*
+          Mapa ilustrado do folder no lugar do embed do Google.
+
+          O embed mostrava o endereço certo, mas era um mapa genérico: nada nele
+          dizia o que existe em volta, que é o argumento desta dobra. A
+          ilustração oficial traz o pin do empreendimento e as vias com nome — e
+          é, de longe, a peça mais bonita do material impresso.
+
+          A versão usada é a limpa, sem os 25 pontos numerados do folder: a
+          entrega veio assim, e o entorno é contado pela lista de tempos de carro
+          acima. Se um dia o mapa numerado voltar, a legenda dos números precisa
+          voltar com ele — o original está em
+          `assets-originais/mapa-messejana-numerado-layers.png`.
+
+          O que se perde é a interação (arrastar, dar zoom, medir rota). Isso
+          fica com o link "Ver no Google Maps" logo abaixo, que passou a ser a
+          única porta para o mapa real — não remova.
+
+          A imagem inteira aparece (`w-full` sem `object-cover`): recortar uma
+          ilustração com nomes de rua tira justamente a informação. Como no
+          mobile ela fica pequena demais para ler, o clique abre no lightbox, no
+          mesmo desenho da fachada.
+        */}
+        <div className="mt-14">
+          <button
+            type="button"
+            onClick={() => setZoomed(MAP)}
+            aria-label="Ampliar mapa ilustrado da Messejana"
+            className="chamfer chamfer-lg cursor-lupa block w-full overflow-hidden bg-white shadow-[0_18px_44px_rgba(15,47,25,0.16)]"
+          >
+            <Img
+              src="/images/mapa-messejana.webp"
+              alt={`Mapa ilustrado da Messejana com a localização do Victa Viver Bosque em ${ADDRESS}`}
+              label="mapa-messejana.webp"
+              className="block w-full"
+            />
+          </button>
         </div>
 
         {/*
-          Endereço, link do Maps e CTA fecham a dobra, abaixo do mapa: são a
-          legenda dele e o passo seguinte. Centralizados porque o mapa ocupa a
+          Endereço, link do Maps e CTA fecham a dobra, abaixo do mapa: são o
+          dado exato e o passo seguinte. Com a ilustração no lugar do embed, o
+          link do Maps é o único caminho para o mapa navegável — por isso ele
+          segue aqui, colado ao endereço. Centralizados porque o mapa ocupa a
           largura toda — alinhados à esquerda ficariam soltos sob uma peça que
           não tem coluna.
         */}
@@ -178,10 +238,10 @@ export function LocationSection() {
 
         {zoomed && (
           <Lightbox
-            slides={FACADE}
+            slides={zoomed}
             index={0}
             onIndexChange={() => undefined}
-            onClose={() => setZoomed(false)}
+            onClose={() => setZoomed(null)}
           />
         )}
       </div>
