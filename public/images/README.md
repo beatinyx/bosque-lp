@@ -66,8 +66,23 @@ fica por conta das sombras do texto. **Nesse arranjo o texto do hero não alcan�
 
 **Dobra 2 — localização:** `fachada-vertical.webp` na coluna da esquerda (abre em
 lightbox) e `grafismo-folha.webp` (folha de monstera como marca d'água, no canto
-superior esquerdo). O mapa é um embed do Google Maps apontando para o endereço da
-obra, abaixo das duas colunas.
+superior esquerdo). Abaixo das duas colunas vem `mapa-messejana.webp`, o mapa
+ilustrado do folder, que também abre em lightbox.
+
+O mapa era um embed do Google Maps; virou ilustração quando o arquivo com as
+camadas do folder desligadas foi entregue. A versão em uso é a **limpa**: só a
+ilustração, as vias com nome e o pin do empreendimento — sem os 25 pontos
+numerados que o folder impresso traz. Quem conta o entorno é a lista de tempos de
+carro (`NEARBY` em `src/components/site/LocationSection.tsx`), acima do mapa. O
+acesso ao mapa navegável ficou com o link "Ver no Google Maps" sob o endereço.
+
+`mapa-messejana.webp` veio de um PNG de 4,6 MB e 2100×1342; aqui está em 2400 de
+largura, webp q82 (o upscale é do próprio conversor — a ilustração é vetorial na
+origem e aguenta). O original ficou em `assets-originais/mapa-messejana-layers.png`.
+
+Em `assets-originais/mapa-messejana-numerado-layers.png` está a entrega anterior:
+mesma ilustração **com** os 25 pontos numerados. Se algum dia ela voltar para a
+página, os números precisam de uma legenda junto — sozinhos não dizem nada.
 
 `fachada-vertical.webp` veio de um JPG de 2,9 MB e 1800×2000; aqui está em 1200
 de largura, webp q82. O original ficou em `assets-originais/images/`.
@@ -88,10 +103,11 @@ o poster em vez do vídeo.
 
 ## Aqui, mas ainda sem uso na página
 
-- `mapa-ilustrado.webp` — mapa ilustrado da Messejana do folder, com o pin do
-  empreendimento e a legenda dos 25 pontos do entorno. Ficou fora da dobra 2
-  quando o mapa virou embed do Google, mas é a peça de marca mais bonita do
-  material.
+- `mapa-ilustrado.webp` — versão do mapa extraída do folder: mesma ilustração,
+  porém com o pin sem a marca, os 25 pontos numerados e a caixa de legenda
+  impressa no canto inferior esquerdo. Foi substituída na dobra 2 por
+  `mapa-messejana.webp`. **É a única fonte dos 25 nomes da legenda**, como
+  saíram no material impresso — não apague.
 - `portaria.webp` — render oficial da portaria. **Atenção:** a parede ainda traz
   um placeholder escrito "LOGO" em vez da marca do empreendimento. Não usar antes
   de o render ser fechado.

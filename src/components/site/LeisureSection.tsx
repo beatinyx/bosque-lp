@@ -28,7 +28,7 @@ import {
  */
 const GALLERY: Array<{ label: string; file: string }> = [
   { label: "Piscina", file: "piscina.webp" },
-  { label: "Churrasqueira", file: "churrasqueira.webp" },
+  { label: "Churrasqueiras", file: "churrasqueira.webp" },
   { label: "Salão de festas", file: "salao-de-festas.webp" },
   { label: "Academia", file: "academia.webp" },
   { label: "Quadra esportiva", file: "quadra.webp" },
@@ -51,7 +51,7 @@ const GALLERY: Array<{ label: string; file: string }> = [
  */
 const AMENITIES: Array<{ label: string; Icon: ComponentType<SVGProps<SVGSVGElement>> }> = [
   { label: "Piscina", Icon: IconPool },
-  { label: "Churrasqueira", Icon: IconGrill },
+  { label: "Churrasqueiras", Icon: IconGrill },
   { label: "Salão de festas", Icon: IconParty },
   { label: "Quadra", Icon: IconCourt },
   { label: "Playground", Icon: IconPlayground },
