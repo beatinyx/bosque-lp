@@ -49,14 +49,14 @@ export function HeroSection() {
           loop
           playsInline
           preload="metadata"
-          poster="/images/hero-monstera-poster.webp"
+          poster="/images/viver-bosque/hero-monstera-poster.webp"
           className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-center motion-reduce:hidden"
         >
-          <source src="/video/hero-monstera.mp4" type="video/mp4" />
+          <source src="/video/viver-bosque/hero-monstera.mp4" type="video/mp4" />
         </video>
         {/* Mesmo frame do vídeo para quem pediu menos movimento no sistema. */}
         <Img
-          src="/images/hero-monstera-poster.webp"
+          src="/images/viver-bosque/hero-monstera-poster.webp"
           alt=""
           className="pointer-events-none absolute inset-0 -z-10 hidden size-full object-cover object-center motion-reduce:block"
           loading="eager"

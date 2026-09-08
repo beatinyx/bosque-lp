@@ -12,7 +12,7 @@ Duas procedências convivem aqui, e a diferença importa:
    chegaram.
 
 Tudo é convertido para webp aqui; os originais em resolução cheia ficam em
-`assets-originais/` na raiz do repositório — fora do git e fora do build. Nada de
+`assets-originais/viver-bosque/` na raiz do repositório — fora do git e fora do build. Nada de
 arquivo bruto (JPG de 3 MB, PSD, MP4 de origem) em `public/`: o que está aqui é
 servido ao navegador.
 
@@ -41,7 +41,7 @@ BOSQUE". Não é sobra de outro produto.
 
 **Dobra 1 — hero:** `logo-viver-bosque-branco.png` e `hero-monstera-poster.webp`,
 que é o poster do vídeo de fundo (primeiro frame dele). O vídeo em si é
-`/public/video/hero-monstera.mp4`: folhas de monstera balançando ao vento, cena
+`/public/video/viver-bosque/hero-monstera.mp4`: folhas de monstera balançando ao vento, cena
 escura e fechada, em 1280×720, 10 s em loop, **sem áudio** — o arquivo entregue
 vinha com faixa AAC, removida na recodificação (`-an`), que também levou os
 4,6 MB de origem para 964 KB (H.264, CRF 28, `+faststart`). Quem tem "reduzir
@@ -58,7 +58,7 @@ fundo (`folhas.mp4`), então a página passou a ter dois vídeos de folha.
 
 Cada nova tomada entregue substitui o vídeo do hero (as versões anteriores ficam
 no histórico do git). Os originais, fora do build, estão em
-`assets-originais/video/`: `hero-monstera-original.mp4` (o que está no ar) e as
+`assets-originais/viver-bosque/video/`: `hero-monstera-original.mp4` (o que está no ar) e as
 três tomadas de piscina da fase anterior, em HEVC —
 `hero-piscina-original-hevc.mp4` (cena de fora, primeira entrega),
 `hero-piscina-imersao-original-hevc.mp4` (a que esteve no ar) e
@@ -87,14 +87,14 @@ acesso ao mapa navegável ficou com o link "Ver no Google Maps" sob o endereço.
 
 `mapa-messejana.webp` veio de um PNG de 4,6 MB e 2100×1342; aqui está em 2400 de
 largura, webp q82 (o upscale é do próprio conversor — a ilustração é vetorial na
-origem e aguenta). O original ficou em `assets-originais/mapa-messejana-layers.png`.
+origem e aguenta). O original ficou em `assets-originais/viver-bosque/mapa-messejana-layers.png`.
 
-Em `assets-originais/mapa-messejana-numerado-layers.png` está a entrega anterior:
+Em `assets-originais/viver-bosque/mapa-messejana-numerado-layers.png` está a entrega anterior:
 mesma ilustração **com** os 25 pontos numerados. Se algum dia ela voltar para a
 página, os números precisam de uma legenda junto — sozinhos não dizem nada.
 
 `fachada-vertical.webp` veio de um JPG de 2,9 MB e 1800×2000; aqui está em 1200
-de largura, webp q82. O original ficou em `assets-originais/images/`.
+de largura, webp q82. O original ficou em `assets-originais/viver-bosque/images/`.
 
 **Dobra 3 — lazer:** `fundo-bosque.png` cobre a seção inteira (folha de monstera
 e mancha orgânica sobre o verde da marca). O carrossel usa só renders oficiais de
@@ -105,7 +105,7 @@ Messejana (a ordem segue o array `GALLERY` em
 `playground` · `pet-place` · `redario` · `luau` · `yoga-cooper` · `espaco-jogos`
 
 **Dobra 4 — condições:** `sala-de-estar.webp` no card, e `folhas-poster.webp`
-como poster do vídeo de fundo. O vídeo em si é `/public/video/folhas.mp4`:
+como poster do vídeo de fundo. O vídeo em si é `/public/video/viver-bosque/folhas.mp4`:
 folhagem em 1600×900, 6 s em loop, sem áudio, recodificado de 8,4 MB para 1,3 MB
 (H.264, CRF 30, `+faststart`). Quem tem "reduzir movimento" ligado no sistema vê
 o poster em vez do vídeo.
@@ -127,7 +127,7 @@ o poster em vez do vídeo.
   fundo transparente, para uma eventual dobra de tipologia. O folder tem também
   uma PLANTA TIPO D que não foi trazida.
 
-## Só em `assets-originais/`
+## Só em `assets-originais/viver-bosque/`
 
 Existem em resolução cheia fora do build, prontos para virar webp se algum dia
 entrarem na página:

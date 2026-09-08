@@ -77,7 +77,7 @@ export function LeisureSection() {
         esquerda mantém a folha visível — é o lado onde ela está desenhada.
       */}
       <img
-        src="/images/fundo-bosque.png"
+        src="/images/viver-bosque/fundo-bosque.png"
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-left select-none"

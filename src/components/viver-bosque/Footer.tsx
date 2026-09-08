@@ -10,7 +10,7 @@ export function Footer() {
     >
       <div className="lp-container mb-[22px] flex flex-wrap items-center justify-center gap-4 sm:gap-[26px]">
         <Img
-          src="/images/logo-victa-verde-claro.png"
+          src="/images/victa/logo-victa-verde-claro.png"
           alt="VICTA"
           label="VICTA"
           className="h-[30px] w-auto"

@@ -60,54 +60,126 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
-
 /*
- * Design system da landing page.
+ * Design system das landing pages.
  *
- * Duas paletas convivem aqui e NÃO devem ser misturadas:
+ * Este repositório serve duas LPs em rotas diferentes — /viver-bosque e
+ * /vitoria-eusebio — e as duas compartilham o mesmo CSS. Três famílias de
+ * token convivem aqui e NÃO devem ser misturadas:
  *
- * 1. `brand-*` — paleta do Victa Viver Bosque, usada da dobra 1 à dobra 4.
- *    Os valores vêm dos operadores CMYK do folder oficial
- *    (FOLDER VIVER BOSQUE_3.pdf), convertidos para sRGB; o hex de origem
- *    está ao lado de cada um.
+ * 1. `brand-*` — paleta do PRODUTO da rota atual, usada da dobra 1 à dobra 4.
+ *    As duas LPs usam os mesmos nomes de classe (`bg-brand`, `text-brand-sand`
+ *    etc.) e cada rota decide os valores: os padrões declarados no `@theme`
+ *    abaixo são os do Viver Bosque, e a classe `.theme-vitoria-eusebio`
+ *    (aplicada no wrapper da rota, ver src/routes/vitoria-eusebio.tsx) troca os
+ *    tokens que divergem. Como as utilities do Tailwind v4 compilam para
+ *    `var(--color-brand-*)`, redeclarar a variável no wrapper repinta a
+ *    subárvore inteira sem tocar em uma linha de componente.
+ *
+ *    Uma terceira LP entra do mesmo jeito: uma classe `.theme-<produto>` com
+ *    os tokens que ela muda, mais o wrapper na rota.
+ *
  * 2. `victa-*` (+ bark/stone) — paleta institucional da Victa, usada apenas
- *    do institucional para baixo (dobra 5 e rodapé), que seguem o padrão das
- *    demais LPs da Victa.
+ *    do institucional para baixo (dobra 5 e rodapé), igual nas duas LPs.
  *
- * Tipografia do produto: o folder monta as manchetes misturando duas famílias
- * na mesma frase — a parte enfática em serifada (Fraunces) e o resto em sans
- * (Articulat CF). Isso é o marcador visual mais forte da marca; use a classe
- * `.emphasis` para a palavra serifada em vez de negrito.
+ * 3. Tokens que só um produto usa (`brand-lime`, `brand-clay`, `brand-blue`…)
+ *    ficam declarados uma única vez e marcados com o produto de origem. Não
+ *    há conflito de valor, só de vocabulário: `brand-clay` não existe no
+ *    Vitória Eusébio nem `brand-orange` no Viver Bosque.
  *
- * Articulat CF é uma fonte licenciada (Connary Fagen) e não está no Google
- * Fonts. A pilha declara Articulat CF primeiro — se a fonte for licenciada e
- * auto-hospedada, a página passa a usá-la sem nenhuma outra mudança. Até lá o
- * fallback é Figtree, o parente mais próximo disponível no Google Fonts.
+ * Os valores dos dois produtos vêm dos operadores CMYK dos folders oficiais,
+ * convertidos para sRGB; estão em oklch (padrão do projeto) com o hex de
+ * origem ao lado.
+ *
+ * Tipografia — Viver Bosque: o folder monta as manchetes misturando duas
+ * famílias na mesma frase, a parte enfática em serifada (Fraunces) e o resto
+ * em sans (Articulat CF). Isso é o marcador visual mais forte da marca; use a
+ * classe `.emphasis` para a palavra serifada em vez de negrito. Articulat CF é
+ * licenciada (Connary Fagen) e não está no Google Fonts. A pilha declara
+ * Articulat CF primeiro — se a fonte for licenciada e auto-hospedada, a página
+ * passa a usá-la sem nenhuma outra mudança. Até lá o fallback é Figtree, o
+ * parente mais próximo disponível no Google Fonts.
+ *
+ * Tipografia — Vitória Eusébio: Montserrat nas manchetes e no corpo, com
+ * Cormorant Garamond como serifada de apoio.
+ *
+ * Cada rota carrega só o par de fontes que usa (ver os `links` em
+ * src/routes/*.tsx), então nenhuma visita baixa as quatro famílias.
  */
 @theme {
+  /* Padrão = Viver Bosque; `.theme-vitoria-eusebio` troca este par. */
   --font-sans: "Articulat CF", "Figtree", system-ui, -apple-system, sans-serif;
   --font-serif: "Fraunces", Georgia, serif;
 
-  /* Produto — dobras 1 a 4 */
+  /*
+   * Produto — dobras 1 a 4.
+   *
+   * Os três primeiros tokens são os nomes que as duas LPs disputam; os valores
+   * aqui são do Viver Bosque e a classe de tema do Vitória Eusébio os
+   * sobrescreve. Os demais pertencem a um produto só.
+   */
   --color-brand: oklch(0.2742 0.0555 151.29); /* #0f2f19 — verde profundo, superfícies escuras */
+  --color-brand-sage: oklch(0.444 0.0452 151.35); /* #415b47 — verde do grafismo orgânico */
+  --color-brand-sand: oklch(0.9154 0.0288 84.59); /* #ece2ce — areia, fundo das seções claras */
+
+  /* Só Viver Bosque */
   --color-brand-deep: oklch(0.4314 0.1041 147.35); /* #1f5f2c — verde médio */
   --color-brand-leaf: oklch(0.5158 0.1289 137.3); /* #407826 — verde folha, cor principal */
-  --color-brand-sage: oklch(0.444 0.0452 151.35); /* #415b47 — verde do grafismo orgânico */
   --color-brand-moss: oklch(0.5104 0.0731 131.41); /* #576f42 — musgo, tags do carrossel */
   --color-brand-cream: oklch(0.8933 0.0511 89.76); /* #e9dbb6 — creme, setas do carrossel */
   --color-brand-lime: oklch(0.9415 0.0819 115.33); /* #e9f3b4 — lima claro, destaques */
-  --color-brand-sand: oklch(0.9154 0.0288 84.59); /* #ece2ce — areia, fundo das seções claras */
   --color-brand-amber: oklch(
     0.8466 0.1651 86.88
   ); /* #fbc427 — âmbar, selo de lançamento e ícones */
   --color-brand-clay: oklch(0.5289 0.1936 33.06); /* #c22802 — terracota, cor dos CTAs */
 
-  /* Institucional Victa — dobra 5 e rodapé */
+  /* Só Vitória Eusébio */
+  --color-brand-red: oklch(0.5453 0.1886 32.42); /* #c63217 */
+  --color-brand-orange: oklch(0.7171 0.1675 50.02); /* #f47f31 */
+  --color-brand-blue: oklch(0.5319 0.1376 250.12); /* #1b6fb8 — cor dos CTAs */
+
+  /* Institucional Victa — dobra 5 e rodapé, igual nas duas LPs */
   --color-victa-green: oklch(0.5117 0.129 148.93); /* #1f7a3a */
   --color-victa-green-deep: oklch(0.4414 0.1102 149.45); /* #17632f */
   --color-victa-mist: oklch(0.9376 0.0559 117.31); /* #e7f0c6 */
   --color-bark: oklch(0.3901 0.0336 144.9); /* #3a4a3a */
   --color-stone: oklch(0.3301 0.0327 144.79); /* #2b3a2b */
+}
+
+/*
+ * Temas de produto.
+ *
+ * Ficam fora de qualquer `@layer` de propósito: CSS sem camada vence todas as
+ * camadas, então estas declarações passam por cima do `:root` que o `@theme`
+ * gera na camada `theme`, sem depender de especificidade. Como só declaram
+ * variáveis (e a família de texto do próprio wrapper), nada aqui compete com
+ * as utilities do Tailwind aplicadas nos componentes.
+ *
+ * O `font-family` precisa ser declarado aqui, e não só via token: o Tailwind
+ * resolve `var(--font-sans)` no `html`, e o que os filhos herdam é o valor JÁ
+ * resolvido — trocar a variável no wrapper não reescreveria a herança. Com a
+ * declaração no mesmo elemento que redefine o token, a família certa desce
+ * para a subárvore inteira.
+ *
+ * O wrapper está dentro do `<body>` e a cascata não sobe: o `background-color`
+ * do body continua no areia do Viver Bosque (ver `@layer base`). É por isso
+ * que o wrapper de cada rota pinta o próprio fundo — o areia do body só
+ * aparece na área de overscroll, e os dois cremes são quase o mesmo tom.
+ */
+.theme-viver-bosque {
+  /* Paleta e serifada do Viver Bosque são os padrões do `@theme` acima. */
+  font-family: var(--font-sans);
+}
+
+.theme-vitoria-eusebio {
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+
+  --color-brand: oklch(0.3701 0.0754 165.49); /* #044c36 — principal */
+  --color-brand-sage: oklch(0.4845 0.0568 160.38); /* #416954 */
+  --color-brand-sand: oklch(0.939 0.034 58.82); /* #fde6d5 */
+
+  font-family: var(--font-sans);
 }
 
 :root {
@@ -199,7 +271,9 @@
   }
 
   /*
-   * Manchetes na serifada da marca. O corpo de texto segue na sans.
+   * Manchetes na serifada da marca — regra só do Viver Bosque, por isso presa
+   * à classe de tema: no Vitória Eusébio as manchetes seguem na sans, e uma
+   * regra global de h1–h6 trocaria a tipografia daquela LP.
    *
    * Os eixos ficam no desenho "limpo" da Fraunces — SOFT 0 e WONK 0, terminais
    * retos e sem alternativas caligráficas. É `.emphasis` que liga SOFT 40 e
@@ -207,12 +281,7 @@
    * palavra enfática passa a vir do peso (300 da manchete contra 500 dela) e
    * desses eixos, não mais da troca sans → serifada.
    */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  .theme-viver-bosque :is(h1, h2, h3, h4, h5, h6) {
     font-family: var(--font-serif);
     font-variation-settings:
       "SOFT" 0,
@@ -261,8 +330,8 @@
     display: none !important; /* UTMs são preenchidas via URL, não pelo usuário */
   }
 
-  .rd-form-card .bricks-form__label,
-  .rd-form-card label {
+  .theme-viver-bosque .rd-form-card .bricks-form__label,
+  .theme-viver-bosque .rd-form-card label {
     color: var(--color-brand-lime) !important;
     font-size: 0.68rem !important;
     font-weight: 700 !important;
@@ -282,24 +351,24 @@
    * nada, porque a cor não atravessa uma declaração própria do filho — daí o
    * `*`, que com `!important` ganha do inline.
    */
-  .rd-form-card p,
-  .rd-form-card p *,
-  .rd-form-card small,
-  .rd-form-card small *,
-  .rd-form-card a,
-  .rd-form-card .rd-text,
-  .rd-form-card .rd-text *,
-  .rd-form-card .bricks-form__legal,
-  .rd-form-card .bricks-form__legal * {
+  .theme-viver-bosque .rd-form-card p,
+  .theme-viver-bosque .rd-form-card p *,
+  .theme-viver-bosque .rd-form-card small,
+  .theme-viver-bosque .rd-form-card small *,
+  .theme-viver-bosque .rd-form-card a,
+  .theme-viver-bosque .rd-form-card .rd-text,
+  .theme-viver-bosque .rd-form-card .rd-text *,
+  .theme-viver-bosque .rd-form-card .bricks-form__legal,
+  .theme-viver-bosque .rd-form-card .bricks-form__legal * {
     color: #fff !important;
     text-shadow:
       0 1px 2px rgba(0, 0, 0, 0.9),
       0 2px 14px rgba(15, 47, 25, 0.85) !important;
   }
 
-  .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
-  .rd-form-card select,
-  .rd-form-card textarea {
+  .theme-viver-bosque .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
+  .theme-viver-bosque .rd-form-card select,
+  .theme-viver-bosque .rd-form-card textarea {
     border: 1px solid color-mix(in oklab, var(--color-brand) 22%, transparent) !important;
     border-radius: 0.375rem !important;
     background-color: var(--color-brand-sand) !important;
@@ -308,8 +377,8 @@
     text-shadow: none !important;
   }
 
-  .rd-form-card input::placeholder,
-  .rd-form-card textarea::placeholder {
+  .theme-viver-bosque .rd-form-card input::placeholder,
+  .theme-viver-bosque .rd-form-card textarea::placeholder {
     color: color-mix(in oklab, var(--color-brand) 55%, transparent) !important;
   }
 
@@ -318,9 +387,9 @@
    * que vem com fundo branco próprio. Sem isto sobra um retângulo branco
    * colado ao input areia.
    */
-  .rd-form-card .select2-container .select2-choice,
-  .rd-form-card .phone-country,
-  .rd-form-card .country-field {
+  .theme-viver-bosque .rd-form-card .select2-container .select2-choice,
+  .theme-viver-bosque .rd-form-card .phone-country,
+  .theme-viver-bosque .rd-form-card .country-field {
     background: var(--color-brand-sand) !important;
     border-color: color-mix(in oklab, var(--color-brand) 22%, transparent) !important;
   }
@@ -342,16 +411,20 @@
    * A sombra vai no `.select2-choice`, não no container — o choice tem fundo
    * areia opaco e cobriria uma sombra pintada atrás dele.
    */
-  .rd-form-card .phone-input-group .select2-container.phone-country,
-  .rd-form-card .phone-input-group .select2-container.phone-country .select2-choice {
+  .theme-viver-bosque .rd-form-card .phone-input-group .select2-container.phone-country,
+  .theme-viver-bosque
+    .rd-form-card
+    .phone-input-group
+    .select2-container.phone-country
+    .select2-choice {
     border-radius: 0.375rem 0 0 0.375rem !important;
   }
 
-  .rd-form-card .phone-input-group .select2-container.phone-country {
+  .theme-viver-bosque .rd-form-card .phone-input-group .select2-container.phone-country {
     border-width: 0 !important;
   }
 
-  .rd-form-card .phone-input-group .select2-choice {
+  .theme-viver-bosque .rd-form-card .phone-input-group .select2-choice {
     box-shadow:
       inset 1px 0 0 0 color-mix(in oklab, var(--color-brand) 22%, transparent),
       inset 0 1px 0 0 color-mix(in oklab, var(--color-brand) 22%, transparent),
@@ -359,15 +432,15 @@
   }
 
   /* A setinha do select2 mora dentro do par: o arredondamento dela some. */
-  .rd-form-card .phone-input-group .select2-arrow {
+  .theme-viver-bosque .rd-form-card .phone-input-group .select2-arrow {
     border-radius: 0 !important;
   }
 
-  .rd-form-card .phone-input-group input.js-phone {
+  .theme-viver-bosque .rd-form-card .phone-input-group input.js-phone {
     border-radius: 0 0.375rem 0.375rem 0 !important;
   }
 
-  .rd-form-card .rd-button {
+  .theme-viver-bosque .rd-form-card .rd-button {
     border-radius: 9999px !important;
     background-color: var(--color-brand-clay) !important;
     color: #fff !important;
@@ -378,7 +451,7 @@
   }
 
   /* O RD já dá margem embaixo do botão; sem isso o disclaimer fica longe demais. */
-  .rd-form-card form {
+  .theme-viver-bosque .rd-form-card form {
     margin-bottom: 0 !important;
   }
 
@@ -452,5 +525,18 @@
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+  }
+
+  /*
+   * Ajustes do formulário do RD Station dentro do card do hero do Vitória
+   * Eusébio. Ali o embed fica sobre um card claro, então só o botão precisa
+   * de tratamento — o oposto do Viver Bosque, onde o formulário assenta
+   * direto sobre o vídeo e os rótulos também são repintados (ver acima).
+   */
+  .theme-vitoria-eusebio .rd-form-card .rd-button {
+    border-radius: 30px !important;
+    background-color: var(--color-brand-blue) !important;
+    color: #fff !important;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.3) !important;
   }
 }

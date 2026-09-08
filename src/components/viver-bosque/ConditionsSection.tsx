@@ -32,14 +32,14 @@ export function ConditionsSection() {
         loop
         playsInline
         preload="metadata"
-        poster="/images/folhas-poster.webp"
+        poster="/images/viver-bosque/folhas-poster.webp"
         className="pointer-events-none absolute inset-0 -z-10 size-full object-cover motion-reduce:hidden"
       >
-        <source src="/video/folhas.mp4" type="video/mp4" />
+        <source src="/video/viver-bosque/folhas.mp4" type="video/mp4" />
       </video>
       {/* Mesmo enquadramento do vídeo para quem pediu menos movimento no sistema. */}
       <Img
-        src="/images/folhas-poster.webp"
+        src="/images/viver-bosque/folhas-poster.webp"
         alt=""
         className="pointer-events-none absolute inset-0 -z-10 hidden size-full object-cover motion-reduce:block"
       />
@@ -53,7 +53,7 @@ export function ConditionsSection() {
 
       <div className="lp-container grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
         <Img
-          src="/images/sala-de-estar.webp"
+          src="/images/viver-bosque/sala-de-estar.webp"
           alt="Sala de estar integrada à cozinha do apartamento"
           label="sala-de-estar.webp"
           className="chamfer chamfer-lg h-[320px] w-full object-cover shadow-[0_24px_60px_rgba(0,0,0,0.4)] sm:h-[480px]"
