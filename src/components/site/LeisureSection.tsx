@@ -92,8 +92,8 @@ export function LeisureSection() {
             Lazer completo para aproveitar <span className="emphasis">junto à família</span>
           </h2>
           <p className="mx-auto mt-5 max-w-[52ch] text-[0.95rem] leading-[1.75] text-brand-sand/80">
-            Criamos ambientes planejados para todas as idades, unindo diversão, descanso e segurança
-            dentro de um condomínio fechado.
+            Ambientes planejados para todas as idades, unindo diversão, descanso e segurança dentro
+            de um condomínio fechado.
           </p>
         </div>
       </div>
