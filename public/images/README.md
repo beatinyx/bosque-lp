@@ -39,30 +39,39 @@ BOSQUE". Não é sobra de outro produto.
 
 ## Em uso na página
 
-**Dobra 1 — hero:** `logo-viver-bosque-branco.png` e `hero-piscina-poster.webp`,
+**Dobra 1 — hero:** `logo-viver-bosque-branco.png` e `hero-monstera-poster.webp`,
 que é o poster do vídeo de fundo (primeiro frame dele). O vídeo em si é
-`/public/video/hero-piscina.mp4`: piscina vista de dentro d'água contra o sol, com
-a nadadora à direita do quadro, em 1920×1080, 5 s em loop, sem áudio, recodificado
-de 14,6 MB para 1,1 MB (H.264, CRF 31, `+faststart`) — o arquivo entregue vinha em
-HEVC/h265 10 bits, que Chrome e Firefox não tocam em `<video>`. Quem tem "reduzir
+`/public/video/hero-monstera.mp4`: folhas de monstera balançando ao vento, cena
+escura e fechada, em 1280×720, 10 s em loop, **sem áudio** — o arquivo entregue
+vinha com faixa AAC, removida na recodificação (`-an`), que também levou os
+4,6 MB de origem para 964 KB (H.264, CRF 28, `+faststart`). Quem tem "reduzir
 movimento" ligado no sistema vê o poster em vez do vídeo.
 
-O loop é corte seco, como o da dobra 4. Como o clipe é curto, o ponto de emenda
-volta a cada 5 s e dá para notar um pequeno salto da nadadora; se incomodar, dá
-para costurar com um crossfade de 0,7 s (fica ~4,4 s de loop, com meio segundo de
-fantasma dela no meio da transição).
+O enquadramento é centrado: a folha principal está no meio do quadro, e é ela que
+precisa sobreviver ao corte do mobile, onde a dobra é muito mais alta que larga e
+sobra só a coluna do meio.
 
-Cada nova tomada entregue substitui o `hero-piscina.mp4` (as versões anteriores
-ficam no histórico do git). Os originais em HEVC, fora do build, estão em
-`assets-originais/video/`: `hero-piscina-original-hevc.mp4` (cena de fora, 10 s,
-primeira entrega), `hero-piscina-imersao-original-hevc.mp4` (a que está no ar) e
-`hero-piscina-imersao-2-original-hevc.mp4` (tomada em que a nadadora cruza o
-quadro pelo centro, testada e descartada).
+A escolha conversa com a marca — a monstera é o mesmo desenho do grafismo que
+aparece em marca d'água na dobra de localização e no fundo da dobra de lazer.
+**Vale de olho:** a dobra 4 (condições) também tem folhagem em movimento ao
+fundo (`folhas.mp4`), então a página passou a ter dois vídeos de folha.
 
-A cena é clara e o texto do hero fica direto sobre ela, sem card nem mancha por
-baixo — a decisão foi manter o vídeo claro, então o véu é leve e a legibilidade
-fica por conta das sombras do texto. **Nesse arranjo o texto do hero não alcança
-4,5:1 de contraste**; é uma escolha assumida, não um descuido.
+Cada nova tomada entregue substitui o vídeo do hero (as versões anteriores ficam
+no histórico do git). Os originais, fora do build, estão em
+`assets-originais/video/`: `hero-monstera-original.mp4` (o que está no ar) e as
+três tomadas de piscina da fase anterior, em HEVC —
+`hero-piscina-original-hevc.mp4` (cena de fora, primeira entrega),
+`hero-piscina-imersao-original-hevc.mp4` (a que esteve no ar) e
+`hero-piscina-imersao-2-original-hevc.mp4` (nadadora cruzando o quadro pelo
+centro, testada e descartada).
+
+O texto do hero fica direto sobre a cena, sem card nem mancha por baixo, e o véu
+é leve. Com a cena escura isso deixou de custar contraste: medido sobre o vídeo
+já com os dois véus, atrás da tagline a mediana é 12,6:1 e o percentil 95 é
+6,7:1; atrás do h1, 16:1 e 8,7:1. Só respingos de luz isolados nas folhas descem
+abaixo de 4,5:1, e aí a sombra do texto cobre. **No vídeo de piscina anterior
+nenhum texto da dobra alcançava 4,5:1** — era uma troca assumida, e deixou de ser
+necessária.
 
 **Dobra 2 — localização:** `fachada-vertical.webp` na coluna da esquerda (abre em
 lightbox) e `grafismo-folha.webp` (folha de monstera como marca d'água, no canto

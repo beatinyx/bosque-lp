@@ -27,20 +27,20 @@ export function HeroSection() {
 
       <header id="inicio" className="relative isolate overflow-hidden bg-brand text-white">
         {/*
-          Cena de piscina em movimento — vista de dentro d'água, contra o sol —
-          sangrando na dobra inteira. Mesmo esquema da dobra de condições:
-          `poster` é o primeiro frame do próprio vídeo, então o enquadramento não
-          salta quando o autoplay é bloqueado (iOS em baixo consumo) nem enquanto
-          o arquivo carrega. Sem áudio: `muted` é o que libera o autoplay, e o
-          arquivo foi recodificado sem faixa de som.
+          Folhas de monstera ao vento, sangrando na dobra inteira. É o mesmo
+          desenho do grafismo da marca, agora filmado — a folha que aparece em
+          marca d'água na dobra de localização.
 
-          O `object-position` puxa para cima (42%) porque o interesse da cena está
-          na faixa do sol e da superfície; o terço de baixo é só o fundo de
-          pastilha. No desktop isso quase não corta — a dobra fica com a proporção
-          do vídeo e sobra o quadro inteiro. No mobile o corte é o outro: a dobra é
-          bem mais alta que larga, então sobra só a coluna do meio — a nadadora,
-          que está à direita, fica de fora e o que se vê são os raios de sol na
-          água.
+          Mesmo esquema da dobra de condições: `poster` é o primeiro frame do
+          próprio vídeo, então o enquadramento não salta quando o autoplay é
+          bloqueado (iOS em baixo consumo) nem enquanto o arquivo carrega. Sem
+          áudio: `muted` é o que libera o autoplay, e o arquivo veio com faixa
+          AAC, removida na recodificação.
+
+          Enquadramento centrado, sem `object-position` deslocado: a folha
+          principal está no meio do quadro e é ela que precisa sobreviver ao
+          corte. No mobile, em que a dobra é muito mais alta que larga e sobra só
+          a coluna do meio, é justamente ela que fica.
         */}
         <video
           aria-hidden="true"
@@ -49,32 +49,35 @@ export function HeroSection() {
           loop
           playsInline
           preload="metadata"
-          poster="/images/hero-piscina-poster.webp"
-          className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-[50%_42%] motion-reduce:hidden"
+          poster="/images/hero-monstera-poster.webp"
+          className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-center motion-reduce:hidden"
         >
-          <source src="/video/hero-piscina.mp4" type="video/mp4" />
+          <source src="/video/hero-monstera.mp4" type="video/mp4" />
         </video>
         {/* Mesmo frame do vídeo para quem pediu menos movimento no sistema. */}
         <Img
-          src="/images/hero-piscina-poster.webp"
+          src="/images/hero-monstera-poster.webp"
           alt=""
-          className="pointer-events-none absolute inset-0 -z-10 hidden size-full object-cover object-[50%_42%] motion-reduce:block"
+          className="pointer-events-none absolute inset-0 -z-10 hidden size-full object-cover object-center motion-reduce:block"
           loading="eager"
           fetchPriority="high"
         />
         {/*
           Véu em duas camadas, e as duas leves de propósito.
 
-          A cena é de dia, e é o ponto mais claro da página. Um véu forte o
-          bastante para o texto se ler só com ele apagava a água e o verde — a
-          dobra ficava uma mancha escura com letras em cima. A decisão foi manter
-          o vídeo claro: o véu só assenta a imagem, e a leitura do texto fica por
-          conta das sombras de cada bloco.
+          Os valores vêm da época do vídeo de piscina, que era uma cena de dia e
+          o ponto mais claro da página: o véu tinha de ser fraco para não apagar
+          a água, e a leitura do texto ficava por conta das sombras de cada
+          bloco. Naquele arranjo nenhum texto da dobra alcançava 4,5:1 — era uma
+          troca assumida.
 
-          A contrapartida está assumida: nenhum texto desta dobra alcança 4,5:1 de
-          contraste. Sombra ajuda na leitura real, mas não entra no cálculo da
-          WCAG. Não "conserte" escurecendo o véu sem antes conversar — já foi
-          tentado, e foi recusado por apagar o vídeo.
+          Com a cena de monstera, que é escura, a conta virou a favor. Medido
+          sobre o vídeo já com os dois véus aplicados: atrás da tagline a mediana
+          é 12,6:1 e o percentil 95 é 6,7:1; atrás do h1, 16:1 e 8,7:1. Só
+          respingos de luz isolados nas folhas descem abaixo de 4,5:1, e é aí que
+          a sombra do texto trabalha. Ou seja: o véu leve continua certo, e agora
+          sem contrapartida de contraste — não há motivo para escurecer, e
+          escurecer já foi tentado e recusado antes por apagar o vídeo.
 
           O escurecimento é preto, não verde: a lavagem de `brand` deixava a dobra
           monocromática. O preto preserva as cores, e a camada de marca entra por
