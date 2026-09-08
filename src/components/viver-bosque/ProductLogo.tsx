@@ -22,7 +22,7 @@ export function ProductLogo({
 
   return (
     <Img
-      src={`/images/${file}`}
+      src={`/images/viver-bosque/${file}`}
       alt="Viver Bosque — Solar dos Diogos"
       loading="eager"
       className={className}

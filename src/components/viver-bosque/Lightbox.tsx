@@ -84,7 +84,7 @@ export function Lightbox({
       className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black/88 p-4 sm:p-8"
     >
       <img
-        src={`/images/${current.file}`}
+        src={`/images/viver-bosque/${current.file}`}
         alt={current.label}
         onClick={(event) => event.stopPropagation()}
         className="max-h-[80vh] max-w-full cursor-default object-contain"

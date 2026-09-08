@@ -14,7 +14,7 @@ export function VictaSection() {
             <strong className="font-extrabold">merece ser</strong>
             <br />
             <img
-              src="/images/logo-victa-verde-escuro.svg"
+              src="/images/victa/logo-victa-verde-escuro.svg"
               alt="VICTA"
               className="mt-3 inline-block h-auto w-[clamp(190px,26vw,280px)]"
             />
@@ -29,7 +29,7 @@ export function VictaSection() {
           </p>
 
           <Img
-            src="/images/victa-big-numbers.png"
+            src="/images/victa/victa-big-numbers.png"
             alt="+6.000 unidades lançadas, +4.900 entregues, +1.500 em construção, +3.900 clientes satisfeitos"
             label="victa-big-numbers"
             className="block h-auto w-full max-w-[440px]"
@@ -38,9 +38,9 @@ export function VictaSection() {
 
         <div className="flex justify-center max-[899px]:order-first">
           <Img
-            src="/images/humanizacao-victa.png"
+            src="/images/victa/humanizacao-victa.png"
             alt="Humanização VICTA"
-            label="/images/humanizacao-victa.png"
+            label="/images/victa/humanizacao-victa.png"
             className="h-auto w-full object-contain"
           />
         </div>

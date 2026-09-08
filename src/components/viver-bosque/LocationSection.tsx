@@ -76,7 +76,7 @@ export function LocationSection() {
         inteira, e cobria tudo.
       */}
       <img
-        src="/images/grafismo-folha.webp"
+        src="/images/viver-bosque/grafismo-folha.webp"
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute -top-16 -left-24 -z-10 w-[18rem] max-w-none -scale-x-100 rotate-12 select-none sm:-left-32 sm:w-[24rem] lg:-top-24 lg:-left-40 lg:w-[30rem]"
@@ -97,7 +97,7 @@ export function LocationSection() {
             className="chamfer chamfer-lg cursor-lupa block w-full overflow-hidden shadow-[0_18px_44px_rgba(15,47,25,0.16)]"
           >
             <Img
-              src="/images/fachada-vertical.webp"
+              src="/images/viver-bosque/fachada-vertical.webp"
               alt="Perspectiva da fachada do Victa Viver Bosque ao pôr do sol"
               label="fachada-vertical.webp"
               className="h-[300px] w-full object-cover sm:h-[420px] lg:h-full lg:min-h-[440px]"
@@ -194,7 +194,7 @@ export function LocationSection() {
             className="chamfer chamfer-lg cursor-lupa block w-full overflow-hidden bg-white shadow-[0_18px_44px_rgba(15,47,25,0.16)]"
           >
             <Img
-              src="/images/mapa-messejana.webp"
+              src="/images/viver-bosque/mapa-messejana.webp"
               alt={`Mapa ilustrado da Messejana com a localização do Victa Viver Bosque em ${ADDRESS}`}
               label="mapa-messejana.webp"
               className="block w-full"

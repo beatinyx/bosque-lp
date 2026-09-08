@@ -7,15 +7,29 @@ is `src/routes/__root.tsx`.
 
 ## Conventions
 
-| File | URL |
-| --- | --- |
-| `index.tsx` | `/` |
-| `about.tsx` | `/about` |
-| `users/index.tsx` | `/users` |
-| `users/$id.tsx` | `/users/:id` (dynamic — bare `$`, no curly braces) |
-| `posts/{-$category}.tsx` | `/posts/:category?` (optional segment) |
-| `files/$.tsx` | `/files/*` (splat — read via `_splat` param, never `*`) |
-| `_layout.tsx` | layout route (renders children via `<Outlet />`) |
-| `__root.tsx` | app shell — wraps every page; preserve `<Outlet />` |
+| File                     | URL                                                     |
+| ------------------------ | ------------------------------------------------------- |
+| `index.tsx`              | `/`                                                     |
+| `about.tsx`              | `/about`                                                |
+| `users/index.tsx`        | `/users`                                                |
+| `users/$id.tsx`          | `/users/:id` (dynamic — bare `$`, no curly braces)      |
+| `posts/{-$category}.tsx` | `/posts/:category?` (optional segment)                  |
+| `files/$.tsx`            | `/files/*` (splat — read via `_splat` param, never `*`) |
+| `_layout.tsx`            | layout route (renders children via `<Outlet />`)        |
+| `__root.tsx`             | app shell — wraps every page; preserve `<Outlet />`     |
 
 `routeTree.gen.ts` is auto-generated. Don't edit it by hand.
+
+## Neste repositório
+
+| Arquivo               | URL                | O que é                                                               |
+| --------------------- | ------------------ | --------------------------------------------------------------------- |
+| `index.tsx`           | `/`                | Redirect 302 para `https://www.victa.eng.br/` — a raiz não tem página |
+| `viver-bosque.tsx`    | `/viver-bosque`    | LP do Victa Viver Bosque                                              |
+| `vitoria-eusebio.tsx` | `/vitoria-eusebio` | LP do Vitória Eusébio                                                 |
+
+Cada LP de produto é responsável por três coisas que o `__root.tsx` não tem como
+saber: as `meta`/`canonical` da página, o `link` das fontes que ela usa e o
+wrapper com a classe `.theme-<produto>`, que define a paleta e a tipografia da
+subárvore. Uma rota de produto sem essa classe renderiza com os tokens padrão do
+`@theme` — ver `src/styles.css`.

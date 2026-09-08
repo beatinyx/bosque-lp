@@ -173,7 +173,7 @@ export function Carousel({ slides }: { slides: Slide[] }) {
                 className={`group block w-full ${isCenter ? "cursor-lupa" : "cursor-pointer"} bg-white/8`}
               >
                 <Img
-                  src={`/images/${slide.file}`}
+                  src={`/images/viver-bosque/${slide.file}`}
                   alt={isCenter ? slide.label : ""}
                   label={slide.file}
                   // A janela carrega adiantado: uma imagem que entra vindo da

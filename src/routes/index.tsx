@@ -1,41 +1,20 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-import { ConditionsSection } from "../components/site/ConditionsSection";
-import { Footer } from "../components/site/Footer";
-import { HeroSection } from "../components/site/HeroSection";
-import { LeisureSection } from "../components/site/LeisureSection";
-import { LocationSection } from "../components/site/LocationSection";
-import { VictaSection } from "../components/site/VictaSection";
-
-const TITLE = "Victa Viver Bosque | Apartamentos na Messejana";
-const DESCRIPTION =
-  "Apartamentos de 2 quartos em condomínio fechado na Messejana, a poucos passos da Av. Frei Cirilo. Lazer completo e condições do Minha Casa, Minha Vida.";
-
+/*
+ * A raiz do domínio não tem página própria: este repositório hospeda as
+ * landing pages de produto (/viver-bosque e /vitoria-eusebio), e quem chega
+ * no domínio puro deve cair no site institucional da Victa.
+ *
+ * O redirecionamento acontece no `beforeLoad`, ou seja, antes de renderizar
+ * qualquer coisa — no SSR ele vira uma resposta HTTP de redirect, sem passar
+ * por uma tela em branco. `href` absoluto marca o destino como externo, então
+ * o router faz navegação de documento inteiro em vez de trocar de rota.
+ *
+ * 302 (temporário) de propósito: 301 fica gravado no cache do navegador e é
+ * difícil de reverter se um dia a raiz virar página própria.
+ */
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
-  }),
-  component: Index,
+  beforeLoad: () => {
+    throw redirect({ href: "https://www.victa.eng.br/", statusCode: 302 });
+  },
 });
-
-function Index() {
-  return (
-    <>
-      <HeroSection />
-      <LocationSection />
-      <LeisureSection />
-      <ConditionsSection />
-      <VictaSection />
-      <Footer />
-    </>
-  );
-}
