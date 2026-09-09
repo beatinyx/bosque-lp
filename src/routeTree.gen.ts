@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as VitoriaEusebioRouteImport } from './routes/vitoria-eusebio'
 import { Route as ViverBosqueRouteImport } from './routes/viver-bosque'
+import { Route as ViverHypeRouteImport } from './routes/viver-hype'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const ViverBosqueRoute = ViverBosqueRouteImport.update({
   path: '/viver-bosque',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ViverHypeRoute = ViverHypeRouteImport.update({
+  id: '/viver-hype',
+  path: '/viver-hype',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/vitoria-eusebio': typeof VitoriaEusebioRoute
   '/viver-bosque': typeof ViverBosqueRoute
+  '/viver-hype': typeof ViverHypeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/vitoria-eusebio': typeof VitoriaEusebioRoute
   '/viver-bosque': typeof ViverBosqueRoute
+  '/viver-hype': typeof ViverHypeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/vitoria-eusebio': typeof VitoriaEusebioRoute
   '/viver-bosque': typeof ViverBosqueRoute
+  '/viver-hype': typeof ViverHypeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/vitoria-eusebio' | '/viver-bosque'
+  fullPaths: '/' | '/vitoria-eusebio' | '/viver-bosque' | '/viver-hype'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/vitoria-eusebio' | '/viver-bosque'
-  id: '__root__' | '/' | '/vitoria-eusebio' | '/viver-bosque'
+  to: '/' | '/vitoria-eusebio' | '/viver-bosque' | '/viver-hype'
+  id: '__root__' | '/' | '/vitoria-eusebio' | '/viver-bosque' | '/viver-hype'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   VitoriaEusebioRoute: typeof VitoriaEusebioRoute
   ViverBosqueRoute: typeof ViverBosqueRoute
+  ViverHypeRoute: typeof ViverHypeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ViverBosqueRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/viver-hype': {
+      id: '/viver-hype'
+      path: '/viver-hype'
+      fullPath: '/viver-hype'
+      preLoaderRoute: typeof ViverHypeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   VitoriaEusebioRoute: VitoriaEusebioRoute,
   ViverBosqueRoute: ViverBosqueRoute,
+  ViverHypeRoute: ViverHypeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
