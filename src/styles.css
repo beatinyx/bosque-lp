@@ -60,34 +60,36 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
 /*
  * Design system das landing pages.
  *
- * Este repositório serve duas LPs em rotas diferentes — /viver-bosque e
- * /vitoria-eusebio — e as duas compartilham o mesmo CSS. Três famílias de
- * token convivem aqui e NÃO devem ser misturadas:
+ * Este repositório serve três LPs em rotas diferentes — /viver-bosque,
+ * /vitoria-eusebio e /viver-hype — e as três compartilham o mesmo CSS. Três
+ * famílias de token convivem aqui e NÃO devem ser misturadas:
  *
  * 1. `brand-*` — paleta do PRODUTO da rota atual, usada da dobra 1 à dobra 4.
- *    As duas LPs usam os mesmos nomes de classe (`bg-brand`, `text-brand-sand`
+ *    As três LPs usam os mesmos nomes de classe (`bg-brand`, `text-brand-sand`
  *    etc.) e cada rota decide os valores: os padrões declarados no `@theme`
- *    abaixo são os do Viver Bosque, e a classe `.theme-vitoria-eusebio`
- *    (aplicada no wrapper da rota, ver src/routes/vitoria-eusebio.tsx) troca os
- *    tokens que divergem. Como as utilities do Tailwind v4 compilam para
+ *    abaixo são os do Viver Bosque, e as classes `.theme-vitoria-eusebio` e
+ *    `.theme-viver-hype` (aplicadas no wrapper da rota) trocam os tokens que
+ *    divergem. Como as utilities do Tailwind v4 compilam para
  *    `var(--color-brand-*)`, redeclarar a variável no wrapper repinta a
  *    subárvore inteira sem tocar em uma linha de componente.
  *
- *    Uma terceira LP entra do mesmo jeito: uma classe `.theme-<produto>` com
- *    os tokens que ela muda, mais o wrapper na rota.
+ *    Uma LP nova entra do mesmo jeito: uma classe `.theme-<produto>` com os
+ *    tokens que ela muda, mais o wrapper na rota.
  *
  * 2. `victa-*` (+ bark/stone) — paleta institucional da Victa, usada apenas
- *    do institucional para baixo (dobra 5 e rodapé), igual nas duas LPs.
+ *    na dobra institucional e no rodapé, igual nas três LPs.
  *
  * 3. Tokens que só um produto usa (`brand-lime`, `brand-clay`, `brand-blue`…)
  *    ficam declarados uma única vez e marcados com o produto de origem. Não
  *    há conflito de valor, só de vocabulário: `brand-clay` não existe no
  *    Vitória Eusébio nem `brand-orange` no Viver Bosque.
  *
- * Os valores dos dois produtos vêm dos operadores CMYK dos folders oficiais,
+ * Os valores do Viver Bosque e do Vitória Eusébio vêm dos operadores CMYK dos
+ * folders oficiais,
  * convertidos para sRGB; estão em oklch (padrão do projeto) com o hex de
  * origem ao lado.
  *
@@ -103,8 +105,10 @@
  * Tipografia — Vitória Eusébio: Montserrat nas manchetes e no corpo, com
  * Cormorant Garamond como serifada de apoio.
  *
+ * Tipografia — Viver Hype: Montserrat, a mesma família do Vitória Eusébio.
+ *
  * Cada rota carrega só o par de fontes que usa (ver os `links` em
- * src/routes/*.tsx), então nenhuma visita baixa as quatro famílias.
+ * src/routes/*.tsx), então nenhuma visita baixa todas as famílias.
  */
 @theme {
   /* Padrão = Viver Bosque; `.theme-vitoria-eusebio` troca este par. */
@@ -137,6 +141,31 @@
   --color-brand-red: oklch(0.5453 0.1886 32.42); /* #c63217 */
   --color-brand-orange: oklch(0.7171 0.1675 50.02); /* #f47f31 */
   --color-brand-blue: oklch(0.5319 0.1376 250.12); /* #1b6fb8 — cor dos CTAs */
+
+  /*
+   * Só Viver Hype.
+   *
+   * O Hype é o único produto de praia das três LPs, e a paleta acompanha: o
+   * fundo é um degradê de mar (sea → aqua) em vez de uma cor plana, e o claro
+   * da página é o creme, não o areia esverdeado dos outros dois.
+   *
+   * `shell`, `coral` e `deepsea` vêm da campanha do Hype já codificada em
+   * outro projeto da Victa (praia-do-futuro), então são valores oficiais. Os
+   * dois tons do degradê e o `grass` foram amostrados do design no Figma —
+   * ver a nota de fidelidade no README.
+   */
+  --color-brand-deepsea: oklch(0.3053 0.0316 227.83); /* #1d2e37 — teal escuro, card de lazer */
+  --color-brand-sea: oklch(0.4432 0.0687 208.21); /* #0f6a71 — topo do degradê */
+  --color-brand-aqua: oklch(0.6089 0.0879 178.06); /* #2f9a8c — base do degradê */
+  --color-brand-grass: oklch(0.8237 0.098 118.53); /* #b6cb7d — dobra clara */
+  --color-brand-shell: oklch(0.9527 0.0263 92.1); /* #f4efd6 — creme dos textos claros */
+  --color-brand-coral: oklch(0.5382 0.1721 39.11); /* #c2431e — faixa e destaques */
+  /*
+   * Cor dos dois CTAs do design ("Quero verificar meu perfil" e "Fale com a
+   * gente"). É o único tom da página fora da cartela de praia, e o valor aqui
+   * foi amostrado do Figma — confirmar antes de publicar (ver README).
+   */
+  --color-brand-orchid: oklch(0.4437 0.1908 320.87); /* #7b2d8e */
 
   /* Institucional Victa — dobra 5 e rodapé, igual nas duas LPs */
   --color-victa-green: oklch(0.5117 0.129 148.93); /* #1f7a3a */
@@ -178,6 +207,23 @@
   --color-brand: oklch(0.3701 0.0754 165.49); /* #044c36 — principal */
   --color-brand-sage: oklch(0.4845 0.0568 160.38); /* #416954 */
   --color-brand-sand: oklch(0.939 0.034 58.82); /* #fde6d5 */
+
+  font-family: var(--font-sans);
+}
+
+/*
+ * Tema do Viver Hype.
+ *
+ * `brand` aqui é o teal escuro do produto, e não um verde: é a cor do card de
+ * lazer e do texto sobre as dobras claras. O `brand-sand` recebe o creme da
+ * campanha porque é o token que o wrapper da rota usa para o texto claro sobre
+ * o degradê — sem a sobrescrita ele cairia no areia do Viver Bosque.
+ */
+.theme-viver-hype {
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+
+  --color-brand: oklch(0.3053 0.0316 227.83); /* #1d2e37 */
+  --color-brand-sand: oklch(0.9527 0.0263 92.1); /* #f4efd6 — creme */
 
   font-family: var(--font-sans);
 }
@@ -493,6 +539,84 @@
     --chamfer: 64px;
   }
 
+  /*
+   * Chanfro em diagonal oposta — canto superior direito e inferior esquerdo.
+   * É a moldura do Viver Hype: aparece nas fotos das dobras 2 e 5, na dobra
+   * clara de localização e no card laranja do hero. O `.chamfer` do Viver
+   * Bosque corta só um canto; este corta dois, e por isso é classe própria em
+   * vez de uma variação daquele.
+   */
+  .chamfer-diag {
+    --chamfer: 40px;
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--chamfer)) 0,
+      100% var(--chamfer),
+      100% 100%,
+      var(--chamfer) 100%,
+      0 calc(100% - var(--chamfer))
+    );
+  }
+
+  /*
+   * Chanfro só no canto inferior esquerdo — é o corte do card laranja da
+   * manchete no hero do Hype. `clip-path` anula `border-radius`, então quem
+   * usa esta classe não arredonda os outros cantos.
+   */
+  .chamfer-bl {
+    --chamfer: 40px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, var(--chamfer) 100%, 0 calc(100% - var(--chamfer)));
+  }
+
+  /*
+   * Contorno chanfrado e vazado — o traço fino que acompanha as fotos do Hype,
+   * deslocado em relação à imagem.
+   *
+   * O desenho é um anel: `clip-path` com `evenodd` traça o chanfro por fora e
+   * repete o mesmo caminho por dentro, e o que sobra entre os dois é o traço.
+   * Um `border` com `clip-path` não serviria — o recorte corta a borda e as
+   * duas diagonais ficariam sem linha, que é justamente onde o chanfro
+   * aparece. A cor vem de `currentColor`, então quem usa a classe define o
+   * traço com `text-*`.
+   */
+  .chamfer-outline {
+    --chamfer: 40px;
+    --stroke: 2px;
+    --inner: calc(var(--chamfer) - var(--stroke));
+    background: currentColor;
+    clip-path: polygon(
+      evenodd,
+      0 0,
+      calc(100% - var(--chamfer)) 0,
+      100% var(--chamfer),
+      100% 100%,
+      var(--chamfer) 100%,
+      0 calc(100% - var(--chamfer)),
+      var(--stroke) var(--stroke),
+      calc(100% - var(--inner) - var(--stroke)) var(--stroke),
+      calc(100% - var(--stroke)) calc(var(--inner) + var(--stroke)),
+      calc(100% - var(--stroke)) calc(100% - var(--stroke)),
+      calc(var(--inner) + var(--stroke)) calc(100% - var(--stroke)),
+      var(--stroke) calc(100% - var(--inner) - var(--stroke))
+    );
+  }
+
+  /*
+   * Degradê de mar que atravessa as dobras 1 a 5 do Viver Hype.
+   *
+   * Vai num wrapper único em volta das dobras, não em cada `section`: no
+   * design o degradê é contínuo de cima a baixo da página e emendá-lo seção
+   * por seção deixaria costura visível em cada troca.
+   */
+  .sea-flow {
+    background: linear-gradient(
+      180deg,
+      var(--color-brand-sea) 0%,
+      var(--color-brand-aqua) 62%,
+      var(--color-brand-aqua) 100%
+    );
+  }
+
   /* Trilha do carrossel: rola na horizontal sem mostrar a barra de rolagem. */
   .no-scrollbar {
     scrollbar-width: none;
@@ -538,5 +662,142 @@
     background-color: var(--color-brand-blue) !important;
     color: #fff !important;
     box-shadow: 0 18px 44px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /*
+   * Formulário do RD Station no card do hero do Viver Hype.
+   *
+   * O card é teal escuro, e aqui os rótulos e o texto legal são repintados sem
+   * depender do que estiver configurado no painel do RD: o formulário do Hype
+   * é outro do que o das demais LPs, e um rótulo escuro herdado do painel
+   * ficaria ilegível sobre o card. Mesma razão do bloco do Viver Bosque acima
+   * — a diferença é que lá o fundo é o vídeo, e aqui é um card opaco, então
+   * não há sombra no texto.
+   */
+  .theme-viver-hype .rd-form-card .bricks-form__label,
+  .theme-viver-hype .rd-form-card label {
+    color: #fff !important;
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+  }
+
+  /*
+   * O RD escreve a cor do texto legal como `style` inline no `<span>` de
+   * dentro do `<p>`, então a regra precisa alcançar os descendentes para
+   * ganhar do inline.
+   */
+  .theme-viver-hype .rd-form-card p,
+  .theme-viver-hype .rd-form-card p *,
+  .theme-viver-hype .rd-form-card small,
+  .theme-viver-hype .rd-form-card small *,
+  .theme-viver-hype .rd-form-card a,
+  .theme-viver-hype .rd-form-card .rd-text,
+  .theme-viver-hype .rd-form-card .rd-text *,
+  .theme-viver-hype .rd-form-card .bricks-form__legal,
+  .theme-viver-hype .rd-form-card .bricks-form__legal * {
+    color: color-mix(in oklab, var(--color-brand-shell) 78%, transparent) !important;
+  }
+
+  .theme-viver-hype .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
+  .theme-viver-hype .rd-form-card select,
+  .theme-viver-hype .rd-form-card textarea {
+    border: 1px solid color-mix(in oklab, var(--color-brand-deepsea) 18%, transparent) !important;
+    border-radius: 0.375rem !important;
+    background-color: var(--color-brand-shell) !important;
+    color: var(--color-brand-deepsea) !important;
+    font-size: 0.95rem !important;
+  }
+
+  .theme-viver-hype .rd-form-card input::placeholder,
+  .theme-viver-hype .rd-form-card textarea::placeholder {
+    color: color-mix(in oklab, var(--color-brand-deepsea) 55%, transparent) !important;
+  }
+
+  /*
+   * Bandeira + telefone precisam ler como um controle só — o select2 do RD vem
+   * com fundo branco e arredondamento próprios. Mesma emenda do Viver Bosque.
+   */
+  .theme-viver-hype .rd-form-card .select2-container .select2-choice,
+  .theme-viver-hype .rd-form-card .phone-country,
+  .theme-viver-hype .rd-form-card .country-field {
+    background: var(--color-brand-shell) !important;
+    border-color: color-mix(in oklab, var(--color-brand-deepsea) 18%, transparent) !important;
+  }
+
+  .theme-viver-hype .rd-form-card .phone-input-group .select2-container.phone-country,
+  .theme-viver-hype
+    .rd-form-card
+    .phone-input-group
+    .select2-container.phone-country
+    .select2-choice {
+    border-radius: 0.375rem 0 0 0.375rem !important;
+  }
+
+  .theme-viver-hype .rd-form-card .phone-input-group .select2-container.phone-country {
+    border-width: 0 !important;
+  }
+
+  .theme-viver-hype .rd-form-card .phone-input-group .select2-choice {
+    box-shadow:
+      inset 1px 0 0 0 color-mix(in oklab, var(--color-brand-deepsea) 20%, transparent),
+      inset 0 1px 0 0 color-mix(in oklab, var(--color-brand-deepsea) 20%, transparent),
+      inset 0 -1px 0 0 color-mix(in oklab, var(--color-brand-deepsea) 20%, transparent) !important;
+  }
+
+  .theme-viver-hype .rd-form-card .phone-input-group .select2-arrow {
+    border-radius: 0 !important;
+  }
+
+  .theme-viver-hype .rd-form-card .phone-input-group input.js-phone {
+    border-radius: 0 0.375rem 0.375rem 0 !important;
+  }
+
+  /*
+   * O embed do RD vem dentro de um wrapper com 20px de padding de cada lado,
+   * e o formulário nascia encolhido num card que já tem o seu próprio padding:
+   * no mobile sobravam 189px para um rótulo de 235px e o botão quebrava em
+   * duas linhas. Quem dá o respiro aqui é o card, não o embed.
+   *
+   * Os 5px de `.bricks-form` ficam: os campos têm margem negativa de 5px e é
+   * ela que alinha input e botão. Zerando os dois, os campos passavam 5px de
+   * cada lado além do botão.
+   */
+  .theme-viver-hype .rd-form-card div:has(> .bricks-form) {
+    padding-inline: 0 !important;
+  }
+
+  .theme-viver-hype .rd-form-card .bricks-form {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  /*
+   * O botão vai no teal escuro da paleta: o card que o contém é o laranja da
+   * manchete, então um botão coral desapareceria dentro dele, e o magenta dos
+   * CTAs do design brigava com o laranja.
+   */
+  .theme-viver-hype .rd-form-card .rd-button {
+    border-radius: 9999px !important;
+    background-color: var(--color-brand-deepsea) !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28) !important;
+    /*
+     * "CADASTRE-SE AGORA" em caixa alta não cabe em uma linha nos telefones
+     * estreitos nem com o formulário na largura toda. O `clamp` acompanha a
+     * tela em vez de depender de um breakpoint, e o `nowrap` garante que ele
+     * nunca volte a quebrar no meio da palavra.
+     */
+    white-space: nowrap !important;
+    font-size: clamp(0.8rem, 3.8vw, 1.05rem) !important;
+  }
+
+  /* O RD já dá margem embaixo do botão; sem isso o disclaimer fica longe. */
+  .theme-viver-hype .rd-form-card form {
+    margin-bottom: 0 !important;
   }
 }

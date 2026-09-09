@@ -2,8 +2,8 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 
 /*
  * A raiz do domínio não tem página própria: este repositório hospeda as
- * landing pages de produto (/viver-bosque e /vitoria-eusebio), e quem chega
- * no domínio puro deve cair no site institucional da Victa.
+ * landing pages de produto (/viver-bosque, /vitoria-eusebio e /viver-hype), e
+ * quem chega no domínio puro deve cair no site institucional da Victa.
  *
  * O redirecionamento acontece no `beforeLoad`, ou seja, antes de renderizar
  * qualquer coisa — no SSR ele vira uma resposta HTTP de redirect, sem passar

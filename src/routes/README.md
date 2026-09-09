@@ -27,6 +27,7 @@ is `src/routes/__root.tsx`.
 | `index.tsx`           | `/`                | Redirect 302 para `https://www.victa.eng.br/` — a raiz não tem página |
 | `viver-bosque.tsx`    | `/viver-bosque`    | LP do Victa Viver Bosque                                              |
 | `vitoria-eusebio.tsx` | `/vitoria-eusebio` | LP do Vitória Eusébio                                                 |
+| `viver-hype.tsx`      | `/viver-hype`      | LP do Hype Condomínio Clube                                           |
 
 Cada LP de produto é responsável por três coisas que o `__root.tsx` não tem como
 saber: as `meta`/`canonical` da página, o `link` das fontes que ela usa e o
