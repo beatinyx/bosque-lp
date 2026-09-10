@@ -167,12 +167,35 @@
    */
   --color-brand-orchid: oklch(0.4437 0.1908 320.87); /* #7b2d8e */
 
+  /*
+   * Só Vitória Jasmim.
+   *
+   * A cartela do Jasmim é a única roxa do repositório: `brand` é o roxo do
+   * produto (declarado na classe de tema, junto com o verde-claro das dobras
+   * claras), e os três tokens abaixo são os acentos que só ele usa — o
+   * verde-oliva da faixa de lançamento, dos cards de entorno e das setas do
+   * carrossel, e o dourado dos CTAs. Valores amostrados do arquivo publicado
+   * do Figma Sites.
+   */
+  --color-brand-olive: oklch(0.4945 0.0976 124.99); /* #556b27 */
+  --color-brand-gold: oklch(0.7367 0.1593 70.28); /* #e89500 — cor dos CTAs */
+
   /* Institucional Victa — dobra 5 e rodapé, igual nas duas LPs */
   --color-victa-green: oklch(0.5117 0.129 148.93); /* #1f7a3a */
   --color-victa-green-deep: oklch(0.4414 0.1102 149.45); /* #17632f */
   --color-victa-mist: oklch(0.9376 0.0559 117.31); /* #e7f0c6 */
   --color-bark: oklch(0.3901 0.0336 144.9); /* #3a4a3a */
   --color-stone: oklch(0.3301 0.0327 144.79); /* #2b3a2b */
+
+  /*
+   * A dobra institucional e o rodapé do Vitória Jasmim usam outra faixa da
+   * mesma paleta institucional — o verde-escuro fechado e o lima, com creme no
+   * fundo. Ficam aqui, e não na classe de tema, porque são valores próprios da
+   * Victa e não sobrescrevem nenhum token das outras LPs.
+   */
+  --color-victa-forest: oklch(0.3817 0.0959 154.18); /* #00512a */
+  --color-victa-lime: oklch(0.7567 0.2191 134.56); /* #6ecc01 */
+  --color-victa-cream: oklch(0.9562 0.0524 113.18); /* #f0f5cd */
 }
 
 /*
@@ -224,6 +247,22 @@
 
   --color-brand: oklch(0.3053 0.0316 227.83); /* #1d2e37 */
   --color-brand-sand: oklch(0.9527 0.0263 92.1); /* #f4efd6 — creme */
+
+  font-family: var(--font-sans);
+}
+
+/*
+ * Tema do Vitória Jasmim.
+ *
+ * `brand` é o roxo do produto — hero, dobra de lazer, medalhões dos ícones — e
+ * `brand-sand` recebe o verde-claro da dobra de localização, que é o "claro"
+ * desta LP no lugar do areia do Viver Bosque.
+ */
+.theme-vitoria-jasmim {
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+
+  --color-brand: oklch(0.4256 0.1438 307.55); /* #64328a */
+  --color-brand-sand: oklch(0.9566 0.0208 134.09); /* #ebf4e6 */
 
   font-family: var(--font-sans);
 }
@@ -798,6 +837,90 @@
 
   /* O RD já dá margem embaixo do botão; sem isso o disclaimer fica longe. */
   .theme-viver-hype .rd-form-card form {
+    margin-bottom: 0 !important;
+  }
+
+  /*
+   * Formulário do RD Station no card do hero do Vitória Jasmim.
+   *
+   * Este é o único embed do repositório que já vem estilizado do painel do RD
+   * no roxo do produto — é o mesmo formulário que o Figma Sites publica. O que
+   * fica aqui é só o que o painel não resolve: apagar o fundo roxo do próprio
+   * embed (quem pinta o roxo e desenha os cantos de 60px é o card) e devolver
+   * ao embed a largura toda do card.
+   */
+  .theme-vitoria-jasmim .rd-form-card [class*="rd-section"],
+  .theme-vitoria-jasmim .rd-form-card [class*="rd-row"],
+  .theme-vitoria-jasmim .rd-form-card [class*="rd-column"],
+  .theme-vitoria-jasmim .rd-form-card [class*="rd-column"] > div {
+    background-color: transparent !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card div:has(> .bricks-form) {
+    padding-inline: 0 !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card .bricks-form {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card .bricks-form__label,
+  .theme-vitoria-jasmim .rd-form-card label {
+    color: #fff !important;
+    font-weight: 700 !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card p,
+  .theme-vitoria-jasmim .rd-form-card p *,
+  .theme-vitoria-jasmim .rd-form-card small,
+  .theme-vitoria-jasmim .rd-form-card small * {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
+  .theme-vitoria-jasmim .rd-form-card select,
+  .theme-vitoria-jasmim .rd-form-card textarea {
+    border: 0 !important;
+    border-radius: 9999px !important;
+    background-color: #fff !important;
+    color: var(--color-brand) !important;
+  }
+
+  /*
+   * Bandeira + telefone precisam ler como um controle só. Os campos desta LP
+   * são pílulas, então o arredondamento se divide entre as pontas do grupo: o
+   * seletor de país fica com o lado esquerdo redondo, o input com o direito, e
+   * a seta do select2 no meio fica reta. O `padding-left` afasta a bandeira da
+   * curva.
+   */
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-container.phone-country,
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-choice {
+    border-radius: 9999px 0 0 9999px !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-choice {
+    padding-left: 0.5rem !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-arrow {
+    border-radius: 0 !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group input.js-phone {
+    border-radius: 0 9999px 9999px 0 !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card .rd-button {
+    border-radius: 9999px !important;
+    background-color: var(--color-brand-gold) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    font-size: clamp(0.8rem, 3.6vw, 1.05rem) !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card form {
     margin-bottom: 0 !important;
   }
 }
