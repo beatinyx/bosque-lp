@@ -73,7 +73,7 @@ mapa ilustrado saíram todos de lá.
 | 1     | `HeroSection`             | Logo do produto, selo de lançamento, manchete, vídeo de monstera e formulário de captação |
 | 2     | `LocationSection`         | Mapa ilustrado do entorno, endereço e texto de localização                                |
 | 3     | `LeisureSection`          | Carrossel das perspectivas de lazer + lista completa de itens                             |
-| 4     | `ConditionsSection`       | Minha Casa, Minha Vida (Faixa 3) e o box de condições                                     |
+| 4     | `ConditionsSection`       | Minha Casa, Minha Vida (Faixa 2) e o box de condições                                     |
 | 5     | `VictaSection` + `Footer` | Institucional Victa e texto legal do empreendimento                                       |
 
 - **Tipografia** — o folder monta as manchetes misturando duas famílias na mesma
