@@ -57,7 +57,7 @@ export function ConditionsSection() {
             {HIGHLIGHTS.map(({ before, strong, after, display }) => (
               <li
                 key={strong}
-                className="flex-1 rounded-[0_30px_0_30px] border border-white px-5 py-4 text-[0.95rem] leading-[1.55]"
+                className="flex flex-1 flex-col justify-center rounded-[0_30px_0_30px] border border-white px-5 py-4 text-center text-[0.95rem] leading-[1.55]"
               >
                 {before}
                 <strong
