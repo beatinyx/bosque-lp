@@ -89,7 +89,11 @@ export function LocationSection() {
                   label={icon}
                   className="size-[72px] object-contain"
                 />
-                {overlay && <IconBag className="absolute size-7" />}
+                {/*
+                  Cor fixa: a sacola fica dentro do medalhão roxo, então ela não
+                  pode herdar o texto do card — que vira verde-oliva no hover.
+                */}
+                {overlay && <IconBag className="absolute size-7 text-white" />}
               </span>
               <span className="text-[1.35rem] leading-none font-bold italic">{time}</span>
               <span className="text-[0.85rem] leading-snug">{place}</span>
