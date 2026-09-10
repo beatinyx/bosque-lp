@@ -887,6 +887,30 @@
     color: var(--color-brand) !important;
   }
 
+  /*
+   * Bandeira + telefone precisam ler como um controle só. Os campos desta LP
+   * são pílulas, então o arredondamento se divide entre as pontas do grupo: o
+   * seletor de país fica com o lado esquerdo redondo, o input com o direito, e
+   * a seta do select2 no meio fica reta. O `padding-left` afasta a bandeira da
+   * curva.
+   */
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-container.phone-country,
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-choice {
+    border-radius: 9999px 0 0 9999px !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-choice {
+    padding-left: 0.5rem !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-arrow {
+    border-radius: 0 !important;
+  }
+
+  .theme-vitoria-jasmim .rd-form-card .phone-input-group input.js-phone {
+    border-radius: 0 9999px 9999px 0 !important;
+  }
+
   .theme-vitoria-jasmim .rd-form-card .rd-button {
     border-radius: 9999px !important;
     background-color: var(--color-brand-gold) !important;

@@ -75,7 +75,12 @@ export function LocationSection() {
           {NEARBY.map(({ time, place, icon, overlay }) => (
             <li
               key={place}
-              className="flex flex-col items-center justify-center gap-2 rounded-[10px] bg-brand-olive px-3 py-6 text-center text-white"
+              /*
+               * No hover o card vira o verde-claro da dobra e o texto vai para
+               * o verde-oliva — os medalhões dos ícones são roxos e continuam
+               * legíveis nos dois estados.
+               */
+              className="flex flex-col items-center justify-center gap-2 rounded-[10px] bg-brand-olive px-3 py-6 text-center text-white transition duration-200 hover:-translate-y-1 hover:bg-brand-sand hover:text-brand-olive hover:shadow-[0_14px_30px_rgba(85,107,39,0.28)]"
             >
               <span className="relative grid size-[72px] place-items-center">
                 <Img

@@ -73,7 +73,7 @@ export function LeisureSection() {
           para leitor de tela — as pastilhas roxas sobre o verde-oliva
           reproduzem os medalhões do design.
         */}
-        <ul className="mt-16 grid grid-cols-2 gap-x-6 gap-y-3.5 rounded-[20px] bg-brand-olive px-6 py-6 sm:grid-cols-3 lg:grid-cols-4 lg:px-10">
+        <ul className="mt-16 grid grid-cols-2 gap-x-6 gap-y-3.5 rounded-[0_50px_0_50px] bg-brand-olive px-6 py-6 sm:grid-cols-3 lg:grid-cols-4 lg:px-10">
           {AMENITIES.map(({ label, Icon }) => (
             <li key={label} className="flex items-center gap-2.5">
               <span className="grid size-7 shrink-0 place-items-center rounded-full bg-brand text-white">
@@ -82,7 +82,8 @@ export function LeisureSection() {
               <span className="text-[0.85rem] leading-snug">{label}</span>
             </li>
           ))}
-          <li className="flex items-center text-[0.85rem] font-bold tracking-wide uppercase">
+          {/* Fecho da lista: ocupa a linha inteira e fica centralizado nela. */}
+          <li className="col-span-full mt-1 text-center text-[0.85rem] font-bold tracking-wide uppercase">
             E muito mais!
           </li>
         </ul>
