@@ -40,7 +40,12 @@ export function HeroSection() {
           loading="eager"
         />
 
-        <div className="mt-10 grid items-center gap-8 lg:mt-12 lg:grid-cols-[1fr_auto] lg:gap-12">
+        {/*
+          No desktop o selo encosta no topo do card, como no Figma (o card
+          começa em y=391 e o selo em y=398); centralizado ele flutuava no meio
+          da coluna, longe da manchete.
+        */}
+        <div className="mt-10 grid items-center gap-8 lg:mt-12 lg:grid-cols-[1fr_auto] lg:items-start lg:gap-12">
           {/* Selo de tipologia — desce para depois do card no mobile */}
           <Img
             src="/images/vitoria-jasmim/selo-2-quartos.png"
