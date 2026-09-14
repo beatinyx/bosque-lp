@@ -44,6 +44,26 @@ const AMENITIES: Array<{
   { label: "Bicicletário", Icon: IconBike },
 ];
 
+/*
+ * Posição de cada item na faixa de lazer no desktop, na divisão 4/3/3 do
+ * arquivo. As células vão escritas uma a uma porque o preenchimento automático
+ * da grade não chega nessa divisão — por linha ele quebra 3/3/3/1, e por
+ * coluna, 4/4/2 — e porque o Tailwind precisa ver a classe inteira no código.
+ * Até `lg` a lista é uma coluna (ou duas), e aí a ordem do array já resolve.
+ */
+const LG_CELLS = [
+  "lg:col-start-1 lg:row-start-1",
+  "lg:col-start-1 lg:row-start-2",
+  "lg:col-start-1 lg:row-start-3",
+  "lg:col-start-1 lg:row-start-4",
+  "lg:col-start-2 lg:row-start-1",
+  "lg:col-start-2 lg:row-start-2",
+  "lg:col-start-2 lg:row-start-3",
+  "lg:col-start-3 lg:row-start-1",
+  "lg:col-start-3 lg:row-start-2",
+  "lg:col-start-3 lg:row-start-3",
+];
+
 const SLIDES = AMENITIES.filter((item) => item.file).map((item) => ({
   file: item.file as string,
   label: item.slide ?? item.label,
@@ -75,14 +95,21 @@ export function LeisureSection() {
           itens; aqui virou markup para escalar no mobile e ser lida por leitor
           de tela. Os cantos são o `0 60px 0 60px` do arquivo.
         */}
-        <ul className="mt-16 grid grid-cols-1 gap-x-8 gap-y-3 rounded-[0_60px_0_60px] bg-brand-aqua px-7 py-7 sm:grid-cols-2 lg:grid-cols-3 lg:px-12">
-          {AMENITIES.map(({ label, Icon }) => (
-            <li key={label} className="flex items-center gap-3">
-              <Icon className="size-5 shrink-0" aria-hidden="true" />
-              <span className="text-[0.95rem] leading-snug">{label}</span>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-16 rounded-[0_60px_0_60px] bg-brand-aqua px-7 py-8 lg:px-12">
+          {/*
+            As colunas têm a largura do próprio texto e a grade inteira fica
+            centralizada na faixa — com colunas de `1fr` sobrava um vão à
+            direita de cada uma, porque os rótulos são curtos.
+          */}
+          <ul className="grid justify-center gap-x-10 gap-y-3 sm:grid-cols-[repeat(2,max-content)] lg:grid-cols-[repeat(3,max-content)] lg:gap-x-16">
+            {AMENITIES.map(({ label, Icon }, index) => (
+              <li key={label} className={`flex items-center gap-3 ${LG_CELLS[index]}`}>
+                <Icon className="size-5 shrink-0" aria-hidden="true" />
+                <span className="text-[0.95rem] leading-snug">{label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div className="mt-10 text-center">
           <a

@@ -38,7 +38,13 @@ export function LocationSection() {
             Morar bem é estar <strong className="font-bold">perto de tudo</strong>
           </h2>
 
-          <div className="mt-8 grid items-start gap-8 lg:grid-cols-2 lg:gap-10">
+          {/*
+            A grade é mais estreita que o card e centralizada: com duas colunas
+            de metade cada, a lista e o mapa iam encostar nas duas bordas e o
+            conjunto parecia jogado para fora. O mapa tem teto de largura para
+            a coluna do texto não encolher junto.
+          */}
+          <div className="mt-8 grid items-start gap-8 lg:mx-auto lg:max-w-[920px] lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)] lg:gap-12">
             <div>
               <p className="inline-flex items-center gap-3 rounded-full border border-white px-5 py-2.5 text-[clamp(0.875rem,3.4vw,1rem)] font-bold">
                 <IconPin className="size-5 shrink-0 text-brand-aqua" aria-hidden="true" />

@@ -31,7 +31,8 @@ const ADVANTAGES: Array<{
 export function AdvantagesSection() {
   return (
     <section id="facilidades" className="bg-brand py-14 text-white md:py-16">
-      <div className="lp-container grid items-center gap-10 lg:grid-cols-[1fr_0.72fr] lg:gap-12">
+      {/* `items-stretch` (padrão) para a foto ir do topo da manchete à base das pastilhas. */}
+      <div className="lp-container grid gap-10 max-lg:items-center lg:grid-cols-[1fr_0.72fr] lg:gap-12">
         <div>
           <h2 className="text-[clamp(1.5rem,4.6vw,2rem)] leading-[1.3] font-light">
             <strong className="font-bold">Facilidade</strong> para garantir o seu apê
@@ -69,8 +70,11 @@ export function AdvantagesSection() {
           src="/images/viver-essencial/casal-sofa.webp"
           alt="Casal sentado no sofá da sala do apartamento"
           label="casal-sofa.webp"
-          /* Proporção fixa: sem ela a imagem colapsa quando a grade vira uma coluna só. */
-          className="aspect-3/2 w-full rounded-[4px] object-cover max-lg:order-first"
+          /*
+           * Proporção fixa só na coluna única, onde a imagem colapsaria sem
+           * altura; nas duas colunas ela estica com a linha da grade.
+           */
+          className="aspect-3/2 w-full rounded-[4px] object-cover max-lg:order-first lg:aspect-auto lg:h-full"
         />
       </div>
     </section>

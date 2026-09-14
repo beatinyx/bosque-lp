@@ -86,8 +86,9 @@ export function HeroSection() {
               loading="eager"
             />
 
-            <p className="flex items-center gap-3 text-[0.95rem] leading-[1.1] font-light tracking-[0.02em] uppercase">
-              <IconPool className="size-9 shrink-0" aria-hidden="true" />
+            {/* Na mesma altura do selo de tipologia ao lado, como no arquivo. */}
+            <p className="flex items-center gap-4 text-[1.25rem] leading-[1.1] font-light tracking-[0.02em] uppercase">
+              <IconPool className="size-14 shrink-0" aria-hidden="true" />
               <span>
                 Lazer
                 <br />
