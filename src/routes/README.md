@@ -29,6 +29,7 @@ is `src/routes/__root.tsx`.
 | `vitoria-eusebio.tsx` | `/vitoria-eusebio` | LP do Vitória Eusébio                                                 |
 | `viver-hype.tsx`      | `/viver-hype`      | LP do Hype Condomínio Clube                                           |
 | `vitoria-jasmim.tsx`  | `/vitoria-jasmim`  | LP do Vitória Jasmim (o Figma chama a página de `/vitoria-jasmin`)    |
+| `viver-essencial.tsx` | `/viver-essencial` | LP do Viver Essencial (o Figma chama a página só de `/essencial`)     |
 
 Cada LP de produto é responsável por três coisas que o `__root.tsx` não tem como
 saber: as `meta`/`canonical` da página, o `link` das fontes que ela usa e o

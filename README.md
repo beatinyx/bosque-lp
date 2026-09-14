@@ -1,6 +1,6 @@
 # Landing pages VICTA
 
-Um repositório, um deploy, quatro landing pages de lançamento — cada uma na sua
+Um repositório, um deploy, cinco landing pages de lançamento — cada uma na sua
 rota:
 
 | Rota               | Produto                   | Onde                                                |
@@ -9,9 +9,10 @@ rota:
 | `/vitoria-eusebio` | **Vitória Eusébio**       | Mangabeira, Eusébio                                 |
 | `/viver-hype`      | **Hype Condomínio Clube** | Praia do Futuro II, Fortaleza                       |
 | `/vitoria-jasmim`  | **Vitória Jasmim**        | Messejana/Paupina, Fortaleza — R. Antero de Quental |
+| `/viver-essencial` | **Viver Essencial**       | Pici, Fortaleza — Av. Cel. Matos Dourado            |
 | `/`                | —                         | Redireciona (302) para `https://www.victa.eng.br/`  |
 
-As quatro LPs compartilham stack, componentes de UI (`src/components/ui`), o shell
+As cinco LPs compartilham stack, componentes de UI (`src/components/ui`), o shell
 (`src/routes/__root.tsx`), o CSS (`src/styles.css`) e a dobra institucional da
 Victa. O que é de produto — seções, imagens, paleta, tipografia e formulário de
 captação — fica separado por pasta:
@@ -23,6 +24,7 @@ src/
     vitoria-eusebio/   seções da LP do Vitória Eusébio
     viver-hype/        seções da LP do Hype
     vitoria-jasmim/    seções da LP do Vitória Jasmim
+    viver-essencial/   seções da LP do Viver Essencial
     ui/                shadcn/ui, compartilhado
   routes/
     index.tsx          redirect da raiz
@@ -30,12 +32,14 @@ src/
     vitoria-eusebio.tsx
     viver-hype.tsx
     vitoria-jasmim.tsx
+    viver-essencial.tsx
 public/
-  images/victa/        logos e institucional da Victa (as quatro LPs usam)
+  images/victa/        logos e institucional da Victa (as cinco LPs usam)
   images/viver-bosque/
   images/vitoria-eusebio/
   images/viver-hype/
   images/vitoria-jasmim/
+  images/viver-essencial/
   video/viver-bosque/
 ```
 
@@ -44,10 +48,10 @@ fora do git e fora do build.
 
 ## Como as paletas convivem
 
-As quatro LPs usam os mesmos nomes de classe (`bg-brand`, `text-brand-sand`…). Quem
+As cinco LPs usam os mesmos nomes de classe (`bg-brand`, `text-brand-sand`…). Quem
 decide os valores é a classe de tema no wrapper da rota —
-`.theme-viver-bosque`, `.theme-vitoria-eusebio`, `.theme-viver-hype` ou
-`.theme-vitoria-jasmim`: ela redeclara os tokens
+`.theme-viver-bosque`, `.theme-vitoria-eusebio`, `.theme-viver-hype`,
+`.theme-vitoria-jasmim` ou `.theme-viver-essencial`: ela redeclara os tokens
 `--color-brand-*` e a família de texto, e como as utilities do Tailwind v4
 compilam para `var(--color-brand-*)`, a subárvore inteira repinta sem tocar em
 componente nenhum.
@@ -57,9 +61,10 @@ Cada rota também carrega só o seu par de fontes (veja os `links` em
 e o passo a passo para uma nova LP estão comentados em `src/styles.css`.
 
 Tokens `victa-*` (+ `bark`/`stone`) são a paleta institucional e valem para as
-quatro páginas, na dobra institucional e no rodapé. O Vitória Jasmim usa outra
-faixa da mesma paleta — `victa-forest`, `victa-lime` e `victa-cream` —, porque o
-design dele fecha em verde-escuro e creme em vez do degradê verde das outras.
+cinco páginas, na dobra institucional e no rodapé. O Vitória Jasmim e o Viver Essencial usam
+outra faixa da mesma paleta — `victa-forest`, `victa-lime` e `victa-cream` —,
+porque o design dos dois fecha em verde-escuro e creme em vez do degradê verde
+das outras.
 
 ## Victa Viver Bosque — `/viver-bosque`
 
@@ -212,15 +217,64 @@ dobra institucional usa os assets compartilhados da Victa (com `+4.970`
 entregues, contra `+4.900` no Figma) e o bicicletário entrou na lista de itens
 por ter render próprio no carrossel.
 
+## Viver Essencial — `/viver-essencial`
+
+Apartamentos de 2 quartos com opção de jardim privativo no Pici, na Av. Cel.
+Matos Dourado, 1281. É a LP azul do repositório, e a única que mistura duas
+famílias de texto na mesma página.
+
+| Dobra | Componente                | Conteúdo                                                                 |
+| ----- | ------------------------- | ------------------------------------------------------------------------ |
+| 1     | `HeroSection`             | Fachada, lockup do produto, formulário, selo de 2 quartos e selo do MCMV |
+| 2     | `AdvantagesSection`       | Faixa azul com as seis vantagens de compra e a foto do casal no sofá     |
+| 3     | `LeisureSection`          | Carrossel das sete perspectivas + faixa teal com os dez itens de lazer   |
+| 4     | `NeighborhoodSection`     | Foto aérea do Pici e o argumento de investimento no bairro               |
+| 5     | `LocationSection`         | Card azul com a pastilha do endereço, os tempos até o entorno e o mapa   |
+| 6     | `ConditionsSection`       | Minha Casa, Minha Vida: foto, texto e as quatro faixas de renda          |
+| 7     | `VictaSection` + `Footer` | Institucional Victa e o texto legal do empreendimento                    |
+
+- **Paleta** — azul `#1a5a97` como cor principal, teal `#49b7a6` nas faixas,
+  azul-claro `#3c84c9` nas pastilhas de vantagem e laranja `#f39222` nos CTAs.
+  Todas amostradas do arquivo publicado, não a olho.
+- **Degradê contínuo** — no Figma as dobras 3 a 6 ficam sobre um único degradê
+  teal → azul, e não sobre quatro fundos. Por isso elas vão dentro do mesmo
+  wrapper na rota, em vez de cada uma pintar o próprio fundo.
+- **Molduras** — o design alterna os mesmos dois arredondamentos de 60px em
+  cantos opostos: `0 60px 0 60px` na faixa de lazer e `60px 0 60px 0` no card
+  de localização. A moldura das faixas de renda usa o desenho em 30px.
+- **Tipografia** — Poppins nas dobras do produto e Montserrat no institucional,
+  no rodapé e nas pastilhas de vantagem, como no arquivo. É o que a classe
+  `font-montserrat` faz; as duas famílias são pedidas num link só na rota.
+- **Captação** — embed do RD Station `viver-pici-lancamento-64a33be93e868edfe509`
+  (cadastrado pelo bairro, não pelo nome do produto), o mesmo que a página do
+  Figma já usa. O `LeadForm` também guarda as UTMs da URL e preenche os campos
+  `cf_utm_*` escondidos, como o code layer do Figma faz.
+- **CTAs** — no Figma os botões não levam a lugar nenhum. Aqui "quero ver a
+  planta", "quero morar aqui" e "descubra meu perfil" rolam para `#inicio`, o
+  formulário do hero; "fale com a gente", da dobra institucional, abre o
+  WhatsApp da Victa, como nas outras LPs.
+
+### Fidelidade ao design
+
+Mesma rota do Vitória Jasmim: o design mora no arquivo do **Figma Sites**, que
+o MCP do Figma não abre, e a transcrição saiu do site publicado
+(<https://vista-coqueiral-victa.figma.site/essencial>), que entrega o JSON com a
+árvore de nós e os assets em resolução cheia — texto, cor, tipografia, raio de
+canto e medida vieram do arquivo. O que diverge está registrado em
+`public/images/viver-essencial/README.md`: a faixa de lazer, a lista de entorno
+e a pastilha do endereço viraram markup, o véu do hero virou `linear-gradient`
+e a dobra institucional usa os assets compartilhados da Victa.
+
 ## Formulários do RD Station
 
-O markup dos quatro vem pronto do painel do RD, então os seletores em
+O markup dos cinco vem pronto do painel do RD, então os seletores em
 `src/styles.css` são os dele e precisam de `!important`. A regra que esconde os
 campos de UTM (preenchidos pela URL da campanha, não pelo usuário) é
-compartilhada; o resto é escopado por classe de tema. Os quatro formulários são
+compartilhada; o resto é escopado por classe de tema. Os cinco formulários são
 embeds diferentes: `bosque-6026d4e5f95b4ee9aa59`,
-`eusebio-4044c95a9a0395652ffc`, `hype-73927ee2be76598111e4` e
-`vitoria-jasmin-94114a5c148789bc1bee`, todos no token `UA-169812363-1`.
+`eusebio-4044c95a9a0395652ffc`, `hype-73927ee2be76598111e4`,
+`vitoria-jasmin-94114a5c148789bc1bee` e
+`viver-pici-lancamento-64a33be93e868edfe509`, todos no token `UA-169812363-1`.
 
 ## Development
 
