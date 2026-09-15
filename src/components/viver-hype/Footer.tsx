@@ -53,12 +53,12 @@ export function Footer() {
 
         <div className="lp-container">
           <p className="mx-auto max-w-[780px] text-center text-[0.62rem] leading-[1.6] text-[rgba(223,233,207,0.8)]">
-            * A partir de R$ 225.246,43 referente à Unidade 101 Torre 03, com área privativa
-            construída de 40,02 m². Preço de tabela do mês de abril de 2026. A vendedora reserva-se
-            o direito de alterar o preço sem aviso prévio. O memorial de incorporação está
-            registrado na matrícula n° 113.632 do Cartório de Registro de Imóveis da 1ª Zona de
-            Fortaleza/CE, nos termos da Lei 4.591/64, conforme R.4/113.632. As imagens são meramente
-            ilustrativas, devendo ser considerado detalhamento no memorial descritivo.
+            * A partir de R$ 266.403,00 referente à Unidade 210 Torre 02, com área privativa
+            construída de 38,52 m². Preço de tabela do mês de setembro de 2026. A vendedora
+            reserva-se o direito de alterar o preço sem aviso prévio. O memorial de incorporação
+            está registrado na matrícula nº 6.842 do Cartório de Registro de Imóveis da 5º Zona de
+            Fortaleza/CE, nos termos da Lei 4.591/64., conforme R.77/6.842. As imagens são
+            meramente ilustrativas, devendo ser considerado detalhamento no memorial descritivo.
           </p>
         </div>
       </footer>

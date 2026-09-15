@@ -22,6 +22,7 @@ const GTM_IDS_BY_PATH: Record<string, string> = {
   "/vitoria-eusebio": "GTM-5TL3HWG6",
   "/viver-hype": "GTM-T23TPK72",
   "/viver-essencial": "GTM-T7HBWC47",
+  "/vitoria-jasmim": "GTM-M7HJDQRK",
 };
 
 function useGtmId() {
