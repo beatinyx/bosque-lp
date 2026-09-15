@@ -33,11 +33,11 @@ export function Footer() {
 
       <div className="lp-container">
         <p className="mx-auto max-w-[780px] text-center text-[0.62rem] leading-[1.6] text-white/85 md:text-left">
-          * A partir de R$ 261.500,00 referente à Unidade 603 Torre 02, com área privativa
-          construída de 35,58 m². Preço de tabela do mês de junho de 2026. A vendedora reserva-se o
-          direito de alterar o preço sem aviso prévio. O memorial de incorporação está registrado na
-          matrícula nº 110.484 do Cartório de Registro de Imóveis da 3ª Zona de Fortaleza/CE, nos
-          termos da Lei 4.591/64, conforme R.3/110.484. As imagens são meramente ilustrativas,
+          * A partir de R$ 251.295,00 referente à Unidade 212 Torre 02, com área privativa
+          construída de 37,96 m². Preço de tabela do mês de setembro de 2026. A vendedora reserva-se
+          o direito de alterar o preço sem aviso prévio. O memorial de incorporação está registrado
+          na matrícula nº 110.484 do Cartório de Registro de Imóveis da 3º Zona de Fortaleza/CE, nos
+          termos da Lei 4.591/64., conforme R.3/110.484. As imagens são meramente ilustrativas,
           devendo ser considerado detalhamento no memorial descritivo.
         </p>
       </div>
