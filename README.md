@@ -12,6 +12,10 @@ rota:
 | `/viver-essencial` | **Viver Essencial**       | Pici, Fortaleza — Av. Cel. Matos Dourado            |
 | `/`                | —                         | Redireciona (302) para `https://www.victa.eng.br/`  |
 
+Cada LP tem também a sua página de obrigado em `/obrigado/<produto>` — o destino
+do redirect do formulário do RD Station e o gatilho de conversão do GTM. Ver
+[Medição e conversão](#medição-e-conversão).
+
 As cinco LPs compartilham stack, componentes de UI (`src/components/ui`), o shell
 (`src/routes/__root.tsx`), o CSS (`src/styles.css`) e a dobra institucional da
 Victa. O que é de produto — seções, imagens, paleta, tipografia e formulário de
@@ -25,6 +29,7 @@ src/
     viver-hype/        seções da LP do Hype
     vitoria-jasmim/    seções da LP do Vitória Jasmim
     viver-essencial/   seções da LP do Viver Essencial
+    obrigado/          página de obrigado, compartilhada pelos cinco produtos
     ui/                shadcn/ui, compartilhado
   routes/
     index.tsx          redirect da raiz
@@ -33,6 +38,7 @@ src/
     viver-hype.tsx
     vitoria-jasmim.tsx
     viver-essencial.tsx
+    obrigado/          uma rota por produto, com o KV e a confirmação
 public/
   images/victa/        logos e institucional da Victa (as cinco LPs usam)
   images/viver-bosque/
@@ -275,6 +281,33 @@ embeds diferentes: `bosque-6026d4e5f95b4ee9aa59`,
 `eusebio-4044c95a9a0395652ffc`, `hype-73927ee2be76598111e4`,
 `vitoria-jasmin-94114a5c148789bc1bee` e
 `viver-pici-lancamento-64a33be93e868edfe509`, todos no token `UA-169812363-1`.
+
+## Medição e conversão
+
+O repositório instala o container do GTM e nada mais — nenhum evento sai do
+código. O mapa `GTM_IDS_BY_PATH` em `src/routes/__root.tsx` casa a rota com o
+container do produto, e a página de obrigado herda o container da própria LP
+tirando o prefixo `/obrigado`. Rota que não está no mapa não recebe snippet
+nenhum, sem erro nem aviso: é o primeiro lugar a olhar quando uma página nova
+não aparece no Preview do GTM.
+
+A conversão é o **pageview de `/obrigado/<produto>`**, e não o clique no botão
+de envio. Clique conta tentativa — formulário vazio, campo inválido, clique
+duplo — e infla o número; os CTAs `href="#cadastro"` das LPs, que só rolam a
+página até o formulário, entram na conta pelo mesmo gatilho. No GTM a tag de
+conversão fica num gatilho de Page View com _Page Path_ contendo `/obrigado`,
+que serve para as cinco; gatilho de clique, se existir, é micro-conversão e
+nunca a conversão.
+
+Isso depende de um passo que não está neste repositório: **a URL de redirect de
+cada um dos cinco formulários, configurada no painel do RD**. Sem ela o embed
+mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
+há conversão para contar.
+
+As cinco páginas de obrigado são `noindex, nofollow` — indexadas, receberiam
+visita orgânica de quem nunca preencheu o formulário. A URL continua acessível,
+então refresh e link compartilhado contam conversão de novo; é o limite conhecido
+da abordagem por pageview, e o que sobra se resolve deduplicando no GA4.
 
 ## Development
 

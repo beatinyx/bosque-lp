@@ -15,6 +15,11 @@ import { Route as VitoriaJasmimRouteImport } from './routes/vitoria-jasmim'
 import { Route as ViverBosqueRouteImport } from './routes/viver-bosque'
 import { Route as ViverEssencialRouteImport } from './routes/viver-essencial'
 import { Route as ViverHypeRouteImport } from './routes/viver-hype'
+import { Route as ObrigadoVitoriaEusebioRouteImport } from './routes/obrigado/vitoria-eusebio'
+import { Route as ObrigadoVitoriaJasmimRouteImport } from './routes/obrigado/vitoria-jasmim'
+import { Route as ObrigadoViverBosqueRouteImport } from './routes/obrigado/viver-bosque'
+import { Route as ObrigadoViverEssencialRouteImport } from './routes/obrigado/viver-essencial'
+import { Route as ObrigadoViverHypeRouteImport } from './routes/obrigado/viver-hype'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +51,31 @@ const ViverHypeRoute = ViverHypeRouteImport.update({
   path: '/viver-hype',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ObrigadoVitoriaEusebioRoute = ObrigadoVitoriaEusebioRouteImport.update({
+  id: '/obrigado/vitoria-eusebio',
+  path: '/obrigado/vitoria-eusebio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObrigadoVitoriaJasmimRoute = ObrigadoVitoriaJasmimRouteImport.update({
+  id: '/obrigado/vitoria-jasmim',
+  path: '/obrigado/vitoria-jasmim',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObrigadoViverBosqueRoute = ObrigadoViverBosqueRouteImport.update({
+  id: '/obrigado/viver-bosque',
+  path: '/obrigado/viver-bosque',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObrigadoViverEssencialRoute = ObrigadoViverEssencialRouteImport.update({
+  id: '/obrigado/viver-essencial',
+  path: '/obrigado/viver-essencial',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObrigadoViverHypeRoute = ObrigadoViverHypeRouteImport.update({
+  id: '/obrigado/viver-hype',
+  path: '/obrigado/viver-hype',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +84,11 @@ export interface FileRoutesByFullPath {
   '/viver-bosque': typeof ViverBosqueRoute
   '/viver-essencial': typeof ViverEssencialRoute
   '/viver-hype': typeof ViverHypeRoute
+  '/obrigado/vitoria-eusebio': typeof ObrigadoVitoriaEusebioRoute
+  '/obrigado/vitoria-jasmim': typeof ObrigadoVitoriaJasmimRoute
+  '/obrigado/viver-bosque': typeof ObrigadoViverBosqueRoute
+  '/obrigado/viver-essencial': typeof ObrigadoViverEssencialRoute
+  '/obrigado/viver-hype': typeof ObrigadoViverHypeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +97,11 @@ export interface FileRoutesByTo {
   '/viver-bosque': typeof ViverBosqueRoute
   '/viver-essencial': typeof ViverEssencialRoute
   '/viver-hype': typeof ViverHypeRoute
+  '/obrigado/vitoria-eusebio': typeof ObrigadoVitoriaEusebioRoute
+  '/obrigado/vitoria-jasmim': typeof ObrigadoVitoriaJasmimRoute
+  '/obrigado/viver-bosque': typeof ObrigadoViverBosqueRoute
+  '/obrigado/viver-essencial': typeof ObrigadoViverEssencialRoute
+  '/obrigado/viver-hype': typeof ObrigadoViverHypeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +111,11 @@ export interface FileRoutesById {
   '/viver-bosque': typeof ViverBosqueRoute
   '/viver-essencial': typeof ViverEssencialRoute
   '/viver-hype': typeof ViverHypeRoute
+  '/obrigado/vitoria-eusebio': typeof ObrigadoVitoriaEusebioRoute
+  '/obrigado/vitoria-jasmim': typeof ObrigadoVitoriaJasmimRoute
+  '/obrigado/viver-bosque': typeof ObrigadoViverBosqueRoute
+  '/obrigado/viver-essencial': typeof ObrigadoViverEssencialRoute
+  '/obrigado/viver-hype': typeof ObrigadoViverHypeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +126,11 @@ export interface FileRouteTypes {
     | '/viver-bosque'
     | '/viver-essencial'
     | '/viver-hype'
+    | '/obrigado/vitoria-eusebio'
+    | '/obrigado/vitoria-jasmim'
+    | '/obrigado/viver-bosque'
+    | '/obrigado/viver-essencial'
+    | '/obrigado/viver-hype'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +139,11 @@ export interface FileRouteTypes {
     | '/viver-bosque'
     | '/viver-essencial'
     | '/viver-hype'
+    | '/obrigado/vitoria-eusebio'
+    | '/obrigado/vitoria-jasmim'
+    | '/obrigado/viver-bosque'
+    | '/obrigado/viver-essencial'
+    | '/obrigado/viver-hype'
   id:
     | '__root__'
     | '/'
@@ -97,6 +152,11 @@ export interface FileRouteTypes {
     | '/viver-bosque'
     | '/viver-essencial'
     | '/viver-hype'
+    | '/obrigado/vitoria-eusebio'
+    | '/obrigado/vitoria-jasmim'
+    | '/obrigado/viver-bosque'
+    | '/obrigado/viver-essencial'
+    | '/obrigado/viver-hype'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +166,11 @@ export interface RootRouteChildren {
   ViverBosqueRoute: typeof ViverBosqueRoute
   ViverEssencialRoute: typeof ViverEssencialRoute
   ViverHypeRoute: typeof ViverHypeRoute
+  ObrigadoVitoriaEusebioRoute: typeof ObrigadoVitoriaEusebioRoute
+  ObrigadoVitoriaJasmimRoute: typeof ObrigadoVitoriaJasmimRoute
+  ObrigadoViverBosqueRoute: typeof ObrigadoViverBosqueRoute
+  ObrigadoViverEssencialRoute: typeof ObrigadoViverEssencialRoute
+  ObrigadoViverHypeRoute: typeof ObrigadoViverHypeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -152,6 +217,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ViverHypeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/obrigado/vitoria-eusebio': {
+      id: '/obrigado/vitoria-eusebio'
+      path: '/obrigado/vitoria-eusebio'
+      fullPath: '/obrigado/vitoria-eusebio'
+      preLoaderRoute: typeof ObrigadoVitoriaEusebioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obrigado/vitoria-jasmim': {
+      id: '/obrigado/vitoria-jasmim'
+      path: '/obrigado/vitoria-jasmim'
+      fullPath: '/obrigado/vitoria-jasmim'
+      preLoaderRoute: typeof ObrigadoVitoriaJasmimRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obrigado/viver-bosque': {
+      id: '/obrigado/viver-bosque'
+      path: '/obrigado/viver-bosque'
+      fullPath: '/obrigado/viver-bosque'
+      preLoaderRoute: typeof ObrigadoViverBosqueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obrigado/viver-essencial': {
+      id: '/obrigado/viver-essencial'
+      path: '/obrigado/viver-essencial'
+      fullPath: '/obrigado/viver-essencial'
+      preLoaderRoute: typeof ObrigadoViverEssencialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obrigado/viver-hype': {
+      id: '/obrigado/viver-hype'
+      path: '/obrigado/viver-hype'
+      fullPath: '/obrigado/viver-hype'
+      preLoaderRoute: typeof ObrigadoViverHypeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -162,6 +262,11 @@ const rootRouteChildren: RootRouteChildren = {
   ViverBosqueRoute: ViverBosqueRoute,
   ViverEssencialRoute: ViverEssencialRoute,
   ViverHypeRoute: ViverHypeRoute,
+  ObrigadoVitoriaEusebioRoute: ObrigadoVitoriaEusebioRoute,
+  ObrigadoVitoriaJasmimRoute: ObrigadoVitoriaJasmimRoute,
+  ObrigadoViverBosqueRoute: ObrigadoViverBosqueRoute,
+  ObrigadoViverEssencialRoute: ObrigadoViverEssencialRoute,
+  ObrigadoViverHypeRoute: ObrigadoViverHypeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
