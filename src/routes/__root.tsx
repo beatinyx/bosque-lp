@@ -25,9 +25,27 @@ const GTM_IDS_BY_PATH: Record<string, string> = {
   "/vitoria-jasmim": "GTM-M7HJDQRK",
 };
 
+/*
+ * Prefixo das páginas de obrigado (`/obrigado/viver-bosque` e as outras quatro).
+ * Cada uma carrega o container da LP correspondente, e é lá que a conversão é
+ * medida — ver src/components/obrigado/ThankYou.tsx.
+ */
+const OBRIGADO_PREFIX = "/obrigado";
+
 function useGtmId() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  return GTM_IDS_BY_PATH[pathname];
+
+  /*
+   * A página de obrigado herda o container da própria LP, tirando o prefixo em
+   * vez de repetir os cinco IDs no mapa: repetidos, um dia um par sairia do
+   * lugar e a conversão passaria a cair no container do produto errado, sem
+   * nada quebrar na tela.
+   */
+  const lpPath = pathname.startsWith(`${OBRIGADO_PREFIX}/`)
+    ? pathname.slice(OBRIGADO_PREFIX.length)
+    : pathname;
+
+  return GTM_IDS_BY_PATH[lpPath];
 }
 
 function NotFoundComponent() {

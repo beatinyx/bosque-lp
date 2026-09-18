@@ -31,6 +31,22 @@ is `src/routes/__root.tsx`.
 | `vitoria-jasmim.tsx`  | `/vitoria-jasmim`  | LP do Vitória Jasmim (o Figma chama a página de `/vitoria-jasmin`)    |
 | `viver-essencial.tsx` | `/viver-essencial` | LP do Viver Essencial (o Figma chama a página só de `/essencial`)     |
 
+E as cinco páginas de obrigado, uma por produto, em `obrigado/`:
+
+| Arquivo                        | URL                         |
+| ------------------------------ | --------------------------- |
+| `obrigado/viver-bosque.tsx`    | `/obrigado/viver-bosque`    |
+| `obrigado/vitoria-eusebio.tsx` | `/obrigado/vitoria-eusebio` |
+| `obrigado/viver-hype.tsx`      | `/obrigado/viver-hype`      |
+| `obrigado/vitoria-jasmim.tsx`  | `/obrigado/vitoria-jasmim`  |
+| `obrigado/viver-essencial.tsx` | `/obrigado/viver-essencial` |
+
+O prefixo é `obrigado/<produto>` e não `<produto>/obrigado` de propósito: uma
+rota filha transformaria `viver-bosque.tsx` em rota-pai, que precisaria de
+`<Outlet />` e obrigaria a quebrar a LP em `viver-bosque/index.tsx`. Como
+irmãs, as cinco entram sem tocar em nenhuma LP — e `/obrigado` vira uma
+condição só no gatilho do GTM. Ver `src/components/obrigado/ThankYou.tsx`.
+
 Cada LP de produto é responsável por três coisas que o `__root.tsx` não tem como
 saber: as `meta`/`canonical` da página, o `link` das fontes que ela usa e o
 wrapper com a classe `.theme-<produto>`, que define a paleta e a tipografia da
