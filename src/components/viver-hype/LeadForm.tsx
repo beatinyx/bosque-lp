@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+import { bindRdUtmFields } from "../../lib/rd-utm";
+
 const RD_FORM_ID = "hype-73927ee2be76598111e4";
 const RD_TOKEN = "UA-169812363-1";
 const RD_SCRIPT_SRC =
@@ -67,6 +69,9 @@ export function LeadForm() {
     const container = formRef.current;
     if (!container) return;
 
+    // Preenche os `cf_utm_*` quando o RD injetar o formulário — ver src/lib/rd-utm.ts.
+    const unbindUtm = bindRdUtmFields(container);
+
     loadRdScript()
       .then(() => {
         if (cancelled || !window.RDStationForms) return;
@@ -89,6 +94,7 @@ export function LeadForm() {
 
     return () => {
       cancelled = true;
+      unbindUtm();
     };
   }, []);
 

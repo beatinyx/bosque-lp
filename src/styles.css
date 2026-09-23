@@ -445,7 +445,7 @@
    * de manter o fundo claro, e foi uma escolha de projeto.
    */
   .rd-form-card .bricks-form__field:has(input[class*="js-field-cf_utm_"]) {
-    display: none !important; /* UTMs são preenchidas via URL, não pelo usuário */
+    display: none !important; /* preenchidos a partir da URL por src/lib/rd-utm.ts, não pelo usuário */
   }
 
   .theme-viver-bosque .rd-form-card .bricks-form__label,
