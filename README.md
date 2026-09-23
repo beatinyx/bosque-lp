@@ -304,6 +304,18 @@ cada um dos cinco formulários, configurada no painel do RD**. Sem ela o embed
 mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
 há conversão para contar.
 
+As UTMs chegam ao RD por outro caminho, e ele também não é automático. Os cinco
+formulários trazem seis campos personalizados `cf_utm_*` (source, medium,
+campaign, term, content e placement), escondidos pelo CSS, e o script do RD não
+preenche campo nenhum a partir da URL — a única coisa que ele lê é o cookie
+`__trf.src` do código de monitoramento, e só para o campo oculto
+`traffic_source`, no envio. Quem preenche os `cf_utm_*` é `src/lib/rd-utm.ts`:
+lê os `utm_*` da URL na chegada, guarda o conjunto inteiro no `localStorage`
+(chave `victa:utm`) e escreve nos campos quando o RD injeta o formulário e de
+novo no `submit`. A origem nativa do RD (`traffic_source`) continua dependendo
+do código de monitoramento, que entra pelo GTM: container sem a tag do RD deixa
+o lead com as UTMs nos campos personalizados e sem origem.
+
 As cinco páginas de obrigado são `noindex, nofollow` — indexadas, receberiam
 visita orgânica de quem nunca preencheu o formulário. A URL continua acessível,
 então refresh e link compartilhado contam conversão de novo; é o limite conhecido

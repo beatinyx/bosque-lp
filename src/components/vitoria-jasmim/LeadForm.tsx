@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+import { bindRdUtmFields } from "../../lib/rd-utm";
+
 /*
  * Formulário oficial do Vitória Jasmim no RD Station.
  *
@@ -13,16 +15,6 @@ const RD_FORM_ID = "vitoria-jasmin-94114a5c148789bc1bee";
 const RD_TOKEN = "UA-169812363-1";
 const RD_SCRIPT_SRC =
   "https://d335luupugsy2.cloudfront.net/js/rdstation-forms/stable/rdstation-forms.min.js";
-
-/** Campos de UTM que o formulário do RD traz escondidos. */
-const UTM_KEYS = [
-  "utm_source",
-  "utm_medium",
-  "utm_campaign",
-  "utm_term",
-  "utm_content",
-  "utm_placement",
-] as const;
 
 declare global {
   interface Window {
@@ -63,38 +55,6 @@ function loadRdScript(): Promise<void> {
   return scriptPromise;
 }
 
-/** Guarda as UTMs da URL para sobreviverem à navegação dentro da página. */
-function persistUtmParams() {
-  const params = new URLSearchParams(window.location.search);
-  for (const key of UTM_KEYS) {
-    const value = params.get(key);
-    if (value) localStorage.setItem(key, value);
-  }
-}
-
-/**
- * Preenche os campos `cf_utm_*` que o RD injeta e esconde a linha de cada um.
- *
- * O RD monta o formulário de forma assíncrona e ainda re-renderiza campos
- * depois (máscara de telefone, validação), por isso isto roda em intervalo em
- * vez de uma vez só — é o mesmo que o code layer do Figma faz na página
- * publicada. Sem esconder, os seis campos aparecem vazios no meio do
- * formulário.
- */
-function applyUtmFields(container: HTMLElement) {
-  for (const key of UTM_KEYS) {
-    const value = localStorage.getItem(key);
-    const fields = container.querySelectorAll<HTMLInputElement>(`input[name="cf_${key}"]`);
-
-    for (const field of fields) {
-      if (value) field.value = value;
-      const label = field.previousElementSibling;
-      if (label instanceof HTMLElement) label.style.display = "none";
-      field.parentElement?.style.setProperty("display", "none");
-    }
-  }
-}
-
 export function LeadForm() {
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -103,8 +63,8 @@ export function LeadForm() {
     const container = formRef.current;
     if (!container) return;
 
-    persistUtmParams();
-    const timer = window.setInterval(() => applyUtmFields(container), 1000);
+    // Preenche os `cf_utm_*` quando o RD injetar o formulário — ver src/lib/rd-utm.ts.
+    const unbindUtm = bindRdUtmFields(container);
 
     loadRdScript()
       .then(() => {
@@ -122,7 +82,7 @@ export function LeadForm() {
 
     return () => {
       cancelled = true;
-      window.clearInterval(timer);
+      unbindUtm();
     };
   }, []);
 
