@@ -203,6 +203,16 @@
   --color-victa-forest: oklch(0.3817 0.0959 154.18); /* #00512a */
   --color-victa-lime: oklch(0.7567 0.2191 134.56); /* #6ecc01 */
   --color-victa-cream: oklch(0.9562 0.0524 113.18); /* #f0f5cd */
+
+  /*
+   * Só Vitória Íris. `brand` é o verde-petróleo do produto (declarado na
+   * classe de tema); os quatro abaixo são os outros blocos de cor da página.
+   * Valores amostrados do arquivo publicado do Figma Sites.
+   */
+  --color-brand-jade: #009373; /* faixa de lançamento, card do hero e dobra de localização */
+  --color-brand-sky: #0979b0; /* dobra de lazer e bloco do formulário */
+  --color-brand-leaf: #41aa34; /* etiquetas dos renders e botão do formulário */
+  --color-brand-cream: #fffad9; /* fundo da dobra do hero */
 }
 
 /*
@@ -270,6 +280,22 @@
 
   --color-brand: oklch(0.4256 0.1438 307.55); /* #64328a */
   --color-brand-sand: oklch(0.9566 0.0208 134.09); /* #ebf4e6 */
+
+  font-family: var(--font-sans);
+}
+
+/*
+ * Tema do Vitória Íris.
+ *
+ * `brand` é o verde-petróleo (#075452) das dobras do lugar e dos cartões; os
+ * demais tons da página (jade, azul, folha e creme) são tokens próprios no
+ * `@theme`. Fonte única: Montserrat, com Montserrat Alternates só nos números.
+ */
+.theme-vitoria-iris {
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+
+  --color-brand: #075452;
+  --color-brand-sand: #fffad9;
 
   font-family: var(--font-sans);
 }
@@ -954,6 +980,83 @@
   }
 
   .theme-vitoria-jasmim .rd-form-card form {
+    margin-bottom: 0 !important;
+  }
+
+  /*
+   * Formulário do RD Station no hero do Vitória Íris.
+   *
+   * Mesma receita do Jasmim: o embed já vem estilizado do painel do RD, e aqui
+   * fica só o que o painel não resolve — apagar o fundo do embed (quem pinta o
+   * azul é o bloco do card) e devolver a largura toda a ele. O botão é verde.
+   */
+  .theme-vitoria-iris .rd-form-card [class*="rd-section"],
+  .theme-vitoria-iris .rd-form-card [class*="rd-row"],
+  .theme-vitoria-iris .rd-form-card [class*="rd-column"],
+  .theme-vitoria-iris .rd-form-card [class*="rd-column"] > div {
+    background-color: transparent !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card div:has(> .bricks-form) {
+    padding-inline: 0 !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card .bricks-form {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card .bricks-form__label,
+  .theme-vitoria-iris .rd-form-card label {
+    color: #fff !important;
+    font-weight: 400 !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card p,
+  .theme-vitoria-iris .rd-form-card p *,
+  .theme-vitoria-iris .rd-form-card small,
+  .theme-vitoria-iris .rd-form-card small * {
+    color: rgba(255, 255, 255, 0.92) !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
+  .theme-vitoria-iris .rd-form-card select,
+  .theme-vitoria-iris .rd-form-card textarea {
+    border: 0 !important;
+    border-radius: 9999px !important;
+    background-color: #fff !important;
+    color: var(--color-brand) !important;
+  }
+
+  /* Bandeira + telefone leem como um controle só — ver a nota no Jasmim. */
+  .theme-vitoria-iris .rd-form-card .phone-input-group .select2-container.phone-country,
+  .theme-vitoria-iris .rd-form-card .phone-input-group .select2-choice {
+    border-radius: 9999px 0 0 9999px !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card .phone-input-group .select2-choice {
+    padding-left: 0.5rem !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card .phone-input-group .select2-arrow {
+    border-radius: 0 !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card .phone-input-group input.js-phone {
+    border-radius: 0 9999px 9999px 0 !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card .rd-button {
+    border-radius: 9999px !important;
+    background-color: var(--color-brand-leaf) !important;
+    color: #fff !important;
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    font-size: clamp(0.8rem, 3.6vw, 1.05rem) !important;
+  }
+
+  .theme-vitoria-iris .rd-form-card form {
     margin-bottom: 0 !important;
   }
 

@@ -10,6 +10,7 @@ rota:
 | `/viver-hype`      | **Hype Condomínio Clube** | Praia do Futuro II, Fortaleza                       |
 | `/vitoria-jasmim`  | **Vitória Jasmim**        | Messejana/Paupina, Fortaleza — R. Antero de Quental |
 | `/viver-essencial` | **Viver Essencial**       | Pici, Fortaleza — Av. Cel. Matos Dourado            |
+| `/vitoria-iris`    | **Vitória Íris**          | Parque Vitória Messejana, Fortaleza                 |
 | `/`                | —                         | Redireciona (302) para `https://www.victa.eng.br/`  |
 
 Cada LP tem também a sua página de obrigado em `/obrigado/<produto>` — o destino
@@ -29,6 +30,7 @@ src/
     viver-hype/        seções da LP do Hype
     vitoria-jasmim/    seções da LP do Vitória Jasmim
     viver-essencial/   seções da LP do Viver Essencial
+    vitoria-iris/      seções da LP do Vitória Íris
     obrigado/          página de obrigado, compartilhada pelos cinco produtos
     ui/                shadcn/ui, compartilhado
   routes/
@@ -38,6 +40,7 @@ src/
     viver-hype.tsx
     vitoria-jasmim.tsx
     viver-essencial.tsx
+    vitoria-iris.tsx
     obrigado/          uma rota por produto, com o KV e a confirmação
 public/
   images/victa/        logos e institucional da Victa (as cinco LPs usam)
@@ -46,6 +49,7 @@ public/
   images/viver-hype/
   images/vitoria-jasmim/
   images/viver-essencial/
+  images/vitoria-iris/
   video/viver-bosque/
 ```
 
@@ -222,6 +226,30 @@ O que diverge do design está registrado em
 dobra institucional usa os assets compartilhados da Victa (com `+4.970`
 entregues, contra `+4.900` no Figma) e o bicicletário entrou na lista de itens
 por ter render próprio no carrossel.
+
+## Vitória Íris — `/vitoria-iris`
+
+Mesma origem do Jasmim: o design mora no **Figma Sites** (página `/vitoria-iris`),
+lido pelo site publicado (JSON da árvore de nós + `/_assets/v11/`). A página é
+um irmão do Parque Vitória: o bloco "Um lugar pensado…" abre com o logo e o
+texto do **Parque Vitória Messejana**, o bairro planejado onde o Íris fica, e o
+mapa ilustrado é o de Messejana com o pino do Íris.
+
+Estrutura (hero → lugar → localização → lazer → institucional → rodapé), tema
+`.theme-vitoria-iris` e formulário `vitoria-iris-bfbb1b5b19b7c5e74b84` do RD.
+Pontos a saber:
+
+- **Faixa de lazer e legenda do mapa** são imagens, como no Figma (a legenda
+  traz os 33 nomes e não existe como texto em lugar nenhum); o `alt` resume o
+  conteúdo.
+- **Números da dobra institucional:** o Figma marca +9.000 / +6.400 / +4.600 /
+  +2.200, e o PNG oficial do repositório (`/images/victa/victa-big-numbers.png`)
+  é o que ficou, como nas outras LPs.
+- **GTM e obrigado:** a página `/obrigado/vitoria-iris` existe, e o Íris carrega o
+  container `GTM-M7HJDQRK` — o **mesmo do Vitória Jasmim**, por indicação do time;
+  se o Íris ganhar container próprio, trocar em `src/routes/__root.tsx`. O redirect
+  do formulário no RD (fora do código) precisa apontar para
+  `https://more.victa.eng.br/obrigado/vitoria-iris`.
 
 ## Viver Essencial — `/viver-essencial`
 
