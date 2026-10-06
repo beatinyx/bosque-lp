@@ -4,7 +4,7 @@ import { IconArrowRight, IconCar, IconLeaf, IconPin } from "./Icons";
 import { Img } from "./Img";
 import { Lightbox, type Slide } from "./Lightbox";
 
-const ADDRESS = "Rua Nicolau Coelho, 200 - Messejana, Fortaleza - CE";
+const ADDRESS = "Rua Nicolau Coelho, 200 - Cambeba, Fortaleza - CE";
 const MAPS_QUERY = encodeURIComponent(ADDRESS);
 const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
 
@@ -13,7 +13,7 @@ const MAPS_LINK = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}
 const MAP = [
   {
     file: "mapa-messejana.webp",
-    label: "Mapa ilustrado da Messejana",
+    label: "Mapa ilustrado do Cambeba",
   },
 ];
 
@@ -112,7 +112,7 @@ export function LocationSection() {
               Localização
             </span>
             <h2 className="mt-3 text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.15] font-light text-balance text-brand">
-              More no <span className="emphasis">melhor da Messejana</span>
+              More no <span className="emphasis">melhor do Cambeba</span>
             </h2>
 
             <p className="mt-6 text-[0.95rem] leading-[1.8] text-brand-sage">
@@ -190,12 +190,12 @@ export function LocationSection() {
           <button
             type="button"
             onClick={() => setZoomed(MAP)}
-            aria-label="Ampliar mapa ilustrado da Messejana"
+            aria-label="Ampliar mapa ilustrado do Cambeba"
             className="chamfer chamfer-lg cursor-lupa block w-full overflow-hidden bg-white shadow-[0_18px_44px_rgba(15,47,25,0.16)]"
           >
             <Img
               src="/images/viver-bosque/mapa-messejana.webp"
-              alt={`Mapa ilustrado da Messejana com a localização do Victa Viver Bosque em ${ADDRESS}`}
+              alt={`Mapa ilustrado do Cambeba com a localização do Victa Viver Bosque em ${ADDRESS}`}
               label="mapa-messejana.webp"
               className="block w-full"
             />
@@ -231,7 +231,7 @@ export function LocationSection() {
             href="#cadastro"
             className="group inline-flex items-center gap-3 rounded-full bg-brand-clay px-8 py-4 text-[0.82rem] font-extrabold tracking-[0.08em] text-white uppercase shadow-[0_14px_32px_rgba(15,47,25,0.2)] transition hover:brightness-105"
           >
-            Quero morar na Messejana
+            Quero morar no Cambeba
             <IconArrowRight className="size-[18px] transition group-hover:translate-x-1" />
           </a>
         </div>

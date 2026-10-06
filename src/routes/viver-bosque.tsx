@@ -7,9 +7,9 @@ import { LeisureSection } from "../components/viver-bosque/LeisureSection";
 import { LocationSection } from "../components/viver-bosque/LocationSection";
 import { VictaSection } from "../components/viver-bosque/VictaSection";
 
-const TITLE = "Victa Viver Bosque | Apartamentos na Messejana";
+const TITLE = "Victa Viver Bosque | Apartamentos no Cambeba";
 const DESCRIPTION =
-  "Apartamentos de 2 quartos em condomínio fechado na Messejana, a poucos passos da Av. Frei Cirilo. Lazer completo e condições do Minha Casa, Minha Vida.";
+  "Apartamentos de 2 quartos em condomínio fechado no Cambeba, a poucos passos da Av. Frei Cirilo. Lazer completo e condições do Minha Casa, Minha Vida.";
 
 export const Route = createFileRoute("/viver-bosque")({
   head: () => ({

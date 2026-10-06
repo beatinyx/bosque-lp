@@ -21,7 +21,7 @@ export function HeroSection() {
       */}
       <div className="bg-brand-sand text-brand">
         <p className="lp-container py-2.5 text-center text-[0.7rem] font-bold tracking-[0.22em] uppercase">
-          Lançamento na Messejana
+          Lançamento no Cambeba
         </p>
       </div>
 

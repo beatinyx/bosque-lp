@@ -72,7 +72,7 @@ export function ConditionsSection() {
             O Viver Bosque faz parte do programa Minha Casa, Minha Vida (com facilidades para a{" "}
             <strong className="font-bold text-white">Faixa 2</strong>). Com renda familiar a partir
             de <strong className="font-bold text-white">R$ 3.500,00</strong>, você acessa taxas de
-            juros reduzidas no financiamento de apartamento na Messejana e transforma o valor do
+            juros reduzidas no financiamento de apartamento no Cambeba e transforma o valor do
             aluguel na parcela da sua própria conquista.
           </p>
 
