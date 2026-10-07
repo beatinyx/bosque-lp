@@ -11,6 +11,7 @@ rota:
 | `/vitoria-jasmim`  | **Vitória Jasmim**        | Messejana/Paupina, Fortaleza — R. Antero de Quental |
 | `/viver-essencial` | **Viver Essencial**       | Pici, Fortaleza — Av. Cel. Matos Dourado            |
 | `/vitoria-iris`    | **Vitória Íris**          | Parque Vitória Messejana, Fortaleza                 |
+| `/atlantico`       | **Atlântico**             | Praia do Futuro, Fortaleza                          |
 | `/`                | —                         | Redireciona (302) para `https://www.victa.eng.br/`  |
 
 Cada LP tem também a sua página de obrigado em `/obrigado/<produto>` — o destino
@@ -31,6 +32,7 @@ src/
     vitoria-jasmim/    seções da LP do Vitória Jasmim
     viver-essencial/   seções da LP do Viver Essencial
     vitoria-iris/      seções da LP do Vitória Íris
+    atlantico/         seções da LP do Atlântico
     obrigado/          página de obrigado, compartilhada pelos cinco produtos
     ui/                shadcn/ui, compartilhado
   routes/
@@ -41,6 +43,7 @@ src/
     vitoria-jasmim.tsx
     viver-essencial.tsx
     vitoria-iris.tsx
+    atlantico.tsx
     obrigado/          uma rota por produto, com o KV e a confirmação
 public/
   images/victa/        logos e institucional da Victa (as cinco LPs usam)
@@ -50,6 +53,7 @@ public/
   images/vitoria-jasmim/
   images/viver-essencial/
   images/vitoria-iris/
+  images/atlantico/
   video/viver-bosque/
 ```
 
@@ -250,6 +254,23 @@ Pontos a saber:
   se o Íris ganhar container próprio, trocar em `src/routes/__root.tsx`. O redirect
   do formulário no RD (fora do código) precisa apontar para
   `https://more.victa.eng.br/obrigado/vitoria-iris`.
+
+## Atlântico — `/atlantico`
+
+Também transcrito do Figma Sites (`/atlantico`), pelo site publicado. Hero com
+formulário do RD (`atlantico-34bc527c3d8e5ca98ed2`), localização, lounge, lazer,
+condições (sinal a partir de R$ 999*, renda R$ 8.000*, entrada em até 48x),
+institucional e rodapé com o texto legal do empreendimento. Tema
+`.theme-atlantico`: azul `#4061a6`, sálvia, verde-água e cacau.
+
+- **Texturas e lettering são imagens**, como no Figma (água, azul, creme; os dois
+  títulos em lettering). A lista de itens do lazer é um SVG com texto em curvas,
+  em duas versões (desktop e mobile), e o `alt` repete os oito itens.
+- **Ordem dos renders:** o Figma não usa a mesma no desktop e no mobile; o grid
+  usa `order-*` para reproduzir as duas.
+- **Pendências fora do código:** o Atlântico ainda não tem container do GTM nem
+  página `/obrigado/atlantico`, e o redirect do formulário no RD também precisa
+  apontar para ela.
 
 ## Viver Essencial — `/viver-essencial`
 

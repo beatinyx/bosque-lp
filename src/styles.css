@@ -213,6 +213,9 @@
   --color-brand-sky: #0979b0; /* dobra de lazer e bloco do formulário */
   --color-brand-leaf: #41aa34; /* etiquetas dos renders e botão do formulário */
   --color-brand-cream: #fffad9; /* fundo da dobra do hero */
+
+  /* Só Atlântico — o marrom do quadro de renda; azul, sálvia e verde-água vêm do tema. */
+  --color-brand-cocoa: #52413a;
 }
 
 /*
@@ -296,6 +299,26 @@
 
   --color-brand: #075452;
   --color-brand-sand: #fffad9;
+
+  font-family: var(--font-sans);
+}
+
+/*
+ * Tema do Atlântico.
+ *
+ * `brand` é o azul (#4061a6) do cabeçalho, da dobra de localização e das
+ * condições; `brand-sage` o verde-sálvia das etiquetas e do botão, e
+ * `brand-aqua` o verde-água que sobra do degradê de fundo do Figma atrás do
+ * lounge. Fonte única: Montserrat.
+ */
+.theme-atlantico {
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+
+  --color-brand: #4061a6;
+  --color-brand-sage: #8fb67d;
+  --color-brand-aqua: #49b7a6;
+  --color-brand-sand: #f7ece5;
+  --color-brand-gold: #f39222; /* laranja dos CTAs */
 
   font-family: var(--font-sans);
 }
@@ -1057,6 +1080,84 @@
   }
 
   .theme-vitoria-iris .rd-form-card form {
+    margin-bottom: 0 !important;
+  }
+
+  /*
+   * Formulário do RD Station no hero do Atlântico.
+   *
+   * Mesma receita do Jasmim e do Íris: o embed já vem estilizado do painel do
+   * RD, e aqui fica só o que o painel não resolve — apagar o fundo do embed
+   * (quem pinta o azul é o bloco do hero), devolver a largura toda a ele e
+   * fazer os campos em pílula branca. O botão é laranja, como os CTAs da página.
+   */
+  .theme-atlantico .rd-form-card [class*="rd-section"],
+  .theme-atlantico .rd-form-card [class*="rd-row"],
+  .theme-atlantico .rd-form-card [class*="rd-column"],
+  .theme-atlantico .rd-form-card [class*="rd-column"] > div {
+    background-color: transparent !important;
+  }
+
+  .theme-atlantico .rd-form-card div:has(> .bricks-form) {
+    padding-inline: 0 !important;
+  }
+
+  .theme-atlantico .rd-form-card .bricks-form {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .theme-atlantico .rd-form-card .bricks-form__label,
+  .theme-atlantico .rd-form-card label {
+    color: #fff !important;
+    font-weight: 400 !important;
+  }
+
+  .theme-atlantico .rd-form-card p,
+  .theme-atlantico .rd-form-card p *,
+  .theme-atlantico .rd-form-card small,
+  .theme-atlantico .rd-form-card small * {
+    color: #fff !important;
+  }
+
+  .theme-atlantico .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
+  .theme-atlantico .rd-form-card select,
+  .theme-atlantico .rd-form-card textarea {
+    border: 0 !important;
+    border-radius: 9999px !important;
+    background-color: #fff !important;
+    color: var(--color-brand) !important;
+  }
+
+  /* Bandeira + telefone leem como um controle só — ver a nota no Jasmim. */
+  .theme-atlantico .rd-form-card .phone-input-group .select2-container.phone-country,
+  .theme-atlantico .rd-form-card .phone-input-group .select2-choice {
+    border-radius: 9999px 0 0 9999px !important;
+  }
+
+  .theme-atlantico .rd-form-card .phone-input-group .select2-choice {
+    padding-left: 0.5rem !important;
+  }
+
+  .theme-atlantico .rd-form-card .phone-input-group .select2-arrow {
+    border-radius: 0 !important;
+  }
+
+  .theme-atlantico .rd-form-card .phone-input-group input.js-phone {
+    border-radius: 0 9999px 9999px 0 !important;
+  }
+
+  .theme-atlantico .rd-form-card .rd-button {
+    border-radius: 9999px !important;
+    background-color: var(--color-brand-gold) !important;
+    color: #fff !important;
+    font-weight: 400 !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    font-size: clamp(0.8rem, 3.6vw, 1.05rem) !important;
+  }
+
+  .theme-atlantico .rd-form-card form {
     margin-bottom: 0 !important;
   }
 
