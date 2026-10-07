@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AtlanticoRouteImport } from './routes/atlantico'
 import { Route as VitoriaEusebioRouteImport } from './routes/vitoria-eusebio'
 import { Route as VitoriaIrisRouteImport } from './routes/vitoria-iris'
 import { Route as VitoriaJasmimRouteImport } from './routes/vitoria-jasmim'
@@ -26,6 +27,11 @@ import { Route as ObrigadoViverHypeRouteImport } from './routes/obrigado/viver-h
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AtlanticoRoute = AtlanticoRouteImport.update({
+  id: '/atlantico',
+  path: '/atlantico',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VitoriaEusebioRoute = VitoriaEusebioRouteImport.update({
@@ -91,6 +97,7 @@ const ObrigadoViverHypeRoute = ObrigadoViverHypeRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/atlantico': typeof AtlanticoRoute
   '/vitoria-eusebio': typeof VitoriaEusebioRoute
   '/vitoria-iris': typeof VitoriaIrisRoute
   '/vitoria-jasmim': typeof VitoriaJasmimRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/atlantico': typeof AtlanticoRoute
   '/vitoria-eusebio': typeof VitoriaEusebioRoute
   '/vitoria-iris': typeof VitoriaIrisRoute
   '/vitoria-jasmim': typeof VitoriaJasmimRoute
@@ -122,6 +130,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/atlantico': typeof AtlanticoRoute
   '/vitoria-eusebio': typeof VitoriaEusebioRoute
   '/vitoria-iris': typeof VitoriaIrisRoute
   '/vitoria-jasmim': typeof VitoriaJasmimRoute
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/atlantico'
     | '/vitoria-eusebio'
     | '/vitoria-iris'
     | '/vitoria-jasmim'
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/atlantico'
     | '/vitoria-eusebio'
     | '/vitoria-iris'
     | '/vitoria-jasmim'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/atlantico'
     | '/vitoria-eusebio'
     | '/vitoria-iris'
     | '/vitoria-jasmim'
@@ -185,6 +197,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AtlanticoRoute: typeof AtlanticoRoute
   VitoriaEusebioRoute: typeof VitoriaEusebioRoute
   VitoriaIrisRoute: typeof VitoriaIrisRoute
   VitoriaJasmimRoute: typeof VitoriaJasmimRoute
@@ -206,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/atlantico': {
+      id: '/atlantico'
+      path: '/atlantico'
+      fullPath: '/atlantico'
+      preLoaderRoute: typeof AtlanticoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vitoria-eusebio': {
@@ -297,6 +317,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AtlanticoRoute: AtlanticoRoute,
   VitoriaEusebioRoute: VitoriaEusebioRoute,
   VitoriaIrisRoute: VitoriaIrisRoute,
   VitoriaJasmimRoute: VitoriaJasmimRoute,

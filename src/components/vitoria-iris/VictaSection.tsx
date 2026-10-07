@@ -11,7 +11,7 @@ export function VictaSection() {
   return (
     <section className="overflow-hidden bg-victa-cream py-[60px] text-victa-forest">
       <div className="lp-container grid items-center gap-10 min-[900px]:grid-cols-2">
-        <div>
+        <div className="max-[899px]:text-center">
           <h2 className="mb-6 text-[clamp(2rem,4vw,3rem)] leading-[1.05] font-normal">
             Sua nova
             <br />
@@ -26,7 +26,7 @@ export function VictaSection() {
             />
           </h2>
 
-          <p className="mb-7 max-w-[506px] text-[0.9rem] leading-[1.35]">
+          <p className="mb-7 max-w-[506px] max-[899px]:mx-auto text-[0.9rem] leading-[1.35]">
             Somos protagonistas da transformação e apaixonados por potencializar vidas e realizar
             sonhos. Carregamos em <strong className="font-bold">nosso DNA</strong> a dedicação, o
             comprometimento e o amor pelo que fazemos. O sentimento de gratidão e felicidade de quem
@@ -38,7 +38,7 @@ export function VictaSection() {
             src="/images/victa/victa-big-numbers.png"
             alt="+9.200 unidades lançadas, +7.200 vendidas, +3.100 em construção e +4.970 entregues"
             label="victa-big-numbers"
-            className="block h-auto w-full max-w-[400px]"
+            className="block h-auto w-full max-w-[400px] max-[899px]:mx-auto"
           />
         </div>
 

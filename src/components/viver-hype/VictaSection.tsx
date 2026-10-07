@@ -15,7 +15,7 @@ export function VictaSection() {
   return (
     <section className="overflow-hidden bg-victa-mist py-[60px]">
       <div className="lp-container grid items-center gap-10 min-[900px]:grid-cols-2">
-        <div>
+        <div className="max-[899px]:text-center">
           <h2 className="mb-6 text-[clamp(2rem,4vw,3rem)] leading-[1.05] font-normal text-stone">
             Sua nova
             <br />
@@ -30,7 +30,7 @@ export function VictaSection() {
             />
           </h2>
 
-          <div className="mb-7 max-w-[460px] space-y-4 text-[0.86rem] leading-[1.7] text-bark">
+          <div className="mb-7 max-w-[460px] max-[899px]:mx-auto space-y-4 text-[0.86rem] leading-[1.7] text-bark">
             <p>
               A Victa Engenharia desenvolve projetos pensados para diferentes momentos de vida, com
               atenção à qualidade, à funcionalidade e ao cuidado em cada detalhe.
@@ -48,7 +48,7 @@ export function VictaSection() {
             src="/images/victa/victa-big-numbers.png"
             alt="+6.000 unidades lançadas, +4.900 entregues, +1.500 em construção, +3.900 clientes satisfeitos"
             label="victa-big-numbers"
-            className="block h-auto w-full max-w-[440px]"
+            className="block h-auto w-full max-w-[440px] max-[899px]:mx-auto"
           />
         </div>
 
