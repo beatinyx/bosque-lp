@@ -268,9 +268,9 @@ institucional e rodapé com o texto legal do empreendimento. Tema
   em duas versões (desktop e mobile), e o `alt` repete os oito itens.
 - **Ordem dos renders:** o Figma não usa a mesma no desktop e no mobile; o grid
   usa `order-*` para reproduzir as duas.
-- **Obrigado e GTM:** a página `/obrigado/atlantico` existe, mas o Atlântico ainda
-  não tem container do GTM em `src/routes/__root.tsx` (a conversão não é medida
-  até entrar o ID), e o redirect do formulário no RD precisa apontar para
+- **Obrigado e GTM:** a página `/obrigado/atlantico` existe e o Atlântico carrega o
+  container `GTM-NCH7568J` (`src/routes/__root.tsx`), então a conversão é o
+  pageview dela. O redirect do formulário no RD já aponta para
   `https://more.victa.eng.br/obrigado/atlantico`.
 
 ## Viver Essencial — `/viver-essencial`
