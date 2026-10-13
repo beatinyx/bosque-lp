@@ -30,8 +30,8 @@ export function Footer() {
       <div className="lp-container">
         {/* Texto legal transcrito do folder oficial do Victa Viver Bosque. */}
         <p className="mx-auto max-w-[820px] text-center text-[0.62rem] leading-[1.6] text-[rgba(223,233,207,0.8)]">
-          * A partir de R$ 255.900,00 referente à Unidade 101 Torre 02, com área privativa
-          construída de 40,90 m². Preço de tabela do mês de setembro de 2026. A vendedora reserva-se
+          * A partir de R$ 249.990,00 referente à Unidade 101 Torre 02, com área privativa
+          construída de 40,90 m². Preço de tabela do mês de outubro de 2026. A vendedora reserva-se
           o direito de alterar o preço sem aviso prévio. O memorial de incorporação está registrado
           na matrícula nº 115.508 do Cartório de Registro de Imóveis da 1ª Zona de Fortaleza/CE, nos
           termos da Lei 4.591/64., conforme R.4/115.508. As imagens são meramente ilustrativas,
