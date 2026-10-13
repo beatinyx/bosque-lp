@@ -33,8 +33,8 @@ export function Footer() {
 
       <div className="lp-container">
         <p className="mx-auto max-w-[780px] text-center text-[0.62rem] leading-[1.6] text-white/85 md:text-left">
-          * A partir de R$ 378.648,98 referente à Unidade 107 Torre 02, com área privativa
-          construída de 48,95 m². Preço de tabela do mês de junho de 2026. A vendedora reserva-se o
+          * A partir de R$ 391.073,15 referente à Unidade 107 Torre 02, com área privativa
+          construída de 48,95 m². Preço de tabela do mês de outubro de 2026. A vendedora reserva-se o
           direito de alterar o preço sem aviso prévio. O memorial de incorporação está registrado na
           matrícula nº 22.015 do Cartório de Registro de Imóveis da 5ª Zona da Comarca de
           Fortaleza/CE, nos termos da Lei 4.591/64., conforme R.06/22.015. As imagens são meramente

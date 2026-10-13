@@ -33,8 +33,8 @@ export function Footer() {
 
       <div className="lp-container">
         <p className="mx-auto max-w-[780px] text-center text-[0.62rem] leading-[1.6] text-white/85 md:text-left">
-          * A partir de R$ 223.641,00 referente à Unidade 503 Torre 08, com área privativa
-          construída de 40,02 m². Preço de tabela do mês de setembro de 2026. A vendedora reserva-se
+          * A partir de R$ 225.117,00 referente à Unidade 101 Torre 03, com área privativa
+          construída de 40,02 m². Preço de tabela do mês de outubro de 2026. A vendedora reserva-se
           o direito de alterar o preço sem aviso prévio. O memorial de incorporação está registrado
           na matrícula nº 113.632 do Cartório de Registro de Imóveis da 1ª Zona de Fortaleza/CE, nos
           termos da Lei 4.591/64., conforme R.4/113.632. As imagens são meramente ilustrativas,

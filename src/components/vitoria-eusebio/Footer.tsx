@@ -28,17 +28,13 @@ export function Footer() {
       </div>
 
       <div className="lp-container">
-        {/*
-          TODO (jurídico): substituir pelos dados oficiais do Vitória Eusébio —
-          valor e unidade de referência, mês da tabela e matrícula/averbação do
-          memorial de incorporação no Registro de Imóveis do Eusébio.
-        */}
         <p className="mx-auto max-w-[780px] text-center text-[0.62rem] leading-[1.6] text-[rgba(223,233,207,0.8)]">
-          A partir de R$ [valor]* referente à unidade [unidade] com área privativa construída de
-          40,02 m². Preço da tabela do mês de [mês/ano]. A vendedora reserva-se o direito de alterar
-          o preço sem aviso prévio. O memorial de incorporação está registrado na matrícula nº [nº]
-          do Ofício de Registro de Imóveis de Eusébio, conforme [averbação]. As imagens são
-          meramente ilustrativas, devendo ser consultado detalhadamente o memorial descritivo.
+          * A partir de R$ 215.250,00 referente à Unidade 104 Torre 09, com área privativa
+          construída de 40,02 m². Preço de tabela do mês de outubro de 2026. A vendedora reserva-se
+          o direito de alterar o preço sem aviso prévio. O memorial de incorporação está registrado
+          na matrícula nº 2.391 do Cartório do 2° Ofício de Notas e Registro de Imóveis da Comarca
+          de Eusébio/CE, nos termos da Lei 4.591/64., conforme R.13/2.391. As imagens são meramente
+          ilustrativas, devendo ser considerado detalhamento no memorial descritivo.
         </p>
       </div>
     </footer>

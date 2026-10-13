@@ -10,10 +10,10 @@ const CTA_HREF = "#inicio";
  * Diferente das outras duas LPs, o design põe um segundo CTA ("Fale com a
  * gente") logo antes do rodapé, ainda sobre a dobra clara do institucional.
  *
- * O texto legal é o do Figma, transcrito na íntegra — inclusive o valor de
- * referência e a matrícula. O original tem um espaço solto antes do ponto em
- * "abril de 2026 ." e um ponto extra em "Lei 4.591/64.,"; ambos foram
- * normalizados aqui, e nada além disso mudou.
+ * O texto legal é o oficial do empreendimento, transcrito na íntegra —
+ * inclusive o valor de referência e a matrícula. O original tem um espaço
+ * solto antes do ponto em "Outubro de 2026 ."; aqui ele sai e o mês fica em
+ * minúscula, como nas outras LPs.
  */
 export function Footer() {
   return (
@@ -53,8 +53,8 @@ export function Footer() {
 
         <div className="lp-container">
           <p className="mx-auto max-w-[780px] text-center text-[0.62rem] leading-[1.6] text-[rgba(223,233,207,0.8)]">
-            * A partir de R$ 266.403,00 referente à Unidade 210 Torre 02, com área privativa
-            construída de 38,52 m². Preço de tabela do mês de setembro de 2026. A vendedora
+            * A partir de R$ 272.244,00 referente à Unidade 312 Torre 02, com área privativa
+            construída de 40,90 m². Preço de tabela do mês de outubro de 2026. A vendedora
             reserva-se o direito de alterar o preço sem aviso prévio. O memorial de incorporação
             está registrado na matrícula nº 6.842 do Cartório de Registro de Imóveis da 5º Zona de
             Fortaleza/CE, nos termos da Lei 4.591/64., conforme R.77/6.842. As imagens são
