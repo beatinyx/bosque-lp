@@ -227,6 +227,16 @@
   --color-brand-mint: #7cb2a0; /* etiquetas dos renders */
   --color-brand-foam: #fee2b8; /* contorno das pastilhas de entorno */
   --color-brand-surf: #31e519; /* verde dos CTAs */
+
+  /*
+   * Só Vista Coqueiral. `brand` (verde-coqueiro) vem do tema; estes são os
+   * outros blocos de cor da página, amostrados do arquivo publicado.
+   */
+  --color-brand-sprout: #a3c74c; /* verde-claro da dobra de lazer */
+  --color-brand-teal: #008c8b; /* quadro de itens de lazer e setas do carrossel */
+  --color-brand-driftwood: #bd9a78; /* pastilhas de entorno */
+  --color-brand-caramel: #d3863f; /* laranja dos CTAs */
+  --color-brand-caramel-deep: #b87436; /* hover dos CTAs, do próprio componente do Figma */
 }
 
 /*
@@ -348,6 +358,23 @@
 
   --color-brand: #005676;
   --color-brand-sand: #e6bb94;
+  --color-brand-orchid: #64328a;
+
+  font-family: var(--font-sans);
+}
+
+/*
+ * Tema do Vista Coqueiral.
+ *
+ * `brand` é o verde-coqueiro (#2c6045) da faixa de lançamento, da dobra do
+ * investimento e do topo da dobra de lazer; `brand-orchid` o roxo do botão
+ * institucional. Os demais tons são tokens próprios no `@theme`. Montserrat
+ * na página; Poppins nos botões e nas etiquetas do carrossel, como no arquivo.
+ */
+.theme-vista-coqueiral {
+  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+
+  --color-brand: #2c6045;
   --color-brand-orchid: #64328a;
 
   font-family: var(--font-sans);
@@ -1248,6 +1275,70 @@
   }
 
   .theme-vista-costeira .rd-form-card form {
+    margin-bottom: 0 !important;
+  }
+
+  /*
+   * Formulário do RD Station no hero do Vista Coqueiral.
+   *
+   * Mesma receita do Costeira: quem pinta o fundo verde é o card do hero, o
+   * embed perde o dele e ganha a largura toda. O botão vira a pílula caramelo
+   * dos CTAs da página.
+   */
+  .theme-vista-coqueiral .rd-form-card [class*="rd-section"],
+  .theme-vista-coqueiral .rd-form-card [class*="rd-row"],
+  .theme-vista-coqueiral .rd-form-card [class*="rd-column"],
+  .theme-vista-coqueiral .rd-form-card [class*="rd-column"] > div {
+    background-color: transparent !important;
+  }
+
+  .theme-vista-coqueiral .rd-form-card div:has(> .bricks-form) {
+    padding-inline: 0 !important;
+  }
+
+  .theme-vista-coqueiral .rd-form-card .bricks-form {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .theme-vista-coqueiral .rd-form-card .bricks-form__label,
+  .theme-vista-coqueiral .rd-form-card label {
+    color: #fff !important;
+    font-weight: 400 !important;
+  }
+
+  .theme-vista-coqueiral .rd-form-card p,
+  .theme-vista-coqueiral .rd-form-card p *,
+  .theme-vista-coqueiral .rd-form-card small,
+  .theme-vista-coqueiral .rd-form-card small * {
+    color: #fff !important;
+  }
+
+  .theme-vista-coqueiral .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
+  .theme-vista-coqueiral .rd-form-card select,
+  .theme-vista-coqueiral .rd-form-card textarea {
+    border: 0 !important;
+    background-color: #fff !important;
+    color: var(--color-brand) !important;
+  }
+
+  .theme-vista-coqueiral .rd-form-card .rd-button {
+    border-radius: 9999px !important;
+    background-color: var(--color-brand-caramel) !important;
+    color: #fff !important;
+    font-family: "Poppins", var(--font-sans) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    font-size: clamp(0.8rem, 3.6vw, 1.05rem) !important;
+    transition: background-color 0.3s ease-out !important;
+  }
+
+  .theme-vista-coqueiral .rd-form-card .rd-button:hover {
+    background-color: var(--color-brand-caramel-deep) !important;
+  }
+
+  .theme-vista-coqueiral .rd-form-card form {
     margin-bottom: 0 !important;
   }
 

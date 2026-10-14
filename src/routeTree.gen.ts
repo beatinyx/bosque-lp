@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AtlanticoRouteImport } from './routes/atlantico'
+import { Route as VistaCoqueiralRouteImport } from './routes/vista-coqueiral'
 import { Route as VistaCosteiraRouteImport } from './routes/vista-costeira'
 import { Route as VitoriaEusebioRouteImport } from './routes/vitoria-eusebio'
 import { Route as VitoriaIrisRouteImport } from './routes/vitoria-iris'
@@ -19,6 +20,7 @@ import { Route as ViverBosqueRouteImport } from './routes/viver-bosque'
 import { Route as ViverEssencialRouteImport } from './routes/viver-essencial'
 import { Route as ViverHypeRouteImport } from './routes/viver-hype'
 import { Route as ObrigadoAtlanticoRouteImport } from './routes/obrigado/atlantico'
+import { Route as ObrigadoVistaCoqueiralRouteImport } from './routes/obrigado/vista-coqueiral'
 import { Route as ObrigadoVistaCosteiraRouteImport } from './routes/obrigado/vista-costeira'
 import { Route as ObrigadoVitoriaEusebioRouteImport } from './routes/obrigado/vitoria-eusebio'
 import { Route as ObrigadoVitoriaIrisRouteImport } from './routes/obrigado/vitoria-iris'
@@ -35,6 +37,11 @@ const IndexRoute = IndexRouteImport.update({
 const AtlanticoRoute = AtlanticoRouteImport.update({
   id: '/atlantico',
   path: '/atlantico',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VistaCoqueiralRoute = VistaCoqueiralRouteImport.update({
+  id: '/vista-coqueiral',
+  path: '/vista-coqueiral',
   getParentRoute: () => rootRouteImport,
 } as any)
 const VistaCosteiraRoute = VistaCosteiraRouteImport.update({
@@ -77,6 +84,11 @@ const ObrigadoAtlanticoRoute = ObrigadoAtlanticoRouteImport.update({
   path: '/obrigado/atlantico',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ObrigadoVistaCoqueiralRoute = ObrigadoVistaCoqueiralRouteImport.update({
+  id: '/obrigado/vista-coqueiral',
+  path: '/obrigado/vista-coqueiral',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ObrigadoVistaCosteiraRoute = ObrigadoVistaCosteiraRouteImport.update({
   id: '/obrigado/vista-costeira',
   path: '/obrigado/vista-costeira',
@@ -116,6 +128,7 @@ const ObrigadoViverHypeRoute = ObrigadoViverHypeRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/atlantico': typeof AtlanticoRoute
+  '/vista-coqueiral': typeof VistaCoqueiralRoute
   '/vista-costeira': typeof VistaCosteiraRoute
   '/vitoria-eusebio': typeof VitoriaEusebioRoute
   '/vitoria-iris': typeof VitoriaIrisRoute
@@ -124,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/viver-essencial': typeof ViverEssencialRoute
   '/viver-hype': typeof ViverHypeRoute
   '/obrigado/atlantico': typeof ObrigadoAtlanticoRoute
+  '/obrigado/vista-coqueiral': typeof ObrigadoVistaCoqueiralRoute
   '/obrigado/vista-costeira': typeof ObrigadoVistaCosteiraRoute
   '/obrigado/vitoria-eusebio': typeof ObrigadoVitoriaEusebioRoute
   '/obrigado/vitoria-iris': typeof ObrigadoVitoriaIrisRoute
@@ -135,6 +149,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/atlantico': typeof AtlanticoRoute
+  '/vista-coqueiral': typeof VistaCoqueiralRoute
   '/vista-costeira': typeof VistaCosteiraRoute
   '/vitoria-eusebio': typeof VitoriaEusebioRoute
   '/vitoria-iris': typeof VitoriaIrisRoute
@@ -143,6 +158,7 @@ export interface FileRoutesByTo {
   '/viver-essencial': typeof ViverEssencialRoute
   '/viver-hype': typeof ViverHypeRoute
   '/obrigado/atlantico': typeof ObrigadoAtlanticoRoute
+  '/obrigado/vista-coqueiral': typeof ObrigadoVistaCoqueiralRoute
   '/obrigado/vista-costeira': typeof ObrigadoVistaCosteiraRoute
   '/obrigado/vitoria-eusebio': typeof ObrigadoVitoriaEusebioRoute
   '/obrigado/vitoria-iris': typeof ObrigadoVitoriaIrisRoute
@@ -155,6 +171,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/atlantico': typeof AtlanticoRoute
+  '/vista-coqueiral': typeof VistaCoqueiralRoute
   '/vista-costeira': typeof VistaCosteiraRoute
   '/vitoria-eusebio': typeof VitoriaEusebioRoute
   '/vitoria-iris': typeof VitoriaIrisRoute
@@ -163,6 +180,7 @@ export interface FileRoutesById {
   '/viver-essencial': typeof ViverEssencialRoute
   '/viver-hype': typeof ViverHypeRoute
   '/obrigado/atlantico': typeof ObrigadoAtlanticoRoute
+  '/obrigado/vista-coqueiral': typeof ObrigadoVistaCoqueiralRoute
   '/obrigado/vista-costeira': typeof ObrigadoVistaCosteiraRoute
   '/obrigado/vitoria-eusebio': typeof ObrigadoVitoriaEusebioRoute
   '/obrigado/vitoria-iris': typeof ObrigadoVitoriaIrisRoute
@@ -176,6 +194,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/atlantico'
+    | '/vista-coqueiral'
     | '/vista-costeira'
     | '/vitoria-eusebio'
     | '/vitoria-iris'
@@ -184,6 +203,7 @@ export interface FileRouteTypes {
     | '/viver-essencial'
     | '/viver-hype'
     | '/obrigado/atlantico'
+    | '/obrigado/vista-coqueiral'
     | '/obrigado/vista-costeira'
     | '/obrigado/vitoria-eusebio'
     | '/obrigado/vitoria-iris'
@@ -195,6 +215,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/atlantico'
+    | '/vista-coqueiral'
     | '/vista-costeira'
     | '/vitoria-eusebio'
     | '/vitoria-iris'
@@ -203,6 +224,7 @@ export interface FileRouteTypes {
     | '/viver-essencial'
     | '/viver-hype'
     | '/obrigado/atlantico'
+    | '/obrigado/vista-coqueiral'
     | '/obrigado/vista-costeira'
     | '/obrigado/vitoria-eusebio'
     | '/obrigado/vitoria-iris'
@@ -214,6 +236,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/atlantico'
+    | '/vista-coqueiral'
     | '/vista-costeira'
     | '/vitoria-eusebio'
     | '/vitoria-iris'
@@ -222,6 +245,7 @@ export interface FileRouteTypes {
     | '/viver-essencial'
     | '/viver-hype'
     | '/obrigado/atlantico'
+    | '/obrigado/vista-coqueiral'
     | '/obrigado/vista-costeira'
     | '/obrigado/vitoria-eusebio'
     | '/obrigado/vitoria-iris'
@@ -234,6 +258,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AtlanticoRoute: typeof AtlanticoRoute
+  VistaCoqueiralRoute: typeof VistaCoqueiralRoute
   VistaCosteiraRoute: typeof VistaCosteiraRoute
   VitoriaEusebioRoute: typeof VitoriaEusebioRoute
   VitoriaIrisRoute: typeof VitoriaIrisRoute
@@ -242,6 +267,7 @@ export interface RootRouteChildren {
   ViverEssencialRoute: typeof ViverEssencialRoute
   ViverHypeRoute: typeof ViverHypeRoute
   ObrigadoAtlanticoRoute: typeof ObrigadoAtlanticoRoute
+  ObrigadoVistaCoqueiralRoute: typeof ObrigadoVistaCoqueiralRoute
   ObrigadoVistaCosteiraRoute: typeof ObrigadoVistaCosteiraRoute
   ObrigadoVitoriaEusebioRoute: typeof ObrigadoVitoriaEusebioRoute
   ObrigadoVitoriaIrisRoute: typeof ObrigadoVitoriaIrisRoute
@@ -265,6 +291,13 @@ declare module '@tanstack/react-router' {
       path: '/atlantico'
       fullPath: '/atlantico'
       preLoaderRoute: typeof AtlanticoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vista-coqueiral': {
+      id: '/vista-coqueiral'
+      path: '/vista-coqueiral'
+      fullPath: '/vista-coqueiral'
+      preLoaderRoute: typeof VistaCoqueiralRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/vista-costeira': {
@@ -323,6 +356,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ObrigadoAtlanticoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/obrigado/vista-coqueiral': {
+      id: '/obrigado/vista-coqueiral'
+      path: '/obrigado/vista-coqueiral'
+      fullPath: '/obrigado/vista-coqueiral'
+      preLoaderRoute: typeof ObrigadoVistaCoqueiralRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/obrigado/vista-costeira': {
       id: '/obrigado/vista-costeira'
       path: '/obrigado/vista-costeira'
@@ -378,6 +418,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AtlanticoRoute: AtlanticoRoute,
+  VistaCoqueiralRoute: VistaCoqueiralRoute,
   VistaCosteiraRoute: VistaCosteiraRoute,
   VitoriaEusebioRoute: VitoriaEusebioRoute,
   VitoriaIrisRoute: VitoriaIrisRoute,
@@ -386,6 +427,7 @@ const rootRouteChildren: RootRouteChildren = {
   ViverEssencialRoute: ViverEssencialRoute,
   ViverHypeRoute: ViverHypeRoute,
   ObrigadoAtlanticoRoute: ObrigadoAtlanticoRoute,
+  ObrigadoVistaCoqueiralRoute: ObrigadoVistaCoqueiralRoute,
   ObrigadoVistaCosteiraRoute: ObrigadoVistaCosteiraRoute,
   ObrigadoVitoriaEusebioRoute: ObrigadoVitoriaEusebioRoute,
   ObrigadoVitoriaIrisRoute: ObrigadoVitoriaIrisRoute,

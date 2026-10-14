@@ -26,6 +26,7 @@ const GTM_IDS_BY_PATH: Record<string, string> = {
   "/vitoria-iris": "GTM-M7HJDQRK",
   "/atlantico": "GTM-NCH7568J",
   "/vista-costeira": "GTM-NP9LS9B7",
+  "/vista-coqueiral": "GTM-5DV6MQBG",
 };
 
 /*

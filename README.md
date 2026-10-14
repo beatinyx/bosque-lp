@@ -13,6 +13,7 @@ rota:
 | `/vitoria-iris`    | **Vitória Íris**          | Parque Vitória Messejana, Fortaleza                 |
 | `/atlantico`       | **Atlântico**             | Praia do Futuro, Fortaleza                          |
 | `/vista-costeira`  | **Vista Costeira**        | Cumbuco (Tabuba), Caucaia                           |
+| `/vista-coqueiral` | **Vista Coqueiral**       | Praia do Cumbuco, Caucaia                           |
 | `/`                | —                         | Redireciona (302) para `https://www.victa.eng.br/`  |
 
 Cada LP tem também a sua página de obrigado em `/obrigado/<produto>` — o destino
@@ -35,6 +36,7 @@ src/
     vitoria-iris/      seções da LP do Vitória Íris
     atlantico/         seções da LP do Atlântico
     vista-costeira/    seções da LP do Vista Costeira
+    vista-coqueiral/   seções da LP do Vista Coqueiral
     obrigado/          página de obrigado, compartilhada pelos cinco produtos
     ui/                shadcn/ui, compartilhado
   routes/
@@ -47,6 +49,7 @@ src/
     vitoria-iris.tsx
     atlantico.tsx
     vista-costeira.tsx
+    vista-coqueiral.tsx
     obrigado/          uma rota por produto, com o KV e a confirmação
 public/
   images/victa/        logos e institucional da Victa (as cinco LPs usam)
@@ -58,6 +61,7 @@ public/
   images/vitoria-iris/
   images/atlantico/
   images/vista-costeira/
+  images/vista-coqueiral/
   video/viver-bosque/
 ```
 
@@ -303,6 +307,34 @@ carrossel.
   2026-10-14): enquanto não for trocado para
   `https://more.victa.eng.br/obrigado/vista-costeira`, o lead sai da LP e a
   conversão não é contada aqui.
+
+## Vista Coqueiral — `/vista-coqueiral`
+
+Apartamentos de 2 quartos com suíte e varanda pé na areia na Praia do Cumbuco
+(Caucaia). Transcrito do Figma Sites (página `/vista-coqueiral-lancamento`)
+pelo site publicado, com os mesmos componentes do Vista Costeira: hero com
+formulário do RD (`vista-coqueiral-6bd0476496edd77126c5`), investimento e
+localização sobre o verde-coqueiro, lazer com carrossel de dez renders e o
+quadro de itens com ícones, institucional e rodapé com o texto legal do
+empreendimento. Tema `.theme-vista-coqueiral`: verde-coqueiro `#2c6045`,
+verde-claro `#a3c74c`, teal `#008c8b` e o caramelo `#d3863f` dos CTAs.
+Montserrat, com Poppins nos botões e nas etiquetas do carrossel.
+
+- **Formulário** — o Figma tem dois embeds do Coqueiral no RD; o desta página
+  (o code layer do hero) é `vista-coqueiral-6bd0476496edd77126c5`. O
+  `vista-coqueiral-51b9c8fad669ffb64547` é de outra página do arquivo.
+- **Mapa sem endereço** — o embed do Figma ainda é o placeholder do Figma Sites
+  ("San Francisco City Hall"), e nenhuma página do arquivo traz o endereço da
+  obra. O mapa centraliza na Praia do Cumbuco até o endereço oficial chegar
+  (`MAP_QUERY` em `src/components/vista-coqueiral/InvestSection.tsx`).
+- **Carrossel** — o mesmo do Costeira (trilho animado no desktop, deslize com
+  parallax e arraste no mobile), com as setas teal e a etiqueta verde do design.
+- **Obrigado e GTM:** a página `/obrigado/vista-coqueiral` existe e a LP carrega o
+  container `GTM-5DV6MQBG` (o mesmo que o Figma usa nas três páginas do
+  Coqueiral). **O redirect do formulário no RD ainda aponta para
+  `https://cloud.victacomunica.com.br/agradecimento`** (conferido em
+  2026-10-14): precisa ser trocado para
+  `https://more.victa.eng.br/obrigado/vista-coqueiral`.
 
 ## Viver Essencial — `/viver-essencial`
 
