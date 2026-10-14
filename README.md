@@ -12,6 +12,7 @@ rota:
 | `/viver-essencial` | **Viver Essencial**       | Pici, Fortaleza — Av. Cel. Matos Dourado            |
 | `/vitoria-iris`    | **Vitória Íris**          | Parque Vitória Messejana, Fortaleza                 |
 | `/atlantico`       | **Atlântico**             | Praia do Futuro, Fortaleza                          |
+| `/vista-costeira`  | **Vista Costeira**        | Cumbuco (Tabuba), Caucaia                           |
 | `/`                | —                         | Redireciona (302) para `https://www.victa.eng.br/`  |
 
 Cada LP tem também a sua página de obrigado em `/obrigado/<produto>` — o destino
@@ -33,6 +34,7 @@ src/
     viver-essencial/   seções da LP do Viver Essencial
     vitoria-iris/      seções da LP do Vitória Íris
     atlantico/         seções da LP do Atlântico
+    vista-costeira/    seções da LP do Vista Costeira
     obrigado/          página de obrigado, compartilhada pelos cinco produtos
     ui/                shadcn/ui, compartilhado
   routes/
@@ -44,6 +46,7 @@ src/
     viver-essencial.tsx
     vitoria-iris.tsx
     atlantico.tsx
+    vista-costeira.tsx
     obrigado/          uma rota por produto, com o KV e a confirmação
 public/
   images/victa/        logos e institucional da Victa (as cinco LPs usam)
@@ -54,6 +57,7 @@ public/
   images/viver-essencial/
   images/vitoria-iris/
   images/atlantico/
+  images/vista-costeira/
   video/viver-bosque/
 ```
 
@@ -272,6 +276,33 @@ institucional e rodapé com o texto legal do empreendimento. Tema
   container `GTM-NCH7568J` (`src/routes/__root.tsx`), então a conversão é o
   pageview dela. O redirect do formulário no RD já aponta para
   `https://more.victa.eng.br/obrigado/atlantico`.
+
+## Vista Costeira — `/vista-costeira`
+
+Apartamentos de 2 quartos com suíte e varanda no Cumbuco (Av. Central da Tabuba,
+4169 — Caucaia), a 1 minuto do mar. Transcrito do Figma Sites (página
+`/costeira`) pelo site publicado, como o Atlântico: hero com formulário do RD
+(`costeira-c425f54d178632eba730`), praia e localização sobre o mesmo fundo
+areia, lazer com carrossel, lista de itens e o vídeo de apresentação do YouTube,
+institucional e rodapé com o texto legal do empreendimento. Tema
+`.theme-vista-costeira`: petróleo `#005676`, areia `#e6bb94`, pêssego `#e29759`
+e o verde `#31e519` dos CTAs. Montserrat, com Poppins só nas etiquetas do
+carrossel.
+
+- **Carrossel** — dois desenhos, como no Figma: no desktop o render ativo grande
+  com os vizinhos menores vazando pelas bordas; no mobile um card só, com setas
+  laterais e arraste. Os dois dão a volta nas pontas (no Figma o desktop para).
+- **Lista de lazer e ondas são SVG do Figma** — a lista tem texto em curvas, em
+  versão desktop e mobile, e o `alt` repete os oito itens.
+- **CTAs** — no Figma todos rolam para o hero, e aqui também; o "fale com a
+  gente" da dobra institucional abre o WhatsApp da Victa, como nas outras LPs.
+- **Obrigado e GTM:** a página `/obrigado/vista-costeira` existe e a LP carrega o
+  container `GTM-NP9LS9B7` (o mesmo que o Figma usa em `/costeira`). **O redirect
+  do formulário no RD ainda aponta para
+  `https://cloud.victacomunica.com.br/agradecimento`** (conferido em
+  2026-10-14): enquanto não for trocado para
+  `https://more.victa.eng.br/obrigado/vista-costeira`, o lead sai da LP e a
+  conversão não é contada aqui.
 
 ## Viver Essencial — `/viver-essencial`
 
