@@ -112,9 +112,18 @@ mapa ilustrado saíram todos de lá.
 - **Chanfro** — a classe `.chamfer` reproduz a moldura do folder, com o canto
   superior direito cortado na diagonal (`.chamfer-sm` / `.chamfer-lg` mudam o
   tamanho do corte).
-- **Captação** — embed do RD Station `bosque-6026d4e5f95b4ee9aa59`, montado em
-  `src/components/viver-bosque/LeadForm.tsx`. Aqui o formulário assenta direto
-  sobre o vídeo, sem card: o CSS repinta rótulos, inputs e botão.
+- **Captação** — formulário próprio em `src/components/viver-bosque/LeadForm.tsx`,
+  enviado para o **Marketing Cloud** (não é mais o RD Station). É um POST
+  comum para uma CloudPage (`MC_LEAD_ENDPOINT`) que grava na DE `leads_bosque`
+  (Contact Builder → Extensões de Dados → pasta _viver bosque_, chave externa
+  `05ACEDC3-95F1-467D-AFD8-54CC2971FA5C`) e redireciona para
+  `/obrigado/viver-bosque` — ou de volta para a LP com `?cadastro=erro`, que
+  mostra o aviso acima dos campos. O código da CloudPage está em
+  `marketing-cloud/viver-bosque-lead.html`: ao mudar, colar de novo no Cloud e
+  republicar. As UTMs vão em campos ocultos (`utm_*`, mesma origem de
+  `src/lib/rd-utm.ts`), o telefone chega à DE só com dígitos e o 55 na frente,
+  e um campo-armadilha (`website`) descarta envio de robô. A DE não tem chave
+  primária: cada envio é uma linha nova.
 
 ## Vitória Eusébio — `/vitoria-eusebio`
 
@@ -413,7 +422,9 @@ que serve para as cinco; gatilho de clique, se existir, é micro-conversão e
 nunca a conversão.
 
 Isso depende de um passo que não está neste repositório: **a URL de redirect de
-cada um dos cinco formulários, configurada no painel do RD**. Sem ela o embed
+cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque é a
+exceção: o formulário dele vai para o Marketing Cloud, e o redirect está fixo
+no código da CloudPage (`marketing-cloud/viver-bosque-lead.html`). Sem ela o embed
 mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
 há conversão para contar.
 
