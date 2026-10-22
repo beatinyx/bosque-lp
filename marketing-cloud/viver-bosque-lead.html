@@ -1,0 +1,239 @@
+<script runat="server">
+  /*
+   * Recebe o formulário da LP do Viver Bosque (more.victa.eng.br/viver-bosque)
+   * e grava o lead na DE `leads_bosque` do Marketing Cloud.
+   *
+   * Vai numa CloudPage do tipo Landing Page (não Code Resource): o formulário
+   * da LP faz um POST comum para cá, sem fetch, então não há CORS, e esta página
+   * responde com um redirect — para a página de obrigado quando grava, de volta
+   * ao formulário quando não. Nada é exibido aqui (exceto no modo de
+   * diagnóstico, abaixo).
+   *
+   * A URL publicada precisa ser a mesma de `MC_LEAD_ENDPOINT` em
+   * src/components/viver-bosque/LeadForm.tsx.
+   *
+   * Código versionado no repositório da LP (marketing-cloud/). Ao mudar aqui,
+   * colar de novo na CloudPage e republicar.
+   */
+  Platform.Load("Core", "1.1.1");
+
+  // leads_bosque, em Contact Builder > Extensões de Dados > viver bosque.
+  // A chave serve ao Rows.Add; o nome, ao InsertData (que não aceita a chave).
+  var DE_KEY = "05ACEDC3-95F1-467D-AFD8-54CC2971FA5C";
+  var DE_NOME = "leads_bosque";
+
+  // Destinos fixos de propósito: nunca vêm da requisição, então esta página não
+  // vira um redirecionador aberto para qualquer site.
+  var URL_OBRIGADO = "https://more.victa.eng.br/obrigado/viver-bosque";
+  var URL_ERRO = "https://more.victa.eng.br/viver-bosque?cadastro=erro#cadastro";
+  var URL_LP = "https://more.victa.eng.br/viver-bosque";
+
+  var ORIGEM = "LP Viver Bosque";
+  var UTM_CAMPOS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_placement"];
+
+  // O que deu errado nesta requisição — só aparece no modo de diagnóstico.
+  var ocorrencias = [];
+
+  function anotar(etapa, erro) {
+    var texto;
+    try {
+      texto = Platform.Function.Stringify(erro);
+    } catch (falhaStringify) {
+      texto = String(erro);
+    }
+    ocorrencias.push(etapa + ": " + texto);
+  }
+
+  /*
+   * Funções de texto feitas só com charAt, indexOf e concatenação. O motor de
+   * SSJS (Jint) lança "StartIndex cannot be less than zero" no substring de um
+   * texto vazio — e todo campo opcional em branco passa por aqui. Foi isso que
+   * derrubou os primeiros testes (o regex e o lastIndexOf também saíram, por
+   * via das dúvidas). Nada de substring, slice ou regex neste arquivo.
+   */
+  var ESPACOS = " \t\r\n";
+
+  // Os caracteres de `texto` entre `inicio` (incluso) e `fim` (excluso).
+  function trecho(texto, inicio, fim) {
+    var saida = "";
+    for (var k = inicio; k < fim; k++) saida += texto.charAt(k);
+    return saida;
+  }
+
+  function aparar(texto) {
+    var inicio = 0;
+    var fim = texto.length;
+    while (inicio < fim && ESPACOS.indexOf(texto.charAt(inicio)) !== -1) inicio++;
+    while (fim > inicio && ESPACOS.indexOf(texto.charAt(fim - 1)) !== -1) fim--;
+    return trecho(texto, inicio, fim);
+  }
+
+  function soDigitos(texto) {
+    var digitos = "";
+    for (var k = 0; k < texto.length; k++) {
+      var c = texto.charAt(k);
+      if (c >= "0" && c <= "9") digitos += c;
+    }
+    return digitos;
+  }
+
+  // Um "@" só, com algo antes, e um ponto no domínio com algo dos dois lados.
+  // Uma passada só pelo texto, sem lastIndexOf.
+  function emailValido(email) {
+    var arroba = -1;
+    var ponto = -1;
+    for (var k = 0; k < email.length; k++) {
+      var c = email.charAt(k);
+      if (c === " ") return false;
+      if (c === "@") {
+        if (arroba !== -1) return false;
+        arroba = k;
+      } else if (c === "." && arroba !== -1) {
+        ponto = k;
+      }
+    }
+    return arroba > 0 && ponto > arroba + 1 && ponto < email.length - 1;
+  }
+
+  /*
+   * SSJS é JScript (ES3): sem String.prototype.trim nem Array.prototype.indexOf.
+   * E o que o Platform devolve não é string JavaScript — comparado com `===`
+   * dá diferente mesmo quando o texto é igual. Por isso tudo que vem da
+   * requisição passa por String() antes de qualquer comparação.
+   */
+  function campo(nome, limite) {
+    var valor = "";
+    try {
+      var bruto = Platform.Request.GetFormField(nome);
+      if (bruto !== null && bruto !== undefined) valor = String(bruto);
+    } catch (erroCampo) {
+      anotar("GetFormField(" + nome + ")", erroCampo);
+    }
+    valor = aparar(valor);
+    return limite && valor.length > limite ? trecho(valor, 0, limite) : valor;
+  }
+
+  /*
+   * Telefone só com dígitos e com o 55 na frente: é o formato que o
+   * MobileConnect e as integrações de WhatsApp esperam. Aceita o que a máscara
+   * da LP manda ("(85) 99999-9999") e também quem já digitou o 55.
+   */
+  function telefoneNormalizado(bruto) {
+    var digitos = soDigitos(bruto);
+    if (digitos.length === 12 || digitos.length === 13) {
+      if (digitos.charAt(0) === "5" && digitos.charAt(1) === "5") return digitos;
+      return "";
+    }
+    if (digitos.length === 10 || digitos.length === 11) return "55" + digitos;
+    return "";
+  }
+
+  /*
+   * Grava uma linha. Tenta primeiro o Rows.Add (biblioteca Core, pela chave) e,
+   * se ele falhar, o InsertData (função nativa, pelo nome) — dois caminhos
+   * independentes para a mesma gravação. A DE não tem chave primária: cada
+   * envio é uma linha nova (insert, não upsert).
+   */
+  function gravar(linha) {
+    try {
+      DataExtension.Init(DE_KEY).Rows.Add(linha);
+      return true;
+    } catch (erroRowsAdd) {
+      anotar("Rows.Add", erroRowsAdd);
+    }
+
+    try {
+      var colunas = [];
+      var valores = [];
+      for (var coluna in linha) {
+        colunas.push(coluna);
+        valores.push(linha[coluna]);
+      }
+      Platform.Function.InsertData(DE_NOME, colunas, valores);
+      return true;
+    } catch (erroInsertData) {
+      anotar("InsertData", erroInsertData);
+    }
+
+    return false;
+  }
+
+  // Sai no modo de diagnóstico: confirma que a versão publicada é esta.
+  var VERSAO = "2026-10-21 sem-substring";
+
+  var destino = URL_ERRO;
+  var diagnostico = false;
+  // Onde o código estava — num erro, diz qual passo quebrou.
+  var etapa = "início";
+
+  // Tudo dentro de um try só: um erro não tratado no SSJS vira a tela "The page
+  // content contains errors" em vez de um redirect, e o lead fica parado nela.
+  try {
+    etapa = "ler debug";
+    diagnostico = campo("debug") === "1";
+
+    etapa = "ler método";
+    var metodo = String(Platform.Request.Method || "").toUpperCase();
+    etapa = "ver se há campos";
+    var temCampos = campo("Nome") + campo("Email") + campo("Telefone") + campo("website") !== "";
+
+    if (metodo !== "POST" && !temCampos) {
+      destino = URL_LP;
+    } else if (campo("website") !== "") {
+      // Campo-armadilha, invisível para quem preenche à mão. Robô que preencheu
+      // recebe o mesmo redirect de sucesso e não descobre que foi descartado.
+      destino = URL_OBRIGADO;
+    } else {
+      etapa = "ler nome";
+      var nome = campo("Nome", 50);
+      etapa = "ler e-mail";
+      var email = campo("Email", 254).toLowerCase();
+      etapa = "normalizar telefone";
+      var telefone = telefoneNormalizado(campo("Telefone", 30));
+      etapa = "validar e-mail";
+      var emailOk = emailValido(email);
+
+      if (nome === "" || !emailOk || telefone === "") {
+        ocorrencias.push("validação: nome=" + (nome !== "") + " email=" + emailOk + " telefone=" + (telefone !== ""));
+      } else {
+        etapa = "montar linha";
+        var basica = { Nome: nome, Email: email, Telefone: telefone };
+        var completa = { Nome: nome, Email: email, Telefone: telefone, Origem: ORIGEM };
+        for (var i = 0; i < UTM_CAMPOS.length; i++) {
+          var utm = campo(UTM_CAMPOS[i], 255);
+          // Coluna vazia fica de fora: a DE grava nulo nela sozinha.
+          if (utm !== "") completa[UTM_CAMPOS[i]] = utm;
+        }
+
+        /*
+         * Primeiro com as UTMs e a origem. Se nada disso entrar, grava pelo
+         * menos nome, e-mail e telefone — nenhum lead se perde por causa de uma
+         * coluna opcional.
+         */
+        etapa = "gravar";
+        if (gravar(completa) || gravar(basica)) destino = URL_OBRIGADO;
+      }
+    }
+  } catch (erroGeral) {
+    anotar("geral (etapa: " + etapa + ")", erroGeral);
+    destino = URL_ERRO;
+  }
+
+  /*
+   * Modo de diagnóstico: um POST com `debug=1` mostra o que aconteceu em vez de
+   * redirecionar. Só expõe o destino e as mensagens de erro desta requisição —
+   * nenhum dado de outro lead.
+   */
+  if (diagnostico) {
+    Write("versão: " + VERSAO + "\n");
+    Write("destino: " + destino + "\n");
+    for (var j = 0; j < ocorrencias.length; j++) Write(ocorrencias[j] + "\n");
+  } else {
+    /*
+     * O Redirect fica fora de qualquer try: no SSJS ele interrompe a execução
+     * lançando uma exceção, e dentro de um try/catch o catch a engoliria e a
+     * página ficaria em branco.
+     */
+    Platform.Response.Redirect(destino, false);
+  }
+</script>
