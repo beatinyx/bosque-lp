@@ -263,9 +263,17 @@ texto do **Parque Vitória Messejana**, o bairro planejado onde o Íris fica, e 
 mapa ilustrado é o de Messejana com o pino do Íris.
 
 Estrutura (hero → lugar → localização → lazer → institucional → rodapé), tema
-`.theme-vitoria-iris` e formulário `vitoria-iris-bfbb1b5b19b7c5e74b84` do RD.
-Pontos a saber:
+`.theme-vitoria-iris`. Pontos a saber:
 
+- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
+  receita do Viver Bosque e do Jasmim (não é mais o embed do RD
+  `vitoria-iris-bfbb1b5b19b7c5e74b84`). POST comum para a CloudPage
+  `MC_LEAD_ENDPOINT`, que grava na DE `leads_iris` (pasta _leads_iris_, chave
+  externa `C211659D-4100-4DB5-AFD1-9CF378B4CCD1`, mesmos campos da
+  `leads_bosque`) e redireciona para `/obrigado/vitoria-iris` — ou de volta com
+  `?cadastro=erro`. Código da CloudPage em
+  `marketing-cloud/vitoria-iris-lead.html`. O desenho repete o do embed:
+  pílulas brancas no bloco azul e botão verde "Quero descobrir".
 - **Faixa de lazer e legenda do mapa** são imagens, como no Figma (a legenda
   traz os 33 nomes e não existe como texto em lugar nenhum); o `alt` resume o
   conteúdo.
@@ -274,9 +282,9 @@ Pontos a saber:
   é o que ficou, como nas outras LPs.
 - **GTM e obrigado:** a página `/obrigado/vitoria-iris` existe, e o Íris carrega o
   container `GTM-M7HJDQRK` — o **mesmo do Vitória Jasmim**, por indicação do time;
-  se o Íris ganhar container próprio, trocar em `src/routes/__root.tsx`. O redirect
-  do formulário no RD (fora do código) precisa apontar para
-  `https://more.victa.eng.br/obrigado/vitoria-iris`.
+  se o Íris ganhar container próprio, trocar em `src/routes/__root.tsx`. O
+  redirect para `https://more.victa.eng.br/obrigado/vitoria-iris` está fixo no
+  código da CloudPage.
 
 ## Atlântico — `/atlantico`
 
@@ -428,8 +436,8 @@ que serve para as cinco; gatilho de clique, se existir, é micro-conversão e
 nunca a conversão.
 
 Isso depende de um passo que não está neste repositório: **a URL de redirect de
-cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque e o
-Vitória Jasmim são a exceção: o formulário deles vai para o Marketing Cloud, e o
+cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque, o
+Vitória Jasmim e o Vitória Íris são a exceção: o formulário deles vai para o Marketing Cloud, e o
 redirect está fixo no código da CloudPage (`marketing-cloud/<produto>-lead.html`). Sem ela o embed
 mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
 há conversão para contar.
