@@ -846,93 +846,10 @@
   }
 
   /*
-   * Formulário do RD Station no card do hero do Vitória Jasmim.
-   *
-   * Este é o único embed do repositório que já vem estilizado do painel do RD
-   * no roxo do produto — é o mesmo formulário que o Figma Sites publica. O que
-   * fica aqui é só o que o painel não resolve: apagar o fundo roxo do próprio
-   * embed (quem pinta o roxo e desenha os cantos de 60px é o card) e devolver
-   * ao embed a largura toda do card.
-   */
-  .theme-vitoria-jasmim .rd-form-card [class*="rd-section"],
-  .theme-vitoria-jasmim .rd-form-card [class*="rd-row"],
-  .theme-vitoria-jasmim .rd-form-card [class*="rd-column"],
-  .theme-vitoria-jasmim .rd-form-card [class*="rd-column"] > div {
-    background-color: transparent !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card div:has(> .bricks-form) {
-    padding-inline: 0 !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card .bricks-form {
-    width: 100% !important;
-    max-width: none !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card .bricks-form__label,
-  .theme-vitoria-jasmim .rd-form-card label {
-    color: #fff !important;
-    font-weight: 700 !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card p,
-  .theme-vitoria-jasmim .rd-form-card p *,
-  .theme-vitoria-jasmim .rd-form-card small,
-  .theme-vitoria-jasmim .rd-form-card small * {
-    color: rgba(255, 255, 255, 0.85) !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
-  .theme-vitoria-jasmim .rd-form-card select,
-  .theme-vitoria-jasmim .rd-form-card textarea {
-    border: 0 !important;
-    border-radius: 9999px !important;
-    background-color: #fff !important;
-    color: var(--color-brand) !important;
-  }
-
-  /*
-   * Bandeira + telefone precisam ler como um controle só. Os campos desta LP
-   * são pílulas, então o arredondamento se divide entre as pontas do grupo: o
-   * seletor de país fica com o lado esquerdo redondo, o input com o direito, e
-   * a seta do select2 no meio fica reta. O `padding-left` afasta a bandeira da
-   * curva.
-   */
-  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-container.phone-country,
-  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-choice {
-    border-radius: 9999px 0 0 9999px !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-choice {
-    padding-left: 0.5rem !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card .phone-input-group .select2-arrow {
-    border-radius: 0 !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card .phone-input-group input.js-phone {
-    border-radius: 0 9999px 9999px 0 !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card .rd-button {
-    border-radius: 9999px !important;
-    background-color: var(--color-brand-gold) !important;
-    color: #fff !important;
-    font-weight: 700 !important;
-    white-space: nowrap !important;
-    font-size: clamp(0.8rem, 3.6vw, 1.05rem) !important;
-  }
-
-  .theme-vitoria-jasmim .rd-form-card form {
-    margin-bottom: 0 !important;
-  }
-
-  /*
    * Formulário do RD Station no hero do Vitória Íris.
    *
-   * Mesma receita do Jasmim: o embed já vem estilizado do painel do RD, e aqui
+   * Mesma receita que o Jasmim usava antes de sair do RD: o embed já vem
+   * estilizado do painel do RD, e aqui
    * fica só o que o painel não resolve — apagar o fundo do embed (quem pinta o
    * azul é o bloco do card) e devolver a largura toda a ele. O botão é verde.
    */
