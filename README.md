@@ -227,10 +227,16 @@ R. Antero de Quental, 383 (Paupina). É a única LP roxa do repositório.
 - **Tipografia** — Montserrat, com itálico nos destaques ("para toda a
   família", "seu momento", os tempos do entorno) e Montserrat Alternates só nos
   números da dobra institucional.
-- **Captação** — embed do RD Station `vitoria-jasmin-94114a5c148789bc1bee`
-  (grafia com "n", é o id cadastrado no RD), o mesmo que a página do Figma já
-  usa. O `LeadForm` também guarda as UTMs da URL e preenche os campos
-  `cf_utm_*` escondidos, como o code layer do Figma faz.
+- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
+  receita do Viver Bosque (não é mais o embed do RD
+  `vitoria-jasmin-94114a5c148789bc1bee`). É um POST comum para a CloudPage
+  `MC_LEAD_ENDPOINT`, que grava na DE `leads_jasmim` (Contact Builder →
+  Extensões de Dados → pasta _leads_jasmim_, chave externa
+  `B5159D79-159A-474C-9977-A732732153C8`, mesmos campos da `leads_bosque`) e
+  redireciona para `/obrigado/vitoria-jasmim` — ou de volta com
+  `?cadastro=erro`. O código da CloudPage está em
+  `marketing-cloud/vitoria-jasmim-lead.html`. O desenho repete o do embed:
+  pílulas brancas no card roxo e botão dourado.
 - **CTAs** — no Figma os três botões não levam a lugar nenhum (não há
   interação de URL em nenhum deles). Aqui eles rolam para `#inicio`, o
   formulário do hero.
@@ -257,9 +263,17 @@ texto do **Parque Vitória Messejana**, o bairro planejado onde o Íris fica, e 
 mapa ilustrado é o de Messejana com o pino do Íris.
 
 Estrutura (hero → lugar → localização → lazer → institucional → rodapé), tema
-`.theme-vitoria-iris` e formulário `vitoria-iris-bfbb1b5b19b7c5e74b84` do RD.
-Pontos a saber:
+`.theme-vitoria-iris`. Pontos a saber:
 
+- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
+  receita do Viver Bosque e do Jasmim (não é mais o embed do RD
+  `vitoria-iris-bfbb1b5b19b7c5e74b84`). POST comum para a CloudPage
+  `MC_LEAD_ENDPOINT`, que grava na DE `leads_iris` (pasta _leads_iris_, chave
+  externa `C211659D-4100-4DB5-AFD1-9CF378B4CCD1`, mesmos campos da
+  `leads_bosque`) e redireciona para `/obrigado/vitoria-iris` — ou de volta com
+  `?cadastro=erro`. Código da CloudPage em
+  `marketing-cloud/vitoria-iris-lead.html`. O desenho repete o do embed:
+  pílulas brancas no bloco azul e botão verde "Quero descobrir".
 - **Faixa de lazer e legenda do mapa** são imagens, como no Figma (a legenda
   traz os 33 nomes e não existe como texto em lugar nenhum); o `alt` resume o
   conteúdo.
@@ -268,9 +282,9 @@ Pontos a saber:
   é o que ficou, como nas outras LPs.
 - **GTM e obrigado:** a página `/obrigado/vitoria-iris` existe, e o Íris carrega o
   container `GTM-M7HJDQRK` — o **mesmo do Vitória Jasmim**, por indicação do time;
-  se o Íris ganhar container próprio, trocar em `src/routes/__root.tsx`. O redirect
-  do formulário no RD (fora do código) precisa apontar para
-  `https://more.victa.eng.br/obrigado/vitoria-iris`.
+  se o Íris ganhar container próprio, trocar em `src/routes/__root.tsx`. O
+  redirect para `https://more.victa.eng.br/obrigado/vitoria-iris` está fixo no
+  código da CloudPage.
 
 ## Atlântico — `/atlantico`
 
@@ -422,9 +436,9 @@ que serve para as cinco; gatilho de clique, se existir, é micro-conversão e
 nunca a conversão.
 
 Isso depende de um passo que não está neste repositório: **a URL de redirect de
-cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque é a
-exceção: o formulário dele vai para o Marketing Cloud, e o redirect está fixo
-no código da CloudPage (`marketing-cloud/viver-bosque-lead.html`). Sem ela o embed
+cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque, o
+Vitória Jasmim e o Vitória Íris são a exceção: o formulário deles vai para o Marketing Cloud, e o
+redirect está fixo no código da CloudPage (`marketing-cloud/<produto>-lead.html`). Sem ela o embed
 mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
 há conversão para contar.
 

@@ -11,8 +11,7 @@ import { LeadForm } from "./LeadForm";
  * das duas versões do arquivo.
  *
  * O card tem duas partes: a manchete em verde (com o canto superior esquerdo
- * arredondado) e o formulário do RD num bloco azul, que já vem estilizado do
- * painel do RD.
+ * arredondado) e o formulário num bloco azul.
  */
 export function HeroSection() {
   return (
@@ -55,7 +54,7 @@ export function HeroSection() {
             loading="eager"
           />
 
-          <div className="rd-form-card w-full max-w-[420px] rounded-tl-[28px] bg-brand-sky shadow-[0_24px_60px_rgba(0,0,0,0.22)] lg:w-[482px] lg:max-w-none">
+          <div className="w-full max-w-[420px] rounded-tl-[28px] bg-brand-sky shadow-[0_24px_60px_rgba(0,0,0,0.22)] lg:w-[482px] lg:max-w-none">
             <div className="px-6 pt-6 pb-1 text-center text-white lg:px-8">
               <h1 className="text-[clamp(1.4rem,3.4vw,1.5rem)] leading-[1.3] font-normal">
                 Saia do aluguel e comece uma nova história
