@@ -289,11 +289,24 @@ Estrutura (hero → lugar → localização → lazer → institucional → roda
 ## Atlântico — `/atlantico`
 
 Também transcrito do Figma Sites (`/atlantico`), pelo site publicado. Hero com
-formulário do RD (`atlantico-34bc527c3d8e5ca98ed2`), localização, lounge, lazer,
+formulário, localização, lounge, lazer,
 condições (sinal a partir de R$ 999*, renda R$ 8.000*, entrada em até 48x),
 institucional e rodapé com o texto legal do empreendimento. Tema
 `.theme-atlantico`: azul `#4061a6`, sálvia, verde-água e cacau.
 
+- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
+  receita do Viver Bosque (não é mais o embed do RD
+  `atlantico-34bc527c3d8e5ca98ed2`). POST comum para a CloudPage
+  `MC_LEAD_ENDPOINT`, que grava na DE `leads_atlantico` (pasta
+  _leads_atlantico_, chave externa `6398E286-557B-43B8-A6B9-1EEE1EDA68FD`) e
+  redireciona para `/obrigado/atlantico` — ou de volta com `?cadastro=erro`.
+  Código da CloudPage em `marketing-cloud/atlantico-lead.html`. A DE já
+  existia e já tinha leads; ganhou as UTMs, `Origem` e `DataCadastro`, todas
+  opcionais, e manteve o Email como chave primária — por isso esta CloudPage,
+  ao contrário das outras, grava com upsert: quem se cadastra de novo atualiza
+  a própria linha. O desenho repete o do embed, com a frase "Preencha o
+  formulário e fale com um de nossos corretores" no topo do card azul e o
+  botão laranja "Enviar".
 - **Texturas e lettering são imagens**, como no Figma (água, azul, creme; os dois
   títulos em lettering). A lista de itens do lazer é um SVG com texto em curvas,
   em duas versões (desktop e mobile), e o `alt` repete os oito itens.
@@ -301,8 +314,8 @@ institucional e rodapé com o texto legal do empreendimento. Tema
   usa `order-*` para reproduzir as duas.
 - **Obrigado e GTM:** a página `/obrigado/atlantico` existe e o Atlântico carrega o
   container `GTM-NCH7568J` (`src/routes/__root.tsx`), então a conversão é o
-  pageview dela. O redirect do formulário no RD já aponta para
-  `https://more.victa.eng.br/obrigado/atlantico`.
+  pageview dela. O redirect para `https://more.victa.eng.br/obrigado/atlantico`
+  está fixo no código da CloudPage.
 
 ## Vista Costeira — `/vista-costeira`
 
@@ -454,7 +467,7 @@ nunca a conversão.
 
 Isso depende de um passo que não está neste repositório: **a URL de redirect de
 cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque, o
-Vitória Jasmim, o Vitória Íris, o Viver Essencial e o Vista Coqueiral são a exceção: o formulário deles vai para o Marketing Cloud, e o
+Vitória Jasmim, o Vitória Íris, o Viver Essencial, o Vista Coqueiral e o Atlântico são a exceção: o formulário deles vai para o Marketing Cloud, e o
 redirect está fixo no código da CloudPage (`marketing-cloud/<produto>-lead.html`). Sem ela o embed
 mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
 há conversão para contar.
