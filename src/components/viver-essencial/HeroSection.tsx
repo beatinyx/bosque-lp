@@ -54,7 +54,7 @@ export function HeroSection() {
             Preencha o formulário e garanta seu apartamento no Pici
           </p>
 
-          <div className="rd-form-card mt-6">
+          <div className="mt-6">
             <LeadForm />
           </div>
 

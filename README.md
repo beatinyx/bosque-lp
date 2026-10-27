@@ -387,10 +387,17 @@ famílias de texto na mesma página.
 - **Tipografia** — Poppins nas dobras do produto e Montserrat no institucional,
   no rodapé e nas pastilhas de vantagem, como no arquivo. É o que a classe
   `font-montserrat` faz; as duas famílias são pedidas num link só na rota.
-- **Captação** — embed do RD Station `viver-pici-lancamento-64a33be93e868edfe509`
-  (cadastrado pelo bairro, não pelo nome do produto), o mesmo que a página do
-  Figma já usa. O `LeadForm` também guarda as UTMs da URL e preenche os campos
-  `cf_utm_*` escondidos, como o code layer do Figma faz.
+- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
+  receita do Viver Bosque, do Jasmim e do Íris (não é mais o embed do RD
+  `viver-pici-lancamento-64a33be93e868edfe509`, que a página do Figma usa).
+  POST comum para a CloudPage `MC_LEAD_ENDPOINT`, que grava na DE
+  `leads_essencial` (pasta _leads_essencial_, chave
+  externa `80359BA4-A4C2-43B6-891D-F15396EBF249`, mesmos campos da
+  `leads_bosque`) e redireciona para `/obrigado/viver-essencial` — ou de volta com
+  `?cadastro=erro`. Código da CloudPage em
+  `marketing-cloud/viver-essencial-lead.html`. O desenho repete o do embed:
+  rótulos em negrito, pílulas brancas sobre o degradê e botão laranja "Quero
+  mais informações".
 - **CTAs** — no Figma os botões não levam a lugar nenhum. Aqui "quero ver a
   planta", "quero morar aqui" e "descubra meu perfil" rolam para `#inicio`, o
   formulário do hero; "fale com a gente", da dobra institucional, abre o
@@ -437,7 +444,7 @@ nunca a conversão.
 
 Isso depende de um passo que não está neste repositório: **a URL de redirect de
 cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque, o
-Vitória Jasmim e o Vitória Íris são a exceção: o formulário deles vai para o Marketing Cloud, e o
+Vitória Jasmim, o Vitória Íris e o Viver Essencial são a exceção: o formulário deles vai para o Marketing Cloud, e o
 redirect está fixo no código da CloudPage (`marketing-cloud/<produto>-lead.html`). Sem ela o embed
 mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
 há conversão para contar.
