@@ -139,9 +139,15 @@ Apartamentos de 2 quartos com opção de jardim privativo, no Eusébio.
 
 - **Tipografia** — **Montserrat** nas manchetes e no corpo, com Cormorant
   Garamond disponível como serifada de apoio.
-- **Captação** — embed do RD Station `eusebio-4044c95a9a0395652ffc`, montado em
-  `src/components/vitoria-eusebio/LeadForm.tsx`. Aqui o formulário fica dentro de
-  um card verde escuro, então só o botão precisa de tratamento no CSS.
+- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
+  receita do Viver Bosque (não é mais o embed do RD
+  `eusebio-4044c95a9a0395652ffc`). POST comum para a CloudPage
+  `MC_LEAD_ENDPOINT`, que grava na DE `leads_eusebio` (pasta
+  _leads_eusebio_, chave externa `A06EF2B1-E981-4000-8E4A-C6A0EB5EF4A7`) e redireciona para
+  `/obrigado/vitoria-eusebio` — ou de volta com `?cadastro=erro`. Código da
+  CloudPage em `marketing-cloud/vitoria-eusebio-lead.html`. O desenho repete o
+  do embed: card verde escuro, pílulas brancas e o botão azul "QUERO
+  CONHECER".
 
 ## Hype Condomínio Clube — `/viver-hype`
 
@@ -467,7 +473,7 @@ nunca a conversão.
 
 Isso depende de um passo que não está neste repositório: **a URL de redirect de
 cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque, o
-Vitória Jasmim, o Vitória Íris, o Viver Essencial, o Vista Coqueiral e o Atlântico são a exceção: o formulário deles vai para o Marketing Cloud, e o
+Vitória Jasmim, o Vitória Íris, o Viver Essencial, o Vista Coqueiral, o Atlântico e o Vitória Eusébio são a exceção: o formulário deles vai para o Marketing Cloud, e o
 redirect está fixo no código da CloudPage (`marketing-cloud/<produto>-lead.html`). Sem ela o embed
 mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
 há conversão para contar.
