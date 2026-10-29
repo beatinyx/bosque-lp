@@ -327,14 +327,26 @@ institucional e rodapé com o texto legal do empreendimento. Tema
 
 Apartamentos de 2 quartos com suíte e varanda no Cumbuco (Av. Central da Tabuba,
 4169 — Caucaia), a 1 minuto do mar. Transcrito do Figma Sites (página
-`/costeira`) pelo site publicado, como o Atlântico: hero com formulário do RD
-(`costeira-c425f54d178632eba730`), praia e localização sobre o mesmo fundo
+`/costeira`) pelo site publicado, como o Atlântico: hero com formulário,
+praia e localização sobre o mesmo fundo
 areia, lazer com carrossel, lista de itens e o vídeo de apresentação do YouTube,
 institucional e rodapé com o texto legal do empreendimento. Tema
 `.theme-vista-costeira`: petróleo `#005676`, areia `#e6bb94`, pêssego `#e29759`
 e o verde `#31e519` dos CTAs. Montserrat, com Poppins só nas etiquetas do
 carrossel.
 
+- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
+  receita do Atlântico (não é mais o embed do RD
+  `costeira-c425f54d178632eba730`). POST comum para a CloudPage
+  `MC_LEAD_ENDPOINT`, que grava na DE `leads_costeira` (pasta
+  _leads_costeira_, chave externa `51723294-F87D-4E05-85D4-B30C2222D3F1`) e
+  redireciona para `/obrigado/vista-costeira` — ou de volta com
+  `?cadastro=erro`. Código da CloudPage em
+  `marketing-cloud/vista-costeira-lead.html`. A DE já existia e já tinha
+  leads; ganhou `Origem` e `DataCadastro`, as UTMs passaram a opcionais com
+  255 caracteres, e o Email continua como chave primária — por isso a
+  CloudPage grava com upsert, como a do Atlântico. O desenho repete o do
+  embed: pílulas brancas no box translúcido e a pílula verde "Quero simular".
 - **Carrossel** — dois desenhos, como no Figma: no desktop o render ativo grande
   com os vizinhos menores vazando pelas bordas; no mobile um card só, com setas
   laterais e arraste. Os dois dão a volta nas pontas (no Figma o desktop para).
@@ -343,12 +355,10 @@ carrossel.
 - **CTAs** — no Figma todos rolam para o hero, e aqui também; o "fale com a
   gente" da dobra institucional abre o WhatsApp da Victa, como nas outras LPs.
 - **Obrigado e GTM:** a página `/obrigado/vista-costeira` existe e a LP carrega o
-  container `GTM-NP9LS9B7` (o mesmo que o Figma usa em `/costeira`). **O redirect
-  do formulário no RD ainda aponta para
-  `https://cloud.victacomunica.com.br/agradecimento`** (conferido em
-  2026-10-14): enquanto não for trocado para
-  `https://more.victa.eng.br/obrigado/vista-costeira`, o lead sai da LP e a
-  conversão não é contada aqui.
+  container `GTM-NP9LS9B7` (o mesmo que o Figma usa em `/costeira`). O redirect
+  para `https://more.victa.eng.br/obrigado/vista-costeira` está fixo no código
+  da CloudPage (o form do RD apontava para
+  `cloud.victacomunica.com.br/agradecimento`).
 
 ## Vista Coqueiral — `/vista-coqueiral`
 
@@ -473,7 +483,7 @@ nunca a conversão.
 
 Isso depende de um passo que não está neste repositório: **a URL de redirect de
 cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque, o
-Vitória Jasmim, o Vitória Íris, o Viver Essencial, o Vista Coqueiral, o Atlântico e o Vitória Eusébio são a exceção: o formulário deles vai para o Marketing Cloud, e o
+Vitória Jasmim, o Vitória Íris, o Viver Essencial, o Vista Coqueiral, o Atlântico, o Vitória Eusébio e o Vista Costeira são a exceção: o formulário deles vai para o Marketing Cloud, e o
 redirect está fixo no código da CloudPage (`marketing-cloud/<produto>-lead.html`). Sem ela o embed
 mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
 há conversão para contar.
