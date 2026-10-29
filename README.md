@@ -17,7 +17,7 @@ rota:
 | `/`                | —                         | Redireciona (302) para `https://www.victa.eng.br/`  |
 
 Cada LP tem também a sua página de obrigado em `/obrigado/<produto>` — o destino
-do redirect do formulário do RD Station e o gatilho de conversão do GTM. Ver
+do redirect da CloudPage que recebe o formulário e o gatilho de conversão do GTM. Ver
 [Medição e conversão](#medição-e-conversão).
 
 As cinco LPs compartilham stack, componentes de UI (`src/components/ui`), o shell
@@ -176,8 +176,15 @@ prevista para janeiro de 2030.
   traço.
 - **Tipografia** — Montserrat, a mesma família do Vitória Eusébio, então a
   rota não pede fonte nova ao Google.
-- **Captação** — embed do RD Station `hype-73927ee2be76598111e4`, montado em
-  `src/components/viver-hype/LeadForm.tsx`. O formulário **não existe no
+- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
+  receita do Viver Bosque (não é mais o embed do RD
+  `hype-73927ee2be76598111e4`). POST comum para a CloudPage
+  `MC_LEAD_ENDPOINT`, que grava na DE `leads_hype` (pasta _leads_hype_, chave
+  externa `4C359E42-7F28-4FF1-907A-17A39D5DDEA2`) e redireciona para
+  `/obrigado/viver-hype` — ou de volta com `?cadastro=erro`. Código da
+  CloudPage em `marketing-cloud/viver-hype-lead.html`. O desenho repete o do
+  embed: rótulos em caixa alta, campos creme e o botão teal "CADASTRE-SE
+  AGORA". O formulário **não existe no
   design**: o Figma fecha as duas dobras de CTA com um botão que sai para
   `cloud.victacomunica.com.br/hype`. Ele entrou depois, dentro do card laranja
   do hero — o card é alto e o design deixa vazia a área embaixo da manchete,
@@ -453,16 +460,15 @@ canto e medida vieram do arquivo. O que diverge está registrado em
 e a pastilha do endereço viraram markup, o véu do hero virou `linear-gradient`
 e a dobra institucional usa os assets compartilhados da Victa.
 
-## Formulários do RD Station
+## Formulários
 
-O markup dos cinco vem pronto do painel do RD, então os seletores em
-`src/styles.css` são os dele e precisam de `!important`. A regra que esconde os
-campos de UTM (preenchidos pela URL da campanha, não pelo usuário) é
-compartilhada; o resto é escopado por classe de tema. Os cinco formulários são
-embeds diferentes: `bosque-6026d4e5f95b4ee9aa59`,
-`eusebio-4044c95a9a0395652ffc`, `hype-73927ee2be76598111e4`,
-`vitoria-jasmin-94114a5c148789bc1bee` e
-`viver-pici-lancamento-64a33be93e868edfe509`, todos no token `UA-169812363-1`.
+Nenhuma LP usa mais o embed do RD Station. Cada uma tem um form próprio em
+`src/components/<produto>/LeadForm.tsx` que faz um POST comum para uma
+CloudPage do Marketing Cloud; a CloudPage grava na DE do produto e redireciona
+para a página de obrigado. O código de cada CloudPage está versionado em
+`marketing-cloud/<produto>-lead.html` — ao mudar ali, colar de novo na
+CloudPage e republicar. A URL publicada tem de ser a mesma de
+`MC_LEAD_ENDPOINT` no LeadForm.
 
 ## Medição e conversão
 
@@ -481,24 +487,14 @@ conversão fica num gatilho de Page View com _Page Path_ contendo `/obrigado`,
 que serve para as cinco; gatilho de clique, se existir, é micro-conversão e
 nunca a conversão.
 
-Isso depende de um passo que não está neste repositório: **a URL de redirect de
-cada um dos cinco formulários, configurada no painel do RD**. O Viver Bosque, o
-Vitória Jasmim, o Vitória Íris, o Viver Essencial, o Vista Coqueiral, o Atlântico, o Vitória Eusébio e o Vista Costeira são a exceção: o formulário deles vai para o Marketing Cloud, e o
-redirect está fixo no código da CloudPage (`marketing-cloud/<produto>-lead.html`). Sem ela o embed
-mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
-há conversão para contar.
+O redirect para a página de obrigado está fixo no código de cada CloudPage
+(`marketing-cloud/<produto>-lead.html`), e nunca vem da requisição.
 
-As UTMs chegam ao RD por outro caminho, e ele também não é automático. Os cinco
-formulários trazem seis campos personalizados `cf_utm_*` (source, medium,
-campaign, term, content e placement), escondidos pelo CSS, e o script do RD não
-preenche campo nenhum a partir da URL — a única coisa que ele lê é o cookie
-`__trf.src` do código de monitoramento, e só para o campo oculto
-`traffic_source`, no envio. Quem preenche os `cf_utm_*` é `src/lib/rd-utm.ts`:
-lê os `utm_*` da URL na chegada, guarda o conjunto inteiro no `localStorage`
-(chave `victa:utm`) e escreve nos campos quando o RD injeta o formulário e de
-novo no `submit`. A origem nativa do RD (`traffic_source`) continua dependendo
-do código de monitoramento, que entra pelo GTM: container sem a tag do RD deixa
-o lead com as UTMs nos campos personalizados e sem origem.
+As UTMs vão no próprio envio, em seis campos ocultos (source, medium,
+campaign, term, content e placement) que cada LeadForm preenche com
+`src/lib/rd-utm.ts` — o nome é do tempo do RD. Ele lê os `utm_*` da URL na
+chegada e guarda o conjunto inteiro no `localStorage` (chave `victa:utm`), para
+quem volta depois sem UTM na URL continuar atribuído à campanha.
 
 As cinco páginas de obrigado são `noindex, nofollow` — indexadas, receberiam
 visita orgânica de quem nunca preencheu o formulário. A URL continua acessível,

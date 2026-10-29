@@ -5,8 +5,9 @@ import { IconArrowLeft, IconWhatsApp } from "./Icons";
 /**
  * Página de obrigado — o KV do empreendimento com a confirmação do cadastro.
  *
- * É a página em que o RD Station larga quem acabou de enviar o formulário (o
- * redirect é configurado no painel, por formulário). Ela existe para ser o
+ * É a página para onde a CloudPage do Marketing Cloud manda quem acabou de
+ * enviar o formulário (o redirect está fixo no código de cada CloudPage, em
+ * marketing-cloud/). Ela existe para ser o
  * gatilho de conversão do GTM: o container de cada LP também roda aqui, pela
  * regra de prefixo em `src/routes/__root.tsx`, então a conversão passa a ser um
  * pageview de `/obrigado/<produto>` em vez de um clique no botão de envio.
