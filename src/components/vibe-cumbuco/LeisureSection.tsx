@@ -11,24 +11,26 @@ type Item = {
   position?: string;
 };
 
-/* A piscina fica fora do carrossel, grande, ao lado da manchete. */
-const POOL: Item = {
-  src: "/images/vibe-cumbuco/piscina.webp",
-  name: "Piscina",
-  alt: "Piscina com deck de madeira, espreguiçadeiras e guarda-sóis",
+/*
+ * O rooftop fica fora do carrossel, grande, ao lado da manchete que fala
+ * dele. O render oficial se chama "Lounge"; o nome aqui segue o briefing.
+ */
+const FEATURED: Item = {
+  src: "/images/vibe-cumbuco/rooftop.webp",
+  name: "Rooftop com vista para o mar",
+  alt: "Rooftop com mesa, lounge, churrasqueira e vista para o mar do Cumbuco",
+  position: "object-[40%_center]",
 };
 
 /*
  * Perspectivas oficiais (ver public/images/vibe-cumbuco/README.md), na ordem
- * do book do KV, com o rooftop na frente. O render oficial do rooftop se chama
- * "Lounge"; o nome aqui segue o briefing.
+ * do book do KV, com a piscina na frente.
  */
 const ITEMS: Item[] = [
   {
-    src: "/images/vibe-cumbuco/rooftop.webp",
-    name: "Rooftop com vista para o mar",
-    alt: "Rooftop com mesa, lounge, churrasqueira e vista para o mar do Cumbuco",
-    position: "object-[40%_center]",
+    src: "/images/vibe-cumbuco/piscina.webp",
+    name: "Piscina",
+    alt: "Piscina com deck de madeira, espreguiçadeiras e guarda-sóis",
   },
   {
     src: "/images/vibe-cumbuco/living.webp",
@@ -64,18 +66,17 @@ const ITEMS: Item[] = [
   },
 ];
 
-/* O lightbox percorre tudo: a piscina primeiro, depois a trilha. */
-const SLIDES: Item[] = [POOL, ...ITEMS];
+/* O lightbox percorre tudo: o rooftop primeiro, depois a trilha. */
+const SLIDES: Item[] = [FEATURED, ...ITEMS];
 
 /**
  * DOBRA 4 — Lazer.
  *
- * Sobretítulo "Lazer completo", a manchete do rooftop e, ao lado dela, a
- * piscina em destaque. Embaixo, as demais áreas numa trilha horizontal com
- * rolagem por arrasto/toque e as setas no pé, à direita da nota de imagens
- * ilustrativas. O rooftop abre a trilha num card mais largo, por ser o
- * destaque da manchete. Cada foto (a piscina inclusive) abre no lightbox
- * (Lightbox.tsx), que navega pela galeria inteira.
+ * Sobretítulo "Lazer completo", a manchete do rooftop e, ao lado dela, o
+ * próprio rooftop em destaque. Embaixo, as demais áreas (a piscina primeiro)
+ * numa trilha horizontal com rolagem por arrasto/toque e as setas no pé, à
+ * direita da nota de imagens ilustrativas. Cada foto (o destaque inclusive)
+ * abre no lightbox (Lightbox.tsx), que navega pela galeria inteira.
  */
 export function LeisureSection() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -125,17 +126,17 @@ export function LeisureSection() {
             <button
               type="button"
               onClick={() => setOpenIndex(0)}
-              aria-label={`Ampliar foto: ${POOL.name}`}
+              aria-label={`Ampliar foto: ${FEATURED.name}`}
               className="group block w-full cursor-lupa-vibe focus-visible:outline-none"
             >
               <img
-                src={POOL.src}
-                alt={POOL.alt}
+                src={FEATURED.src}
+                alt={FEATURED.alt}
                 width={1600}
-                height={800}
+                height={1066}
                 loading="lazy"
                 decoding="async"
-                className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] sm:aspect-[2/1]"
+                className={`aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] sm:aspect-[2/1] ${FEATURED.position ?? "object-center"}`}
               />
             </button>
             <div
@@ -144,7 +145,7 @@ export function LeisureSection() {
             />
             <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 p-6 text-right text-white sm:p-7">
               <span className="text-[clamp(1.15rem,1.6vw,1.45rem)] leading-tight font-light">
-                {POOL.name}
+                {FEATURED.name}
               </span>
             </figcaption>
           </figure>
