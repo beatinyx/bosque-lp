@@ -14,6 +14,7 @@ rota:
 | `/atlantico`       | **Atlântico**             | Praia do Futuro, Fortaleza                          |
 | `/vista-costeira`  | **Vista Costeira**        | Cumbuco (Tabuba), Caucaia                           |
 | `/vista-coqueiral` | **Vista Coqueiral**       | Praia do Cumbuco, Caucaia                           |
+| `/vibe-cumbuco`    | **Vibe Cumbuco**          | Cumbuco, Caucaia — Av. dos Coqueiros                |
 | `/`                | —                         | Redireciona (302) para `https://www.victa.eng.br/`  |
 
 Cada LP tem também a sua página de obrigado em `/obrigado/<produto>` — o destino
@@ -459,6 +460,54 @@ canto e medida vieram do arquivo. O que diverge está registrado em
 `public/images/viver-essencial/README.md`: a faixa de lazer, a lista de entorno
 e a pastilha do endereço viraram markup, o véu do hero virou `linear-gradient`
 e a dobra institucional usa os assets compartilhados da Victa.
+
+## Vibe Cumbuco — `/vibe-cumbuco`
+
+Lançamento Victa de 2 quartos com varanda a 100 metros da praia do Cumbuco
+(Av. dos Coqueiros, Caucaia), dentro do Minha Casa, Minha Vida. Esta LP **não
+foi transcrita de um design de página**: foi desenhada do zero a partir do
+briefing de dobras e do KV no Figma (arquivo `Vibe Cumbuco · Apresentação`,
+página `book pré`), com referências de layout em cards emoldurados sobre fundo
+claro. Tema `.theme-vibe-cumbuco`: petróleo fechado `#0f4446` nos textos,
+petróleo `#105a5e` nas dobras escuras e CTAs, areia `#efe3cc`, linho `#f7f2e8`
+no fundo, o citrino `#d8d93f` só em detalhes e o laranja `#d98c34` em todos os
+CTAs (`brand-orange` no tema, hover `brand-orange-deep`). O fundo de água da
+dobra do mapa passa em fade lento pelas quatro variações do quadro "KV v2 · 01b
+· Gradiente em movimento" (petróleo, ardósia, marinho; `.vibe-sea`), e fica parado
+para quem pede menos movimento no sistema. A moldura dos cards
+(`.vibe-frame`) é o recorte do KV: cantos superior direito e inferior esquerdo
+bem abertos.
+
+- **Tipografia** — o KV usa Articulat CF (licenciada) e a manuscrita Repaiso;
+  aqui entram Figtree e Sacramento do Google Fonts, com as originais primeiro na
+  pilha (`--font-sans` do tema e `--font-script`), como no Viver Bosque.
+- **Imagens** — todas do KV, ver `public/images/vibe-cumbuco/README.md`.
+- **Reveal** — os boxes das dobras 2 a 6 sobem e aparecem ao entrar na tela
+  (`data-reveal` + `useReveal.ts`); sem JS, ou com menos movimento pedido no
+  sistema, tudo aparece direto.
+- **Faixa de ondas** — entre o lazer e o investidor, o grafismo "B · Ondas
+  chapadas" do KV v2 (sol mel, ondas maré e noite, fio creme), com as ondas em
+  loop horizontal sem emenda (`WaveBand.tsx`, `.vibe-wave`).
+- **Institucional e rodapé** — os mesmos do Vista Costeira (creme, verde
+  institucional, botão roxo `#64328a` e rodapé verde-escuro com lima), em
+  Montserrat via `font-montserrat`, como no Viver Essencial.
+- **Mapa** — o recorte do mapa ilustrado do quadro `Book Pré · 07`, com o
+  contorno do terreno e o pin desenhados por cima em HTML nas posições do Figma.
+- **Captação** — form próprio para o **Marketing Cloud**, a mesma receita das
+  outras LPs: POST para a CloudPage `MC_LEAD_ENDPOINT`
+  (`cloud.victacomunica.com.br/vibe-cumbuco-lead`), que grava na DE
+  `leads_vibe` (pasta _leads_vibe_, chave externa
+  `C3E269DD-D1E4-4007-9DE3-3ACD7CDD378A`) e redireciona para
+  `/obrigado/vibe-cumbuco` — ou de volta com `?cadastro=erro`. Código em
+  `marketing-cloud/vibe-cumbuco-lead.html`. A DE foi criada em 2026-11-09
+  copiando a estrutura da `leads_hype`: Nome, Email e Telefone obrigatórios,
+  as seis UTMs opcionais, `Origem` e `DataCadastro` (`GETDATE()`), sem chave
+  primária (cada envio é uma linha). CloudPage publicada e testada em
+  2026-11-09: GET volta para a LP, envio inválido volta com `?cadastro=erro`,
+  armadilha vai para o obrigado sem gravar, e um envio válido gravou a linha
+  com telefone normalizado (`55…`), UTMs e `Origem`.
+- **Pendente também** — o container do GTM (a rota ainda não está em
+  `GTM_IDS_BY_PATH`) e os campos `xxxx` da nota legal no rodapé.
 
 ## Formulários
 

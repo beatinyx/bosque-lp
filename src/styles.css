@@ -237,6 +237,24 @@
   --color-brand-driftwood: #bd9a78; /* pastilhas de entorno */
   --color-brand-caramel: #d3863f; /* laranja dos CTAs */
   --color-brand-caramel-deep: #b87436; /* hover dos CTAs, do próprio componente do Figma */
+
+  /*
+   * Só Vibe Cumbuco. `brand` (petróleo fechado dos textos) e `brand-sand`
+   * (areia) vêm do tema; estes são os outros tons do KV, lidos direto do
+   * arquivo de apresentação no Figma (`Vibe Cumbuco · Apresentação`).
+   */
+  --color-brand-petrol: #105a5e; /* fundo das dobras escuras e cor dos CTAs */
+  --color-brand-lagoon: #2a8582; /* teal da textura de fundo do KV */
+  --color-brand-linen: #f7f2e8; /* fundo claro da página, areia bem lavada */
+  --color-brand-citrus: #d8d93f; /* contorno do terreno no mapa e etiquetas dos renders */
+  --color-brand-orange-deep: #bf7524; /* hover dos CTAs laranja (#d98c34, no tema) */
+
+  /*
+   * Manuscrita das manchetes do Vibe Cumbuco. O KV usa a Repaiso, que não está
+   * no Google Fonts; Sacramento é a monolinear mais próxima. Família fixa (não
+   * temática) para gerar a utility `font-script`.
+   */
+  --font-script: "Repaiso", "Sacramento", cursive;
 }
 
 /*
@@ -406,6 +424,25 @@
   font-family: var(--font-sans);
 }
 
+/*
+ * Tema do Vibe Cumbuco.
+ *
+ * `brand` é o petróleo fechado (#0f4446) dos textos do KV e `brand-sand` a
+ * areia (#efe3cc) das dunas. A família é a do KV, Articulat CF, com Figtree no
+ * lugar enquanto ela não for auto-hospedada (o mesmo arranjo do Viver Bosque).
+ * O pedaço manuscrito das manchetes é `font-script`.
+ */
+.theme-vibe-cumbuco {
+  --font-sans: "Articulat CF", "Figtree", system-ui, -apple-system, sans-serif;
+
+  --color-brand: #0f4446;
+  --color-brand-sand: #efe3cc;
+  --color-brand-orchid: #64328a; /* botão "Fale com a gente" do institucional, como nas outras LPs */
+  --color-brand-orange: #d98c34; /* CTAs da página (o hover é `brand-orange-deep`, no @theme) */
+
+  font-family: var(--font-sans);
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -557,6 +594,18 @@
   }
 
   /*
+   * A mesma lupa na cartela do Vibe Cumbuco (fotos do lazer): disco no lima
+   * do KV (#d8d93f, `brand-citrus`) e o traço em petróleo fechado (#0f4446),
+   * que lê sobre o lima. Hotspot no centro da lente, como acima.
+   */
+  .cursor-lupa-vibe {
+    cursor:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='22' fill='%23d8d93f' fill-opacity='0.94'/%3E%3Ccircle cx='21' cy='21' r='8' fill='none' stroke='%230f4446' stroke-width='2'/%3E%3Cline x1='21' y1='17.5' x2='21' y2='24.5' stroke='%230f4446' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='17.5' y1='21' x2='24.5' y2='21' stroke='%230f4446' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='27' y1='27' x2='33' y2='33' stroke='%230f4446' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E")
+        21 21,
+      zoom-in;
+  }
+
+  /*
    * Chanfro do canto superior direito — a moldura de foto e de card do folder
    * (aparece no card da legenda do mapa e em todas as perspectivas).
    * O tamanho do corte acompanha o container via --chamfer.
@@ -652,6 +701,326 @@
     );
   }
 
+  /*
+   * Moldura do Vibe Cumbuco: cantos em diagonal, o superior direito e o
+   * inferior esquerdo bem abertos e os outros dois quase retos — é o recorte
+   * dos cards de foto do KV (100px sobre 1920). `--frame-lg` controla o raio
+   * grande, para cards menores usarem a mesma forma em escala.
+   */
+  .vibe-frame {
+    --frame-lg: clamp(36px, 6vw, 96px);
+    --frame-sm: 14px;
+    border-radius: var(--frame-sm) var(--frame-lg) var(--frame-sm) var(--frame-lg);
+  }
+
+  .vibe-frame-sm {
+    --frame-lg: clamp(28px, 3.4vw, 48px);
+    --frame-sm: 10px;
+  }
+
+  /* A mesma moldura espelhada: cantos abertos no superior esquerdo e no
+     inferior direito. Para alternar com o card de cima e a forma "apontar"
+     para o outro lado. */
+  .vibe-frame-flip {
+    border-radius: var(--frame-lg) var(--frame-sm) var(--frame-lg) var(--frame-sm);
+  }
+
+  /*
+   * Reveal para cima dos boxes do Vibe Cumbuco (useReveal.ts). O estado
+   * escondido só vale com a raiz pronta (`data-reveal-root="ready"`), que o
+   * hook marca no cliente — sem JS a página aparece inteira. `--reveal-delay`
+   * escalona boxes lado a lado.
+   */
+  /*
+   * Ladrilho que vira "liquid glass" no hover (facilidades do MCMV). Parado é
+   * um vidro fosco quase invisível; no hover ganha degradê translúcido,
+   * desfoque e saturação do que está atrás, borda e fio de luz por dentro,
+   * sobe 4px, um brilho redondo segue o cursor (`--mx`/`--my`, escritos pelo
+   * componente) e um reflexo diagonal atravessa o vidro uma vez.
+   *
+   * O fundo e a borda moram aqui e não em utilities do Tailwind: a camada
+   * `utilities` vem depois desta, e um `bg-*` no elemento venceria o hover.
+   */
+  .vibe-glass {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(255 255 255 / 0.06);
+    transition:
+      background 0.5s ease,
+      border-color 0.5s ease,
+      box-shadow 0.5s ease,
+      backdrop-filter 0.5s ease,
+      transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .vibe-glass::before,
+  .vibe-glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .vibe-glass::before {
+    background: radial-gradient(
+      180px circle at var(--mx, 50%) var(--my, 0%),
+      rgb(255 255 255 / 0.22),
+      transparent 65%
+    );
+  }
+
+  .vibe-glass::after {
+    background: linear-gradient(
+      115deg,
+      transparent 35%,
+      rgb(255 255 255 / 0.16) 48%,
+      transparent 62%
+    );
+    background-size: 250% 100%;
+    background-position: 130% 0;
+    transition:
+      opacity 0.5s ease,
+      background-position 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .vibe-glass:hover {
+    border-color: rgb(255 255 255 / 0.3);
+    background: linear-gradient(
+      140deg,
+      rgb(255 255 255 / 0.17),
+      rgb(255 255 255 / 0.05) 55%,
+      rgb(255 255 255 / 0.1)
+    );
+    backdrop-filter: blur(14px) saturate(170%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.45),
+      inset 0 -1px 0 rgb(255 255 255 / 0.08),
+      inset 0 0 24px rgb(255 255 255 / 0.06),
+      0 22px 44px -22px rgb(0 0 0 / 0.6);
+    transform: translateY(-4px);
+  }
+
+  .vibe-glass:hover::before,
+  .vibe-glass:hover::after {
+    opacity: 1;
+  }
+
+  .vibe-glass:hover::after {
+    background-position: -30% 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vibe-glass,
+    .vibe-glass::after {
+      transition: none;
+    }
+    .vibe-glass:hover {
+      transform: none;
+    }
+  }
+
+  /* Só a subida é animada: esconder, ao montar a página, é instantâneo. */
+  [data-reveal-root="ready"] [data-reveal][data-revealed] {
+    transition:
+      opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal-root="ready"] [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    transform: translate3d(0, 48px, 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal-root="ready"] [data-reveal] {
+      transition: none;
+    }
+    [data-reveal-root="ready"] [data-reveal]:not([data-revealed]) {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /*
+   * Fundo de água em movimento do Vibe Cumbuco (dobra do mapa).
+   *
+   * As quatro variações do quadro "KV v2 · 01b · Gradiente em movimento"
+   * (`fundo-mar-1..4.svg`: petróleo; ardósia com petróleo; marinho com
+   * petróleo; ardósia e marinho) ficam empilhadas. A 1 é a base, sempre
+   * visível; a 2, a 3 e a 4 entram por cima uma de cada vez em fade de 1,5 s e
+   * só somem quando a seguinte já as cobriu — a 4 é a única que sai sozinha,
+   * devolvendo a 1. Ciclo de 26 s: 5 s parado em cada cor + 1,5 s de fade
+   * (cada cor ocupa 25% do ciclo; o fade é 5,8% dele). Enquanto isso o
+   * conjunto deriva e respira devagar (`vibe-water-drift`). Só `transform` e
+   * `opacity`, que a GPU anima sem repintar.
+   *
+   * Quem pede menos movimento no sistema recebe a variação 1 parada.
+   */
+  .vibe-sea {
+    overflow: hidden;
+  }
+
+  .vibe-sea-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.18);
+    animation: vibe-water-drift 38s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+  }
+
+  .vibe-sea-2,
+  .vibe-sea-3,
+  .vibe-sea-4 {
+    opacity: 0;
+    animation:
+      vibe-water-drift 38s ease-in-out infinite alternate,
+      var(--sea-fade) 26s ease-in-out infinite;
+  }
+
+  .vibe-sea-2 {
+    --sea-fade: vibe-sea-fade-2;
+  }
+  .vibe-sea-3 {
+    --sea-fade: vibe-sea-fade-3;
+  }
+  .vibe-sea-4 {
+    --sea-fade: vibe-sea-fade-4;
+  }
+
+  /*
+   * Faixa de ondas (WaveBand.tsx). Cada camada é um ladrilho repetido na
+   * horizontal e um pouco mais larga que a tela; a animação a desloca
+   * exatamente um período (`--period`, a largura do ladrilho), então o fim do
+   * ciclo cai em cima do começo e o loop não tem emenda. Velocidades e
+   * sentidos diferentes por camada, para o mar não andar "em bloco".
+   */
+  .vibe-wave {
+    width: calc(100% + var(--period));
+    background-repeat: repeat-x;
+    background-position: 0 0;
+    background-size: var(--period) auto;
+    animation: vibe-wave-x var(--duration) linear infinite;
+    will-change: transform;
+  }
+
+  .vibe-wave-mare {
+    --period: 280px;
+    --duration: 14s;
+  }
+
+  .vibe-wave-noite {
+    --period: 340px;
+    --duration: 20s;
+    animation-direction: reverse;
+  }
+
+  .vibe-wave-linha {
+    --period: 240px;
+    --duration: 9s;
+  }
+
+  .vibe-sun {
+    animation: vibe-sun-float 7s ease-in-out infinite alternate;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vibe-sea-layer,
+    .vibe-wave,
+    .vibe-sun {
+      animation: none;
+    }
+    .vibe-sun {
+      transform: translateY(22%);
+    }
+  }
+}
+
+@keyframes vibe-sea-fade-2 {
+  0%,
+  19.2% {
+    opacity: 0;
+  }
+  25%,
+  58% {
+    opacity: 1;
+  }
+  59%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes vibe-sea-fade-3 {
+  0%,
+  44.2% {
+    opacity: 0;
+  }
+  50%,
+  83% {
+    opacity: 1;
+  }
+  84%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes vibe-sea-fade-4 {
+  0%,
+  69.2% {
+    opacity: 0;
+  }
+  75%,
+  94.2% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes vibe-wave-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-1 * var(--period)), 0, 0);
+  }
+}
+
+/* O sol nasce e se põe pouco: só a borda de baixo entra e sai da onda. */
+@keyframes vibe-sun-float {
+  from {
+    transform: translateY(14%);
+  }
+  to {
+    transform: translateY(30%);
+  }
+}
+
+@keyframes vibe-water-drift {
+  0% {
+    transform: scale(1.18) translate3d(-3%, -2%, 0) rotate(-0.6deg);
+  }
+  50% {
+    transform: scale(1.24) translate3d(1.5%, 1%, 0) rotate(0.4deg);
+  }
+  100% {
+    transform: scale(1.2) translate3d(3%, -1.5%, 0) rotate(0.8deg);
+  }
+}
+
+@layer components {
   /* Trilha do carrossel: rola na horizontal sem mostrar a barra de rolagem. */
   .no-scrollbar {
     scrollbar-width: none;
