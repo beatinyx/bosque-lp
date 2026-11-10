@@ -83,7 +83,7 @@ export function HeroSection() {
             linha do topo do form, e o logo e a tagline vêm logo abaixo dela.
           */}
           <div className="mt-auto flex flex-col pb-24 sm:pb-28 lg:min-h-[calc(var(--hero-form-h,0px)+3.5rem)] lg:max-w-[calc(100%-470px)] lg:justify-start lg:pb-14">
-            <p className="mb-7 inline-flex items-center gap-2.5 self-start rounded-full border border-white/30 bg-white/10 px-4 py-2 text-[0.72rem] font-semibold tracking-[0.2em] uppercase backdrop-blur-md">
+            <p className="mb-7 inline-flex items-center gap-2.5 self-start rounded-full border border-white/30 bg-white/15 px-4 py-2 text-[0.72rem] font-semibold tracking-[0.2em] uppercase">
               <span aria-hidden="true" className="size-1.5 rounded-full bg-brand-citrus" />
               Lançamento em Cumbuco
             </p>
@@ -116,7 +116,7 @@ export function HeroSection() {
                 {["A 100 metros do mar", "Minha Casa, Minha Vida"].map((tag) => (
                   <li
                     key={tag}
-                    className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-[0.72rem] font-semibold tracking-[0.2em] uppercase backdrop-blur-md"
+                    className="rounded-full border border-white/30 bg-white/15 px-4 py-2 text-[0.72rem] font-semibold tracking-[0.2em] uppercase"
                   >
                     {tag}
                   </li>

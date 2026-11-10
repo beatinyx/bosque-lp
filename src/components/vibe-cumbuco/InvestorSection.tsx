@@ -39,7 +39,7 @@ export function InvestorSection() {
 
         <div data-reveal className="[--reveal-delay:150ms] lg:col-span-6">
           <Eyebrow>Para investir</Eyebrow>
-          <Heading lead="Um ativo sólido no litoral que mais cresce" script="e valoriza" />
+          <Heading lead="Um ativo sólido no litoral que mais cresce" accent="e valoriza" />
 
           <p className="mt-8 max-w-[52ch] text-[1.02rem] leading-[1.65] text-brand/75">
             Cumbuco atrai milhares de visitantes e entusiastas de esportes náuticos o ano inteiro,

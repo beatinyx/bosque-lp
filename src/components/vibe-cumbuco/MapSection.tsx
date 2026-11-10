@@ -25,6 +25,7 @@ export function MapSection() {
       <div className={SHELL}>
         <div
           data-reveal
+          data-motion
           className="vibe-frame vibe-frame-flip relative isolate overflow-hidden bg-brand-petrol px-6 py-12 text-brand-linen sm:px-10 sm:py-16 lg:px-14 lg:py-20"
         >
           {/*
@@ -36,7 +37,7 @@ export function MapSection() {
             {[1, 2, 3, 4].map((n) => (
               <img
                 key={n}
-                src={`/images/vibe-cumbuco/fundo-mar-${n}.svg`}
+                src={`/images/vibe-cumbuco/fundo-mar-${n}.webp`}
                 alt=""
                 loading="lazy"
                 decoding="async"
@@ -48,7 +49,7 @@ export function MapSection() {
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-14">
             <div className="lg:col-span-5">
               <Eyebrow tone="light">Localização</Eyebrow>
-              <Heading tone="light" lead="A 100 metros" script="da praia" />
+              <Heading tone="light" lead="A 100 metros" accent="da praia" />
               <p className="mt-6 text-[1rem] leading-[1.6] text-brand-linen/70">
                 Av. dos Coqueiros, Cumbuco — Caucaia/CE
               </p>

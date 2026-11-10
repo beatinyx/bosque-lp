@@ -41,7 +41,7 @@ export function CumbucoSection() {
             <Heading
               size="md"
               lead="Onde a natureza dita o ritmo e a praia é parte"
-              script="do seu dia a dia"
+              accent="do seu dia a dia"
             />
             <p className="mt-6 max-w-[44ch] text-[1rem] leading-[1.65] text-brand/80">
               Considerado um dos melhores destinos do mundo para a prática de kitesurf e cercado por

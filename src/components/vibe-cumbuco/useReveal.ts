@@ -42,6 +42,28 @@ export function useReveal(rootRef: RefObject<HTMLElement | null>) {
       if (!("revealed" in element.dataset)) observer.observe(element);
     }
 
-    return () => observer.disconnect();
+    /*
+     * Blocos com animação contínua (`data-motion`: o fundo de água do mapa e a
+     * faixa de ondas) só animam enquanto estão na tela — fora dela o CSS pausa
+     * as animações, e o celular não gasta quadro com o que ninguém está vendo.
+     */
+    const motion = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const target = entry.target as HTMLElement;
+          if (entry.isIntersecting) target.dataset["inview"] = "";
+          else delete target.dataset["inview"];
+        }
+      },
+      { rootMargin: "100px 0px" },
+    );
+    for (const element of root.querySelectorAll<HTMLElement>("[data-motion]")) {
+      motion.observe(element);
+    }
+
+    return () => {
+      observer.disconnect();
+      motion.disconnect();
+    };
   }, [rootRef]);
 }
