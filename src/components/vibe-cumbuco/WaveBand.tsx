@@ -17,6 +17,7 @@ export function WaveBand() {
     <div
       aria-hidden="true"
       data-reveal
+      data-motion
       className="relative mb-[clamp(4.5rem,10vw,8.5rem)] h-[clamp(220px,24vw,320px)] overflow-hidden"
     >
       <span className="vibe-sun absolute right-[16%] bottom-[53%] aspect-square w-[clamp(72px,8vw,120px)] rounded-full bg-[#d9a65a]" />

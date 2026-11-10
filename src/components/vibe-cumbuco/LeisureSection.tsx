@@ -113,7 +113,7 @@ export function LeisureSection() {
             <Eyebrow>Lazer completo</Eyebrow>
             <Heading
               lead="O privilégio de ter um Rooftop"
-              script="com vista para o mar"
+              accent="com vista para o mar"
               className="max-w-[16ch]"
             />
           </div>

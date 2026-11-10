@@ -34,7 +34,7 @@ export function ConditionsSection() {
         >
           <div className="px-6 py-12 sm:px-10 sm:py-16 lg:col-span-7 lg:px-14 lg:py-20">
             <Eyebrow tone="light">Minha Casa, Minha Vida</Eyebrow>
-            <Heading tone="light" lead="As condições que faltavam" script="para o seu novo apê" />
+            <Heading tone="light" lead="As condições que faltavam" accent="para o seu novo apê" />
 
             <p className="mt-8 max-w-[50ch] text-[1.02rem] leading-[1.65] text-brand-linen/75">
               O Vibe Cumbuco faz parte do programa Minha Casa, Minha Vida, facilitando o acesso com

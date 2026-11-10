@@ -480,7 +480,9 @@ bem abertos.
 
 - **Tipografia** — o KV usa Articulat CF (licenciada) e a manuscrita Repaiso;
   aqui entram Figtree e Sacramento do Google Fonts, com as originais primeiro na
-  pilha (`--font-sans` do tema e `--font-script`), como no Viver Bosque.
+  pilha (`--font-sans` do tema e `--font-script`), como no Viver Bosque. A
+  manuscrita só aparece na tagline do hero; os títulos das seções fecham em
+  negrito (`Heading` em `ui.tsx`, prop `accent`).
 - **Imagens** — todas do KV, ver `public/images/vibe-cumbuco/README.md`.
 - **Reveal** — os boxes das dobras 2 a 6 sobem e aparecem ao entrar na tela
   (`data-reveal` + `useReveal.ts`); sem JS, ou com menos movimento pedido no

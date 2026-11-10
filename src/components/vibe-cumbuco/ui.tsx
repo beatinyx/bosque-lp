@@ -10,39 +10,35 @@ import type { ReactNode, SVGProps } from "react";
 export const SHELL = "mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8";
 
 /**
- * Manchete do KV: a frase em sans fina e o fecho na manuscrita, numa linha
- * própria e um pouco recuada — "Onde o litoral / ganha vida", "Um ativo /
- * para valorizar". O leitor de tela lê as duas partes como uma frase só.
+ * Manchete das seções: a frase em sans fina e o fecho em negrito, na mesma
+ * linha de leitura e na cor de destaque do fundo — "Um ativo sólido no
+ * litoral que mais cresce **e valoriza**". A manuscrita ficou só na tagline
+ * do hero.
  */
 export function Heading({
   as: Tag = "h2",
   lead,
-  script,
+  accent,
   tone = "dark",
   size = "lg",
   className = "",
 }: {
   as?: "h1" | "h2";
   lead: ReactNode;
-  script: ReactNode;
+  accent: ReactNode;
   tone?: "dark" | "light";
   /** `md` para manchete que divide o espaço com uma foto, como na dobra 2. */
   size?: "lg" | "md";
   className?: string;
 }) {
-  const scriptColor = tone === "dark" ? "text-brand-petrol" : "text-brand-sand";
+  const accentColor = tone === "dark" ? "text-brand-petrol" : "text-brand-sand";
   const fontSize =
     size === "lg" ? "text-[clamp(2rem,4.4vw,3.6rem)]" : "text-[clamp(1.75rem,3.2vw,2.85rem)]";
   return (
     <Tag
       className={`${fontSize} leading-[1.08] font-light tracking-[-0.02em] text-balance ${className}`}
     >
-      {lead}{" "}
-      <span
-        className={`mt-1 block pl-[0.6em] font-script text-[1.32em] leading-[0.95] font-normal tracking-normal ${scriptColor}`}
-      >
-        {script}
-      </span>
+      {lead} <strong className={`font-semibold ${accentColor}`}>{accent}</strong>
     </Tag>
   );
 }
