@@ -88,7 +88,7 @@ export function HeroSection() {
               Lançamento em Cumbuco
             </p>
 
-            <div>
+            <div className="@container">
               <img
                 src="/images/vibe-cumbuco/logo-vibe-branco.svg"
                 alt="Vibe Cumbuco"
@@ -97,26 +97,50 @@ export function HeroSection() {
                 className="mb-8 block h-auto w-[clamp(150px,15vw,220px)]"
               />
 
-              <h1 className="text-[clamp(2.6rem,6.4vw,5.6rem)] leading-[0.98] font-extralight tracking-[-0.03em] [text-shadow:0_2px_30px_rgba(15,68,70,0.35)]">
-                Leve sua rotina{" "}
-                <span className="mt-1 block pl-[0.5em] font-script text-[1.3em] leading-[0.95] font-normal tracking-normal text-brand-sand">
-                  para ver o mar
-                </span>
+              {/*
+                Tagline do quadro "Book · 09 · Tagline" do KV (node 656:120):
+                "Leve sua rotina" em texto, a 84px, e "para ver o mar" no
+                vetor da Repaiso exportado do Figma (o "P" e o resto da linha
+                juntos em `tagline-para-ver-o-mar.svg`, na posição relativa do
+                quadro). Todas as medidas são as do quadro divididas por 84,
+                então valem em `em`: o vetor começa 2.036em à direita e
+                0.631em abaixo do topo do texto, e tem 8.363em de largura. O
+                conjunto mede 10.4em, e o tamanho de fonte sai da largura da
+                coluna (`cqi`): no celular ocupa a coluna inteira; do `sm` para
+                cima fica em ~78% dela, até 60px (o quadro usa 84px, mas no
+                hero, ao lado do formulário, isso pesava demais).
+              */}
+              <h1 className="text-[min(9.5cqi,5.25rem)] sm:text-[min(7.5cqi,3.75rem)] leading-none font-extralight tracking-[-0.04em] text-[#faf5eb] [text-shadow:0_2px_30px_rgba(15,68,70,0.35)]">
+                Leve sua rotina <span className="sr-only">para ver o mar</span>
+                <img
+                  src="/images/vibe-cumbuco/tagline-para-ver-o-mar.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width={702}
+                  height={191}
+                  className="-mt-[0.369em] ml-[2.036em] block h-auto w-[8.363em] max-w-none [filter:drop-shadow(0_2px_30px_rgba(15,68,70,0.35))]"
+                />
               </h1>
 
               {/*
-                As tags se encaixam ao lado da perninha do "p" de "para": a
-                lista tem o tamanho de fonte do h1, então os `em` abaixo seguem
-                a manchete em qualquer tela. `ml` = recuo da manuscrita (0.65em)
-                + a largura do "p" (0.36 × 1.3em); `mt` negativo sobe até logo
-                abaixo da linha de base do texto, por dentro da descendente.
-                Medidas feitas na Sacramento, a manuscrita carregada.
+                As tags se encaixam ao lado da perninha do "P", logo abaixo de
+                "ara ver o mar" (que termina a 1.98em do topo do h1, contra
+                2.905em do pé do "P"). A lista tem o tamanho de fonte do h1,
+                então os `em` seguem a manchete em qualquer tela. No celular
+                não sobra largura ao lado do "P" para "A 100 metros do mar do
+                Cumbuco" numa linha só, e a lista desce para baixo da tagline,
+                rente à esquerda. Cores da cartela do KV: fundo "Mar" e texto
+                "Areia".
               */}
-              <ul className="-mt-[0.14em] ml-[1.12em] flex flex-wrap gap-2.5 text-[clamp(2.6rem,6.4vw,5.6rem)]">
-                {["A 100 metros do mar", "Minha Casa, Minha Vida"].map((tag) => (
+              <ul className="mt-5 flex flex-wrap gap-2.5 text-[min(9.5cqi,5.25rem)] sm:text-[min(7.5cqi,3.75rem)] sm:-mt-[0.8em] sm:ml-[2.3em]">
+                {[
+                  "2 quartos com varanda",
+                  "100% de vagas garantidas",
+                  "A 100 metros do mar do Cumbuco",
+                ].map((tag) => (
                   <li
                     key={tag}
-                    className="rounded-full border border-white/30 bg-white/15 px-4 py-2 text-[0.72rem] font-semibold tracking-[0.2em] uppercase"
+                    className="rounded-full bg-brand-sea px-4 py-2 text-[0.72rem] font-semibold tracking-[0.2em] text-brand-dune uppercase"
                   >
                     {tag}
                   </li>
@@ -142,7 +166,7 @@ export function HeroSection() {
         >
           <h2 className="mb-6 text-[clamp(1.35rem,2vw,1.6rem)] leading-[1.2] font-light tracking-[-0.01em] text-balance">
             Garanta sua oportunidade no{" "}
-            <strong className="font-medium text-brand-petrol">endereço mais desejado</strong> de
+            <strong className="font-medium text-brand-petrol">endereço mais desejado</strong> do
             Cumbuco
           </h2>
           <LeadForm />

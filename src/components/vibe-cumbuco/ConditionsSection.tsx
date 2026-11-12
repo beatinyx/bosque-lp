@@ -1,6 +1,6 @@
 import type { PointerEvent } from "react";
 
-import { CtaLink, Eyebrow, Heading, IconBank, IconCalendar, IconWallet, SHELL } from "./ui";
+import { CtaLink, Eyebrow, Heading, IconCalendar, IconWallet, SHELL } from "./ui";
 
 /** Leva a posição do cursor para o brilho do vidro (`--mx`/`--my` em `.vibe-glass`). */
 function followPointer(event: PointerEvent<HTMLElement>) {
@@ -12,14 +12,13 @@ function followPointer(event: PointerEvent<HTMLElement>) {
 
 const PERKS = [
   { icon: IconWallet, text: "Use o seu FGTS na entrada." },
-  { icon: IconBank, text: "Financiamento facilitado pela Caixa Econômica Federal." },
   { icon: IconCalendar, text: "Parcelas que se ajustam ao seu planejamento." },
 ];
 
 /**
  * DOBRA 6 — Condições comerciais (Minha Casa, Minha Vida).
  *
- * Card petróleo fechado, o par escuro da dobra do mapa: texto e as três
+ * Card petróleo fechado, o par escuro da dobra do mapa: texto e as duas
  * facilidades em ladrilhos translúcidos (como o "Комплексное меблирование" da
  * referência), que viram vidro no hover (`.vibe-glass`), de um lado, a torre com as varandas do outro. O living do KV
  * não serve aqui: é área comum do condomínio, não o interior do apartamento.
@@ -36,16 +35,14 @@ export function ConditionsSection() {
             <Eyebrow tone="light">Minha Casa, Minha Vida</Eyebrow>
             <Heading tone="light" lead="As condições que faltavam" accent="para o seu novo apê" />
 
-            <p className="mt-8 max-w-[50ch] text-[1.02rem] leading-[1.65] text-brand-linen/75">
-              O Vibe Cumbuco faz parte do programa Minha Casa, Minha Vida, facilitando o acesso com
-              renda familiar a partir de{" "}
-              <strong className="font-semibold whitespace-nowrap text-brand-sand">
-                R$ 9.000,00
-              </strong>
-              .
+            <p className="mt-8 max-w-[50ch] text-[1.02rem] leading-[1.65] text-pretty text-brand-linen/75">
+              Com o financiamento facilitado pela Caixa Econômica Federal, garantir a sua unidade no
+              Vibe Cumbuco ficou simples e acessível. Cuidamos das condições para você focar no que
+              realmente importa: o seu novo lar.
             </p>
 
-            <ul className="mt-10 grid gap-3 sm:grid-cols-3">
+            {/* Largura limitada para os boxes não sobrarem vazios à direita do texto. */}
+            <ul className="mt-10 grid gap-3 sm:max-w-[32rem] sm:grid-cols-2">
               {PERKS.map(({ icon: Icon, text }) => (
                 <li
                   key={text}
@@ -61,7 +58,12 @@ export function ConditionsSection() {
             <CtaLink className="mt-10">Quero simular meu financiamento</CtaLink>
           </div>
 
-          <div className="group relative min-h-[300px] overflow-hidden lg:col-span-5">
+          {/*
+            Véu em petróleo: no desktop a foto se funde ao texto da esquerda
+            para a direita; no celular, onde ela fica embaixo do texto, o mesmo
+            degradê corre de cima para baixo, sem emenda reta entre os dois.
+          */}
+          <div className="group relative min-h-[360px] overflow-hidden lg:col-span-5 lg:min-h-[300px]">
             <img
               src="/images/vibe-cumbuco/fachada.webp"
               alt="Torre do Vibe Cumbuco com as varandas iluminadas ao entardecer"
@@ -73,7 +75,7 @@ export function ConditionsSection() {
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-b from-brand/40 to-transparent lg:bg-gradient-to-r lg:from-brand lg:via-brand/10"
+              className="absolute inset-0 bg-gradient-to-b from-brand via-brand/10 to-transparent lg:bg-gradient-to-r"
             />
           </div>
         </div>

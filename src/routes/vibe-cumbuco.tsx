@@ -5,7 +5,6 @@ import { ConditionsSection } from "../components/vibe-cumbuco/ConditionsSection"
 import { CumbucoSection } from "../components/vibe-cumbuco/CumbucoSection";
 import { Footer } from "../components/vibe-cumbuco/Footer";
 import { HeroSection } from "../components/vibe-cumbuco/HeroSection";
-import { InvestorSection } from "../components/vibe-cumbuco/InvestorSection";
 import { LeisureSection } from "../components/vibe-cumbuco/LeisureSection";
 import { MapSection } from "../components/vibe-cumbuco/MapSection";
 import { useReveal } from "../components/vibe-cumbuco/useReveal";
@@ -32,13 +31,14 @@ export const Route = createFileRoute("/vibe-cumbuco")({
       { rel: "canonical", href: "/vibe-cumbuco" },
       /*
        * Fontes desta LP — ver a nota em viver-bosque.tsx. Figtree está no
-       * lugar da Articulat CF do KV, e Sacramento no da Repaiso (ver
-       * `--font-script` em styles.css). Montserrat só no institucional e no
+       * lugar da Articulat CF do KV. A manuscrita do KV (Repaiso) só aparece
+       * na tagline do hero, que usa o vetor exportado do Figma, então não há
+       * fonte manuscrita para carregar. Montserrat só no institucional e no
        * rodapé, que são os mesmos das outras LPs.
        */
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600&family=Sacramento&family=Montserrat:wght@400;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600&family=Montserrat:wght@400;700&display=swap",
       },
     ],
   }),
@@ -64,7 +64,6 @@ function VibeCumbuco() {
         <MapSection />
         <LeisureSection />
         <WaveBand />
-        <InvestorSection />
         <ConditionsSection />
         <VictaSection />
       </main>

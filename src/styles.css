@@ -245,16 +245,11 @@
    */
   --color-brand-petrol: #105a5e; /* fundo das dobras escuras e cor dos CTAs */
   --color-brand-lagoon: #2a8582; /* teal da textura de fundo do KV */
+  --color-brand-sea: #2b8c88; /* "Mar" da cartela do KV (KV · 07 · Paleta): fundo das tags do hero */
+  --color-brand-dune: #e3cfa6; /* "Areia" da cartela do KV: texto das tags do hero */
   --color-brand-linen: #f7f2e8; /* fundo claro da página, areia bem lavada */
   --color-brand-citrus: #d8d93f; /* contorno do terreno no mapa e etiquetas dos renders */
   --color-brand-orange-deep: #bf7524; /* hover dos CTAs laranja (#d98c34, no tema) */
-
-  /*
-   * Manuscrita das manchetes do Vibe Cumbuco. O KV usa a Repaiso, que não está
-   * no Google Fonts; Sacramento é a monolinear mais próxima. Família fixa (não
-   * temática) para gerar a utility `font-script`.
-   */
-  --font-script: "Repaiso", "Sacramento", cursive;
 }
 
 /*
@@ -430,7 +425,8 @@
  * `brand` é o petróleo fechado (#0f4446) dos textos do KV e `brand-sand` a
  * areia (#efe3cc) das dunas. A família é a do KV, Articulat CF, com Figtree no
  * lugar enquanto ela não for auto-hospedada (o mesmo arranjo do Viver Bosque).
- * O pedaço manuscrito das manchetes é `font-script`.
+ * O pedaço manuscrito da tagline do hero é um vetor do Figma, não fonte
+ * (ver HeroSection.tsx).
  */
 .theme-vibe-cumbuco {
   --font-sans: "Articulat CF", "Figtree", system-ui, -apple-system, sans-serif;

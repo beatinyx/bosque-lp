@@ -40,8 +40,8 @@ export function CumbucoSection() {
             <Eyebrow>Cumbuco · Caucaia, CE</Eyebrow>
             <Heading
               size="md"
-              lead="Onde a natureza dita o ritmo e a praia é parte"
-              accent="do seu dia a dia"
+              lead="Morar no Cumbuco é ter o mar e a natureza"
+              accent="no ritmo do seu dia"
             />
             <p className="mt-6 max-w-[44ch] text-[1rem] leading-[1.65] text-brand/80">
               Considerado um dos melhores destinos do mundo para a prática de kitesurf e cercado por

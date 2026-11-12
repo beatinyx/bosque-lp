@@ -1,9 +1,11 @@
 /**
- * Faixa de ondas entre o lazer e o investidor.
+ * Faixa de ondas entre o lazer e as condições.
  *
  * É o grafismo "B · Ondas chapadas" do KV v2 (quadro "KV v2 · 02 · Grafismos",
- * página "Draft · Apresentação · Novo KV"): sol em mel, onda em maré, onda em
- * noite e um fio creme, em cor chapada sobre o claro da página.
+ * página "Draft · Apresentação · Novo KV"): sol em mel, duas ondas e um fio
+ * creme, em cor chapada sobre o claro da página. No KV as ondas são marinho;
+ * aqui foram para os verdes-água da cartela: teal (#2a8582) atrás e petróleo
+ * (#0f4446) na frente.
  *
  * As três ondas do Figma são periódicas, e cada uma virou um ladrilho
  * (`onda-mare.svg` 280px, `onda-noite.svg` 340px, `onda-linha.svg` 240px) que
