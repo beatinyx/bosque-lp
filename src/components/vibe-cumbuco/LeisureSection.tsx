@@ -111,9 +111,9 @@ export function LeisureSection() {
       <div className={SHELL}>
         <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
           <div data-reveal className="lg:col-span-5">
-            <Eyebrow>Lazer completo</Eyebrow>
+            <Eyebrow>Lazer</Eyebrow>
             <Heading
-              lead="O privilégio de ter um Rooftop"
+              lead="Condomínio com lazer completo e rooftop"
               accent="com vista para o mar"
               className="max-w-[16ch]"
             />

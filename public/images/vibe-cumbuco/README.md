@@ -30,7 +30,7 @@ mesmos arquivos oficiais.
 
 ## Casal de kitesurf
 
-`casal-kitesurf.webp` (1600px, q80) vem do JPG entregue em 2026-11-09 (casal com roupa e pranchas de kitesurf em frente à portaria, 2752×1536), guardado em `assets-originais/vibe-cumbuco/casal-kitesurf-pranchas.jpg` — substituiu uma primeira versão (`casal-kitesurf-portaria.jpg`, também lá). Usado na dobra do investidor, em recorte 4:3 ancorado à direita (`object-[88%_center]`) para pegar o letreiro e o casal.
+`casal-kitesurf.webp` (1600px, q80) vem do JPG entregue em 2026-11-09 (casal com roupa e pranchas de kitesurf em frente à portaria, 2752×1536), guardado em `assets-originais/vibe-cumbuco/casal-kitesurf-pranchas.jpg` — substituiu uma primeira versão (`casal-kitesurf-portaria.jpg`, também lá). Era usado na dobra do investidor (retirada da página em 2026-11-12; hoje sem uso), em recorte 4:3 ancorado à direita (`object-[88%_center]`) para pegar o letreiro e o casal.
 
 ## Do KV no Figma
 
