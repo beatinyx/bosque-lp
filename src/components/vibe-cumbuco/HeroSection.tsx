@@ -127,7 +127,7 @@ export function HeroSection() {
                 "ara ver o mar" (que termina a 1.98em do topo do h1, contra
                 2.905em do pé do "P"). A lista tem o tamanho de fonte do h1,
                 então os `em` seguem a manchete em qualquer tela. No celular
-                não sobra largura ao lado do "P" para "A 100 metros do mar do
+                não sobra largura ao lado do "P" para "A poucos metros do mar do
                 Cumbuco" numa linha só, e a lista desce para baixo da tagline,
                 rente à esquerda. Cores da cartela do KV: fundo "Mar" e texto
                 "Areia".
@@ -136,7 +136,7 @@ export function HeroSection() {
                 {[
                   "2 quartos com varanda",
                   "100% de vagas garantidas",
-                  "A 100 metros do mar do Cumbuco",
+                  "A poucos metros do mar do Cumbuco",
                 ].map((tag) => (
                   <li
                     key={tag}
