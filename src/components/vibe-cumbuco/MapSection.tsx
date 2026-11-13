@@ -1,7 +1,7 @@
 import { CtaLink, Eyebrow, Heading, SHELL } from "./ui";
 
 const NEARBY = [
-  { time: "1", place: "Chico Cumbuco" },
+  { time: "1", place: "Chico do Caranguejo - Cumbuco" },
   { time: "1", place: "Super Cumbuco Atacarejo" },
   { time: "4", place: "Tabuba / Tabúzios" },
 ];
@@ -49,7 +49,7 @@ export function MapSection() {
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-14">
             <div className="lg:col-span-5">
               <Eyebrow tone="light">Localização</Eyebrow>
-              <Heading tone="light" lead="A 100 metros" accent="do mar" />
+              <Heading tone="light" lead="A poucos metros" accent="do mar" />
               <p className="mt-6 text-[1rem] leading-[1.6] text-brand-linen/70">
                 Av. dos Coqueiros, Cumbuco — Caucaia/CE
               </p>
@@ -78,7 +78,7 @@ export function MapSection() {
                 <div className="absolute inset-y-0 left-[-21.53%] w-[133.33%] sm:left-0 sm:w-full">
                   <img
                     src="/images/vibe-cumbuco/mapa.webp"
-                    alt="Mapa ilustrado do Cumbuco com o terreno do Vibe Cumbuco a 100 metros do mar"
+                    alt="Mapa ilustrado do Cumbuco com o terreno do Vibe Cumbuco a poucos metros do mar"
                     width={2000}
                     height={1125}
                     loading="lazy"

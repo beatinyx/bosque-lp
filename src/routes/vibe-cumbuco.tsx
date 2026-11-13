@@ -11,9 +11,9 @@ import { useReveal } from "../components/vibe-cumbuco/useReveal";
 import { VictaSection } from "../components/vibe-cumbuco/VictaSection";
 import { WaveBand } from "../components/vibe-cumbuco/WaveBand";
 
-const TITLE = "Vibe Cumbuco | Lançamento a 100 metros da praia";
+const TITLE = "Vibe Cumbuco | Lançamento a poucos metros do mar";
 const DESCRIPTION =
-  "Lançamento Victa no Cumbuco: apartamentos de 2 quartos com varanda a 100 metros da praia, rooftop com vista para o mar e condições do Minha Casa, Minha Vida.";
+  "Lançamento Victa no Cumbuco: apartamentos de 2 quartos com varanda a poucos metros do mar, rooftop com vista para o mar e condições do Minha Casa, Minha Vida.";
 
 export const Route = createFileRoute("/vibe-cumbuco")({
   head: () => ({
