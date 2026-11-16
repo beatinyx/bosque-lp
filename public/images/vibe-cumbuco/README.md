@@ -9,8 +9,11 @@ aqui só os webp convertidos com ffmpeg.
 
 | Arquivo                | Original                       | Tratamento                                                          |
 | ---------------------- | ------------------------------ | ------------------------------------------------------------------- |
-| `fachada.webp`         | `FACHADA-R01` 2000×1333        | 2000px, q82 — hero e dobra do MCMV                                  |
+| `fachada.webp`         | `FACHADA-R01` 2000×1333        | 2000px, q82 — página de obrigado                                    |
 | `fachada-mobile.webp`  | idem                           | recorte 1100×1333 a partir de x=860 (torre da direita), 1000px, q78 |
+| `fachada-hero.webp`    | render de dia 2000×1241, entregue em 2026-11-16 (`assets-originais/vibe-cumbuco/fachada-hero-entregue-2026-11-16.webp`) | 2000px, q82 — hero e og:image |
+| `fachada-hero-mobile.webp` | idem                       | recorte 1100×1241 a partir de x=820 (torre da direita), 1000px, q78 — hero no celular |
+| `portaria.webp`        | render da portaria 1800×2000, entregue em 2026-11-16 (`assets-originais/vibe-cumbuco/portaria-entregue-2026-11-16.jpg`) | 1400px, q80 — dobra das condições (MCMV) |
 | `rooftop.webp`         | `LOUNGE-R01` 2000×1333         | 1600px, q80 — é o rooftop, o render oficial chama de lounge         |
 | `living.webp`          | `LIVING01-R01` 2000×1176       | 1600px, q78 — área comum, não interior de apartamento               |
 | `living-jogos.webp`    | `LIVING02-R01` 2000×1333       | 1600px, q78                                                         |

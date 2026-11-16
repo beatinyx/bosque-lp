@@ -5,6 +5,7 @@ import { ConditionsSection } from "../components/vibe-cumbuco/ConditionsSection"
 import { CumbucoSection } from "../components/vibe-cumbuco/CumbucoSection";
 import { Footer } from "../components/vibe-cumbuco/Footer";
 import { HeroSection } from "../components/vibe-cumbuco/HeroSection";
+import { HighlightsBar } from "../components/vibe-cumbuco/HighlightsBar";
 import { LeisureSection } from "../components/vibe-cumbuco/LeisureSection";
 import { MapSection } from "../components/vibe-cumbuco/MapSection";
 import { useReveal } from "../components/vibe-cumbuco/useReveal";
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/vibe-cumbuco")({
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/vibe-cumbuco" },
-      { property: "og:image", content: "/images/vibe-cumbuco/fachada.webp" },
+      { property: "og:image", content: "/images/vibe-cumbuco/fachada-hero.webp" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -60,6 +61,7 @@ function VibeCumbuco() {
     <div className="theme-vibe-cumbuco min-h-screen bg-brand-linen text-brand">
       <main ref={mainRef}>
         <HeroSection />
+        <HighlightsBar />
         <CumbucoSection />
         <MapSection />
         <LeisureSection />

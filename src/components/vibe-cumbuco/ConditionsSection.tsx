@@ -20,7 +20,7 @@ const PERKS = [
  *
  * Card petróleo fechado, o par escuro da dobra do mapa: texto e as duas
  * facilidades em ladrilhos translúcidos (como o "Комплексное меблирование" da
- * referência), que viram vidro no hover (`.vibe-glass`), de um lado, a torre com as varandas do outro. O living do KV
+ * referência), que viram vidro no hover (`.vibe-glass`), de um lado, a portaria com o letreiro do outro. O living do KV
  * não serve aqui: é área comum do condomínio, não o interior do apartamento.
  */
 export function ConditionsSection() {
@@ -41,16 +41,16 @@ export function ConditionsSection() {
               realmente importa: o seu novo lar.
             </p>
 
-            {/* Largura limitada para os boxes não sobrarem vazios à direita do texto. */}
-            <ul className="mt-10 grid gap-3 sm:max-w-[32rem] sm:grid-cols-2">
+            {/* Largura limitada e o box do FGTS (texto curto) mais estreito que o das parcelas. */}
+            <ul className="mt-10 grid gap-3 sm:grid-cols-[minmax(0,15.25rem)_minmax(0,20rem)]">
               {PERKS.map(({ icon: Icon, text }) => (
                 <li
                   key={text}
                   onPointerMove={followPointer}
-                  className="vibe-glass flex gap-4 rounded-2xl p-5 sm:flex-col sm:gap-6"
+                  className="vibe-glass flex items-center gap-4 rounded-2xl bg-brand-mar p-5 sm:flex-col sm:items-start sm:gap-6"
                 >
-                  <Icon className="size-7 shrink-0 text-brand-sand" aria-hidden="true" />
-                  <span className="text-[0.92rem] leading-snug text-brand-linen/90">{text}</span>
+                  <Icon className="size-9 shrink-0 text-brand-sand" aria-hidden="true" />
+                  <span className="text-[1.25rem] leading-snug text-brand-linen">{text}</span>
                 </li>
               ))}
             </ul>
@@ -63,15 +63,21 @@ export function ConditionsSection() {
             para a direita; no celular, onde ela fica embaixo do texto, o mesmo
             degradê corre de cima para baixo, sem emenda reta entre os dois.
           */}
-          <div className="group relative min-h-[360px] overflow-hidden lg:col-span-5 lg:min-h-[300px]">
+          <div className="group relative min-h-[420px] overflow-hidden lg:col-span-5 lg:min-h-[300px]">
+            {/*
+              Portaria com o letreiro sobre os cobogós verdes (render entregue
+              em 2026-11-16). No celular a faixa é baixa e larga, então o
+              recorte desce até o letreiro (72% da altura); no desktop a coluna
+              é alta e cabe quase o render inteiro.
+            */}
             <img
-              src="/images/vibe-cumbuco/fachada.webp"
-              alt="Torre do Vibe Cumbuco com as varandas iluminadas ao entardecer"
-              width={2000}
-              height={1334}
+              src="/images/vibe-cumbuco/portaria.webp"
+              alt="Portaria do Vibe Cumbuco com o letreiro sobre cobogós verdes ao anoitecer"
+              width={1400}
+              height={1556}
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 size-full object-cover object-[68%_center] transition-transform duration-[1200ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+              className="absolute inset-0 size-full object-cover object-[48%_72%] lg:object-[45%_center] transition-transform duration-[1200ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             />
             <div
               aria-hidden="true"

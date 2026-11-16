@@ -170,6 +170,15 @@ export const IconCar = (props: IconProps) => (
   </svg>
 );
 
+/** Perto do mar — três ondas. */
+export const IconWaves = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <path d="M2.5 8c1.6 0 1.6-1.5 3.2-1.5S7.3 8 8.9 8s1.6-1.5 3.1-1.5S13.6 8 15.2 8s1.6-1.5 3.1-1.5S19.9 8 21.5 8" />
+    <path d="M2.5 13c1.6 0 1.6-1.5 3.2-1.5S7.3 13 8.9 13s1.6-1.5 3.1-1.5 1.6 1.5 3.2 1.5 1.6-1.5 3.1-1.5 1.6 1.5 3.2 1.5" />
+    <path d="M2.5 18c1.6 0 1.6-1.5 3.2-1.5S7.3 18 8.9 18s1.6-1.5 3.1-1.5 1.6 1.5 3.2 1.5 1.6-1.5 3.1-1.5 1.6 1.5 3.2 1.5" />
+  </svg>
+);
+
 /** Locação por temporada — sol. */
 export const IconSun = (props: IconProps) => (
   <svg {...stroke} {...props}>
