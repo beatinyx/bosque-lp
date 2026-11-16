@@ -245,8 +245,9 @@
    */
   --color-brand-petrol: #105a5e; /* fundo das dobras escuras e cor dos CTAs */
   --color-brand-lagoon: #2a8582; /* teal da textura de fundo do KV */
-  --color-brand-sea: #2b8c88; /* "Mar" da cartela do KV (KV · 07 · Paleta): fundo das tags do hero */
-  --color-brand-dune: #e3cfa6; /* "Areia" da cartela do KV: texto das tags do hero */
+  --color-brand-mar: #2b8c88; /* "Mar" da cartela do KV (KV · 07 · Paleta): fundo do box de destaques */
+  --color-brand-dune: #e3cfa6; /* "Areia" da cartela do KV: ícones do box de destaques */
+  --color-brand-navy: #17325c; /* "Marinho" da cartela do KV: faixa "Lançamento em Cumbuco" no topo */
   --color-brand-linen: #f7f2e8; /* fundo claro da página, areia bem lavada */
   --color-brand-citrus: #d8d93f; /* contorno do terreno no mapa e etiquetas dos renders */
   --color-brand-orange-deep: #bf7524; /* hover dos CTAs laranja (#d98c34, no tema) */
