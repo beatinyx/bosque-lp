@@ -3,7 +3,7 @@ import { IconBed, IconCar, IconWaves, SHELL } from "./ui";
 const HIGHLIGHTS = [
   { icon: IconBed, title: "2 quartos", detail: "com varanda" },
   { icon: IconCar, title: "100% de vagas", detail: "garantidas" },
-  { icon: IconWaves, title: "Poucos metros", detail: "do mar do Cumbuco" },
+  { icon: IconWaves, title: "Poucos metros", detail: "da praia do Cumbuco" },
 ];
 
 /**
