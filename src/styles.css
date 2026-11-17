@@ -896,42 +896,6 @@
   }
 
   /*
-   * Faixa de ondas (WaveBand.tsx). Cada camada é um ladrilho repetido na
-   * horizontal e um pouco mais larga que a tela; a animação a desloca
-   * exatamente um período (`--period`, a largura do ladrilho), então o fim do
-   * ciclo cai em cima do começo e o loop não tem emenda. Velocidades e
-   * sentidos diferentes por camada, para o mar não andar "em bloco".
-   */
-  .vibe-wave {
-    width: calc(100% + var(--period));
-    background-repeat: repeat-x;
-    background-position: 0 0;
-    background-size: var(--period) auto;
-    animation: vibe-wave-x var(--duration) linear infinite;
-    will-change: transform;
-  }
-
-  .vibe-wave-mare {
-    --period: 280px;
-    --duration: 14s;
-  }
-
-  .vibe-wave-noite {
-    --period: 340px;
-    --duration: 20s;
-    animation-direction: reverse;
-  }
-
-  .vibe-wave-linha {
-    --period: 240px;
-    --duration: 9s;
-  }
-
-  .vibe-sun {
-    animation: vibe-sun-float 7s ease-in-out infinite alternate;
-  }
-
-  /*
    * Animações contínuas param quando a dobra sai da tela: o `useReveal` marca
    * `data-inview` nos blocos com `data-motion` enquanto eles estão visíveis.
    * Sem JS (raiz sem `data-reveal-root`), tudo continua animando.
@@ -943,13 +907,8 @@
 
   @media (prefers-reduced-motion: reduce) {
     .vibe-sea,
-    .vibe-sea-layer,
-    .vibe-wave,
-    .vibe-sun {
+    .vibe-sea-layer {
       animation: none;
-    }
-    .vibe-sun {
-      transform: translateY(22%);
     }
   }
 }
@@ -995,25 +954,6 @@
   }
   100% {
     opacity: 0;
-  }
-}
-
-@keyframes vibe-wave-x {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(calc(-1 * var(--period)), 0, 0);
-  }
-}
-
-/* O sol nasce e se põe pouco: só a borda de baixo entra e sai da onda. */
-@keyframes vibe-sun-float {
-  from {
-    transform: translateY(14%);
-  }
-  to {
-    transform: translateY(30%);
   }
 }
 

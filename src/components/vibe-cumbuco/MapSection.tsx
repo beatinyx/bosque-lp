@@ -51,7 +51,7 @@ export function MapSection() {
               <Eyebrow tone="light">Localização</Eyebrow>
               <Heading tone="light" lead="A poucos metros" accent="do mar" />
               <p className="mt-6 text-[1rem] leading-[1.6] text-brand-linen/70">
-                Av. dos Coqueiros, Cumbuco — Caucaia/CE
+                Av. dos Coqueiros, Cumbuco - CE
               </p>
 
               <ul className="mt-10 divide-y divide-white/12 border-y border-white/12">
