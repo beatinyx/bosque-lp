@@ -1,6 +1,6 @@
 import type { PointerEvent } from "react";
 
-import { CtaLink, Eyebrow, Heading, IconCalendar, IconWallet, SHELL } from "./ui";
+import { CtaLink, Heading, IconCalendar, IconWallet, SHELL } from "./ui";
 
 /** Leva a posição do cursor para o brilho do vidro (`--mx`/`--my` em `.vibe-glass`). */
 function followPointer(event: PointerEvent<HTMLElement>) {
@@ -20,7 +20,8 @@ const PERKS = [
  *
  * Card petróleo fechado, o par escuro da dobra do mapa: texto e as duas
  * facilidades em ladrilhos translúcidos (como o "Комплексное меблирование" da
- * referência), que viram vidro no hover (`.vibe-glass`), de um lado, a portaria com o letreiro do outro. O living do KV
+ * referência), que viram vidro no hover (`.vibe-glass`), de um lado, a portaria
+ * com o letreiro do outro, entrando por baixo do texto num degradê. O living do KV
  * não serve aqui: é área comum do condomínio, não o interior do apartamento.
  */
 export function ConditionsSection() {
@@ -29,10 +30,26 @@ export function ConditionsSection() {
       <div className={SHELL}>
         <div
           data-reveal
-          className="vibe-frame grid overflow-hidden bg-brand text-brand-linen lg:grid-cols-12"
+          className="vibe-frame relative isolate grid overflow-hidden bg-brand text-brand-linen lg:grid-cols-12"
         >
           <div className="px-6 py-12 sm:px-10 sm:py-16 lg:col-span-7 lg:px-14 lg:py-20">
-            <Eyebrow tone="light">Minha Casa, Minha Vida</Eyebrow>
+            {/*
+              Selo do programa no lugar do eyebrow. `selo-mcmv.png` é o miolo
+              do selo da Viver Essencial, sem o aro azul (que brigava com o
+              petróleo); o círculo leva o mesmo creme do fundo do recorte
+              (#f9f6eb), então a emenda não aparece.
+            */}
+            <div className="mb-7 grid size-[96px] place-items-center rounded-full bg-[#f9f6eb] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.45)] sm:size-[112px]">
+              <img
+                src="/images/vibe-cumbuco/selo-mcmv.png"
+                alt="Minha Casa, Minha Vida"
+                width={356}
+                height={286}
+                loading="lazy"
+                decoding="async"
+                className="h-auto w-[66%]"
+              />
+            </div>
             <Heading tone="light" lead="As condições que faltavam" accent="para o seu novo apê" />
 
             <p className="mt-8 max-w-[50ch] text-[1.02rem] leading-[1.65] text-pretty text-brand-linen/75">
@@ -59,11 +76,14 @@ export function ConditionsSection() {
           </div>
 
           {/*
-            Véu em petróleo: no desktop a foto se funde ao texto da esquerda
-            para a direita; no celular, onde ela fica embaixo do texto, o mesmo
-            degradê corre de cima para baixo, sem emenda reta entre os dois.
+            Véu em petróleo. Desktop: a foto não fica numa coluna própria; ela
+            começa a um terço do card e corre por baixo da coluna de texto até
+            a borda direita, e o petróleo vai abrindo aos poucos da esquerda
+            para a direita (fechado atrás do texto, transparente na borda), sem
+            emenda. Celular: a foto fica embaixo do texto e o mesmo degradê
+            corre de cima para baixo.
           */}
-          <div className="group relative min-h-[420px] overflow-hidden lg:col-span-5 lg:min-h-[300px]">
+          <div className="group relative min-h-[420px] overflow-hidden lg:absolute lg:inset-y-0 lg:right-0 lg:-z-10 lg:min-h-0 lg:w-[66%]">
             {/*
               Portaria com o letreiro sobre os cobogós verdes (render entregue
               em 2026-11-16). No celular a faixa é baixa e larga, então o
@@ -77,11 +97,11 @@ export function ConditionsSection() {
               height={1556}
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 size-full object-cover object-[48%_72%] lg:object-[45%_center] transition-transform duration-[1200ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+              className="absolute inset-0 size-full object-cover object-[48%_72%] lg:object-[center_60%] transition-transform duration-[1200ms] ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:scale-[1.06] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-b from-brand via-brand/10 to-transparent lg:bg-gradient-to-r"
+              className="absolute inset-0 bg-gradient-to-b from-brand via-brand/10 to-transparent lg:bg-gradient-to-r lg:from-brand lg:from-5% lg:via-brand/70 lg:via-35% lg:to-transparent lg:to-80%"
             />
           </div>
         </div>

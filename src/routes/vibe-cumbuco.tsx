@@ -10,7 +10,6 @@ import { LeisureSection } from "../components/vibe-cumbuco/LeisureSection";
 import { MapSection } from "../components/vibe-cumbuco/MapSection";
 import { useReveal } from "../components/vibe-cumbuco/useReveal";
 import { VictaSection } from "../components/vibe-cumbuco/VictaSection";
-import { WaveBand } from "../components/vibe-cumbuco/WaveBand";
 
 const TITLE = "Vibe Cumbuco | Lançamento a poucos metros do mar";
 const DESCRIPTION =
@@ -65,7 +64,6 @@ function VibeCumbuco() {
         <CumbucoSection />
         <MapSection />
         <LeisureSection />
-        <WaveBand />
         <ConditionsSection />
         <VictaSection />
       </main>

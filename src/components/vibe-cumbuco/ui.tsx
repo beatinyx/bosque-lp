@@ -55,7 +55,6 @@ export function Eyebrow({
     <p
       className={`mb-5 flex items-center gap-3 text-[0.7rem] font-semibold tracking-[0.24em] uppercase ${color}`}
     >
-      <span aria-hidden="true" className="h-px w-8 bg-current" />
       {children}
     </p>
   );

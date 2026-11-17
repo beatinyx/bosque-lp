@@ -117,6 +117,10 @@ export function LeisureSection() {
               accent="com vista para o mar"
               className="max-w-[16ch]"
             />
+            <p className="mt-6 max-w-[44ch] text-[1rem] leading-[1.65] text-brand/80">
+              Um apartamento à venda no Cumbuco projetado para elevar sua experiência no litoral,
+              com áreas comuns pensadas para relaxar, trabalhar e aproveitar cada momento.
+            </p>
           </div>
 
           <figure
