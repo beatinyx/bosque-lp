@@ -169,6 +169,16 @@ export const IconCar = (props: IconProps) => (
   </svg>
 );
 
+/** A pé — pessoa caminhando. */
+export const IconWalk = (props: IconProps) => (
+  <svg {...stroke} {...props}>
+    <circle cx="13" cy="4.5" r="1.6" />
+    <path d="M10.5 21l2-6.5 2.5 2.5v4" />
+    <path d="M12.5 14.5l-.8-5.5L9 10.5 8 13.5" />
+    <path d="M11.7 9l3 1.5 1.8 2.5" />
+  </svg>
+);
+
 /** Perto do mar — três ondas. */
 export const IconWaves = (props: IconProps) => (
   <svg {...stroke} {...props}>
