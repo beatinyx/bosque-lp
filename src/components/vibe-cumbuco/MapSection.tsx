@@ -1,57 +1,42 @@
-import { CtaLink, Eyebrow, Heading, SHELL } from "./ui";
+import { CtaLink, Eyebrow, Heading, IconCar, IconWalk, SHELL } from "./ui";
 
-/**
- * Legenda dos números desenhados em `mapa.webp` (lista entregue em
- * 2026-11-23, a mesma do mapa da Vista Costeira). O recorte do mapa mostra do
- * 1 ao 23; do 24 ao 27 ficam fora dele, mas entram na lista mesmo assim.
+const ADDRESS = "Av. dos Coqueiros, 4170 - Praia de Cumbuco, Caucaia - CE";
+
+/*
+ * Google Maps pelo endereço do terreno (o mesmo do link entregue em
+ * 2026-11-24, que cai em -3.624455, -38.7483431), no formato de embed sem
+ * chave de API que as outras LPs já usam.
  */
-const POINTS = [
-  "Petshop e Rações",
-  "Panificadora",
-  "Escola Luzia Correia Sales",
-  "Mercadinho Macário",
-  "Super Cumbuco Atacarejo",
-  "Oficina 23 KiteSurf",
-  "Barraca Ronco do Mar",
-  "Farmácia Life Tabuba",
-  "Chico do Caranguejo",
-  "Win Restaurante e Pousada",
-  "Posto Combustível",
-  "Caixa 24 Horas",
-  "Escola Maria Zenóbia",
-  "Escola Internacional Sunshine",
-  "Academia Gym Cumbuco",
-  "Hotel Almai Cumbuco",
-  "CKC Kite Center",
-  "Select Kiteschool",
-  "Kitesurf Adventure Cumbuco",
-  "Farmácia Bahia",
-  "link Kate School",
-  "Kitcabana Kitesurf e Wingfoil School",
-  "Kariri Beach",
-  "Wai Wai Cumbuco",
-  "VG Sun",
-  "Vila Galé",
-  "Mira Beach Club",
-];
+const MAPS_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&z=15&hl=pt-BR&output=embed`;
+
+/*
+ * Distâncias do entorno, de carro ou a pé (lista entregue em 2026-11-24, que
+ * substituiu os 27 pontos numerados do mapa ilustrado).
+ */
+const NEARBY = [
+  { mode: "car", time: 5, place: "Praia de Icaraí" },
+  { mode: "car", time: 8, place: "Praia do Cumbuco" },
+  { mode: "walk", time: 4, place: "Mercadinhos" },
+  { mode: "walk", time: 5, place: "Escola Luzia Correia Sales" },
+  { mode: "walk", time: 4, place: "Posto de Saúde da Tabuba" },
+  { mode: "car", time: 15, place: "Iandê Shopping" },
+] as const;
+
+const MODE = {
+  car: { Icon: IconCar, label: "de carro" },
+  walk: { Icon: IconWalk, label: "a pé" },
+};
 
 /**
  * DOBRA 3 — Localização.
  *
  * Card com o fundo de água em movimento do KV v2, tudo empilhado: a manchete
- * e o endereço, o mapa ilustrado na largura toda, a legenda dos 27 pontos
- * numerados do mapa (em colunas) e o CTA.
+ * e o endereço, o Google Maps na largura toda, a lista de distâncias do
+ * entorno (em colunas) e o CTA.
  *
- * O mapa é o do KV (`Book Pré · 07`, mapa-fonte de 3600×2482 guardado em
- * `assets-originais/vibe-cumbuco/mapa/`). O quadro usa o recorte
- * (1067, 997, 2533×1425); `mapa.webp` é um recorte um pouco mais alto,
- * (1070, 860, 2530×1562), para o 21 e o 23 não ficarem cortados na borda de
- * cima. Mais para a esquerda o mapa-fonte traz a legenda impressa na imagem,
- * por isso o 24 ao 27 ficam de fora. O contorno do terreno e o pin com o logo
- * vão por cima em HTML, nas posições do Figma levadas para o novo recorte em
- * porcentagem — a camada interna tem sempre a proporção do recorte. No
- * celular a janela fica 4:3 e a camada passa a 121,48% de largura, deslocada
- * para manter o pin no centro.
+ * Até 2026-11-24 o mapa era o ilustrado do KV (`mapa.webp`, com pin e
+ * contorno do terreno em HTML); o mapa-fonte segue em
+ * `assets-originais/vibe-cumbuco/mapa/`.
  */
 export function MapSection() {
   return (
@@ -94,76 +79,40 @@ export function MapSection() {
               </p>
             </div>
 
-            <figure className="mt-10 lg:mt-12">
-              <div className="vibe-frame vibe-frame-sm relative aspect-[4/3] overflow-hidden bg-brand-lagoon shadow-[0_30px_70px_-25px_rgba(0,0,0,0.5)] sm:aspect-[2530/1562]">
-                <div className="absolute inset-y-0 left-[-15.1%] w-[121.48%] sm:left-0 sm:w-full">
-                  <img
-                    src="/images/vibe-cumbuco/mapa.webp"
-                    alt="Mapa ilustrado do Cumbuco com o terreno do Vibe Cumbuco a poucos metros do mar"
-                    width={2000}
-                    height={1234}
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 size-full object-cover"
-                  />
+            <div className="vibe-frame vibe-frame-sm mt-10 overflow-hidden bg-brand-lagoon shadow-[0_30px_70px_-25px_rgba(0,0,0,0.5)] lg:mt-12">
+              <iframe
+                title={`Mapa de localização do Vibe Cumbuco — ${ADDRESS}`}
+                src={MAPS_EMBED}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+                className="block h-[340px] w-full border-0 sm:h-[440px] lg:h-[520px]"
+              />
+            </div>
 
-                  {/* Contorno do terreno — Figma: 263×412 em (870, 541) do quadro, girado 12,61°. */}
-                  <div
-                    aria-hidden="true"
-                    className="absolute top-[54.46%] left-[45.25%] h-[34.8%] w-[13.72%]"
+            {/* As colunas correm de cima para baixo: 3 + 3 a partir do tablet. */}
+            <ul className="mt-10 gap-x-12 sm:columns-2 lg:mt-12">
+              {NEARBY.map(({ mode, time, place }) => {
+                const { Icon, label } = MODE[mode];
+                return (
+                  <li
+                    key={place}
+                    className="group flex break-inside-avoid items-center gap-4 border-b border-white/10 py-4"
                   >
-                    <div className="absolute top-[3.79%] left-[14.93%] h-[92.43%] w-[70.15%] rotate-[12.61deg]">
-                      <img
-                        src="/images/vibe-cumbuco/terreno-mapa.svg"
-                        alt=""
-                        className="absolute top-[-0.79%] left-[-1.62%] block h-[101.58%] w-[103.24%] max-w-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Pin com o logo — Figma: 150×192 em (955, 444) do quadro. */}
-                  <div
-                    aria-hidden="true"
-                    className="absolute top-[46.27%] left-[49.68%] h-[16.22%] w-[7.82%] drop-shadow-[0_10px_11px_rgba(0,0,0,0.3)]"
-                  >
-                    <img
-                      src="/images/vibe-cumbuco/pin-mapa.svg"
-                      alt=""
-                      className="absolute inset-0 size-full"
-                    />
-                    <img
-                      src="/images/vibe-cumbuco/logo-vibe-areia.svg"
-                      alt=""
-                      className="absolute top-[24.48%] left-[15.33%] w-[69.33%]"
-                    />
-                  </div>
-                </div>
-              </div>
-              <figcaption className="mt-3 text-right text-[0.72rem] text-brand-linen/55">
-                Mapa ilustrativo, fora de escala.
-              </figcaption>
-            </figure>
-
-            {/*
-              Legenda: o número no mesmo círculo azul-marinho dos marcadores do
-              mapa, para bater o olho e achar o ponto. As colunas correm de
-              cima para baixo (1–9, 10–18, 19–27 no desktop).
-            */}
-            <ol className="mt-10 gap-x-10 sm:columns-2 lg:mt-12 lg:columns-3">
-              {POINTS.map((place, i) => (
-                <li
-                  key={place}
-                  className="group flex break-inside-avoid items-center gap-3 border-b border-white/10 py-2.5"
-                >
-                  <span className="grid size-7 shrink-0 place-items-center rounded-full bg-[#124a6e] text-[0.78rem] font-semibold text-white tabular-nums ring-1 ring-white/25 transition-colors duration-300 group-hover:bg-brand-citrus group-hover:text-brand">
-                    {i + 1}
-                  </span>
-                  <span className="text-[0.98rem] leading-snug text-brand-linen/90 transition-colors duration-300 group-hover:text-brand-citrus">
-                    {place}
-                  </span>
-                </li>
-              ))}
-            </ol>
+                    <span className="grid size-11 shrink-0 place-items-center rounded-full border border-brand-sand/40 text-brand-sand transition-colors duration-300 group-hover:border-brand-citrus group-hover:text-brand-citrus">
+                      <Icon className="size-6" aria-hidden="true" />
+                      <span className="sr-only">{label}</span>
+                    </span>
+                    <span className="text-[1.05rem] leading-snug text-brand-linen/90">
+                      <strong className="font-semibold text-brand-linen transition-colors duration-300 group-hover:text-brand-citrus">
+                        {time} min
+                      </strong>{" "}
+                      - {place}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
 
             <div className="mt-10 flex justify-center lg:mt-12">
               <CtaLink>Quero morar no Cumbuco</CtaLink>
