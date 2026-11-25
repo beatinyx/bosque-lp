@@ -76,9 +76,6 @@ const band = (bg, inner, pad = "0 40px") =>
 const p = (html, color = C.texto, extra = "") =>
   `<p style="margin:0 0 18px;font-family:${FONT};font-size:16px;line-height:26px;color:${color};${extra}">${html}</p>`;
 
-const eyebrow = (text, color) =>
-  `<p style="margin:0 0 14px;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${color};">${text}</p>`;
-
 const h1 = (html, color = C.petroleo) =>
   `<h1 class="h1" style="margin:0 0 22px;font-family:${FONT};font-size:34px;line-height:40px;font-weight:300;letter-spacing:-0.4px;color:${color};">${html}</h1>`;
 
@@ -235,6 +232,8 @@ function layout({ n, date, subject, preheader, rows }) {
     .px0{padding-left:0 !important;padding-right:0 !important;}
     .col{display:block !important;width:100% !important;max-width:100% !important;padding-left:0 !important;padding-right:0 !important;}
     .col-gap{padding-bottom:22px !important;}
+    .col-gap8{padding-bottom:8px !important;}
+    .card{padding:24px 18px 18px !important;}
     .h1{font-size:28px !important;line-height:34px !important;}
     .h2{font-size:23px !important;line-height:29px !important;}
     .big{font-size:44px !important;line-height:48px !important;}
@@ -268,7 +267,7 @@ ${rows.join("\n")}
 function email1() {
   const cta = `${LP}?${UTM}&utm_content=email-1-cta`;
   const stat = (big, label) =>
-    `<p style="margin:0 0 8px;font-family:${FONT};font-size:36px;line-height:42px;font-weight:300;letter-spacing:-0.8px;white-space:nowrap;color:${C.citrino};">${big}</p>
+    `<p style="margin:0 0 8px;font-family:${FONT};font-size:34px;line-height:42px;font-weight:700;letter-spacing:-0.8px;white-space:nowrap;color:${C.citrino};">${big}</p>
      <p style="margin:0;font-family:${FONT};font-size:15px;line-height:23px;color:${C.areia};">${label}</p>`;
 
   return layout({
@@ -283,8 +282,8 @@ function email1() {
       </td></tr>`,
       band(
         C.linho,
-        `${eyebrow("Turismo &amp; investimento", C.mar)}
-         ${h1(`O que faz um destino atrair <strong style="font-weight:600;">os olhares do mundo?</strong>`)}
+        `
+         ${h1(`O que faz um destino atrair<br><strong style="font-weight:600;">os olhares do mundo?</strong>`)}
          ${p(`No Cumbuco, a resposta está na combinação entre paisagens naturais e condições privilegiadas de vento, que fazem da região um dos <strong style="color:${C.petroleo};font-weight:600;">principais destinos brasileiros</strong> para a prática de kitesurf e windsurf.`)}
          ${p("Conhecido como a meca internacional do kitesurf, o Cumbuco faz parte de um cenário para o turismo cearense. Os números traduzem esse movimento:", C.texto, "margin-bottom:0;")}`,
         "44px 40px 36px",
@@ -325,11 +324,22 @@ function email2() {
   const R_B = "border-radius:30px 0 30px 0;";
   const half = (file, alt, left, radius) =>
     `<td width="50%" valign="top" style="padding:${G}px ${left ? G / 2 : 0}px 0 ${left ? 0 : G / 2}px;">${img(file, alt, 268, 199, radius)}</td>`;
-  const item = (html) =>
-    `<tr>
-      <td width="26" valign="top" style="padding:7px 0 0;"><div style="width:9px;height:9px;border-radius:9px;background-color:${C.mar};font-size:0;line-height:0;">&nbsp;</div></td>
-      <td valign="top" style="padding:0 0 12px;font-family:${FONT};font-size:16px;line-height:24px;color:${C.petroleo};">${html}</td>
-    </tr>`;
+  const PILL = `background-color:#e3f0ee;color:${C.petroleo};font-family:${FONT};font-weight:600;`;
+  /* Pill curta, de uma linha: as três dividem a largura total (as larguras
+     somam 100% e acompanham o tamanho de cada texto) e empilham no celular. */
+  const pill = (text, width, padL, padR) =>
+    `<td class="col col-gap8" width="${width}" valign="top" style="padding:0 ${padR}px 8px ${padL}px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td align="center" bgcolor="#e3f0ee" style="${PILL}font-size:12px;line-height:16px;white-space:nowrap;padding:8px 6px;border-radius:999px;">${text}</td>
+      </tr></table>
+    </td>`;
+  /* Pill longa, de duas linhas: meia largura cada, empilham no celular. */
+  const pillLonga = (text, left) =>
+    `<td class="col col-gap8" width="50%" valign="top" style="padding:0 ${left ? 4 : 0}px 0 ${left ? 0 : 4}px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td bgcolor="#e3f0ee" style="${PILL}font-size:12px;line-height:17px;padding:10px 16px;border-radius:22px;">${text}</td>
+      </tr></table>
+    </td>`;
 
   return layout({
     n: 2,
@@ -348,8 +358,8 @@ function email2() {
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="grade" style="padding:26px 26px 14px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr><td colspan="2" style="padding:0;"><a href="${cta}" alias="email-2-fachada" target="_blank" style="text-decoration:none;">${img("e2-fachada.jpg", "Fachada do Vibe Cumbuco", 548, 347, R_A)}</a></td></tr>
-          <tr>${half("e2-rooftop.jpg", "Rooftop com lounge aberto e vista para o mar", true, R_B)}${half("e2-piscina.jpg", "Piscina do condomínio", false, R_A)}</tr>
-          <tr>${half("e2-living.jpg", "Living", true, R_A)}${half("e2-coworking.jpg", "Coworking", false, R_B)}</tr>
+          <tr>${half("e2-rooftop.jpg", "Rooftop com lounge aberto e vista para o mar", true, R_B)}${half("e2-academia.jpg", "Academia", false, R_A)}</tr>
+          <tr><td colspan="2" style="padding:${G}px 0 0;">${img("e2-coworking-largo.jpg", "Coworking", 548, 210, R_A)}</td></tr>
         </table>
         </td></tr>
         <!-- Divisão em ondas: PNG com o linho embaixo e transparente em cima. -->
@@ -358,7 +368,7 @@ function email2() {
       </td></tr>`,
       band(
         C.linho,
-        `${eyebrow("Lançamento", C.mar)}
+        `
          ${h2(`No destino onde os ventos atraem o mundo, <strong style="font-weight:600;">chega uma nova possibilidade</strong> para quem deseja investir no litoral cearense.`)}
          ${p(`Conheça o <strong style="color:${C.petroleo};font-weight:600;">Vibe Cumbuco</strong>, lançamento da Victa que reúne localização, lazer e experiências em sintonia com o estilo de vida de um destino internacionalmente reconhecido.`, C.texto, "margin-bottom:0;")}`,
         "44px 40px 34px",
@@ -366,21 +376,24 @@ function email2() {
       band(
         C.linho,
         `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.branco}" style="background-color:${C.branco};border-radius:16px;">
-          <tr><td class="px" style="padding:32px 32px 22px;">
+          <tr><td style="padding:0;">${img("e2-piscina-box.jpg", "Piscina do condomínio", 520, 230, "border-radius:16px 16px 0 0;")}</td></tr>
+          <tr><td class="card" style="padding:28px 24px 24px;">
             ${h2(`<strong style="font-weight:600;">A poucos metros do mar.</strong><br>A muitas possibilidades de viver.`)}
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-              ${item("Apês de 2 quartos com varanda")}
-              ${item("Plantas de 37,63 m² a 65,92 m² de área total, conforme a tipologia")}
-              ${item("Condomínio fechado")}
-              ${item("Lazer completo")}
-              ${item("204 unidades, todas com uma vaga de garagem")}
-            </table>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+              ${pill("Apês de 2 quartos com varanda", "43%", 0, 4)}
+              ${pill("Condomínio fechado", "31%", 4, 4)}
+              ${pill("Lazer completo", "26%", 4, 0)}
+            </tr></table>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+              ${pillLonga("Plantas de 37,63 m² a 65,92 m² de área total, conforme a tipologia", true)}
+              ${pillLonga("204 unidades, todas com uma vaga de garagem", false)}
+            </tr></table>
           </td></tr>
         </table>`,
         "0 40px 28px",
       ),
       box(
-        `${eyebrow("No topo", C.citrino)}
+        `
          ${h2("Um rooftop à altura da paisagem.", C.linho)}
          ${p("Com vista panorâmica para o mar, o rooftop reúne lounge aberto, espaço de coworking e brinquedoteca, proporcionando diferentes experiências em um mesmo endereço.", C.areia, "margin-bottom:0;")}`,
       ),
@@ -430,7 +443,7 @@ function email3() {
       </td></tr>`,
       band(
         C.linho,
-        `${eyebrow("Para investir", C.mar)}
+        `
          ${p("Você já descobriu o potencial turístico do Cumbuco e conheceu os diferenciais do novo lançamento da Victa.")}
          ${h2(`Agora, é hora de conhecer as possibilidades para transformar esse endereço em <strong style="font-weight:600;">parte do seu patrimônio.</strong>`)}
          <div style="height:14px;line-height:14px;font-size:0;">&nbsp;</div>
@@ -446,7 +459,7 @@ function email3() {
         "0 40px 22px",
       ),
       box(
-        `${eyebrow("Condições", C.citrino)}
+        `
             ${h2(`Novos horizontes para investir.<br><strong style="font-weight:600;">Condições para começar.</strong>`, C.linho)}
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:10px;">
               <tr>${cond("Sinal a partir de", "R$ 999*")}${cond("Mensais em até", "72x*")}</tr>
