@@ -325,9 +325,14 @@ function email2() {
   const half = (file, alt, left, radius) =>
     `<td width="50%" valign="top" style="padding:${G}px ${left ? G / 2 : 0}px 0 ${left ? 0 : G / 2}px;">${img(file, alt, 268, 199, radius)}</td>`;
   const PILL = `background-color:#e3f0ee;color:${C.petroleo};font-family:${FONT};font-weight:600;`;
-  /* Pill curta, de uma linha: as três cabem lado a lado e quebram sozinhas no celular. */
-  const pill = (text) =>
-    `<span style="display:inline-block;${PILL}font-size:12px;line-height:16px;white-space:nowrap;padding:8px 11px;border-radius:999px;margin:0 2px 8px 0;">${text}</span>`;
+  /* Pill curta, de uma linha: as três dividem a largura total (as larguras
+     somam 100% e acompanham o tamanho de cada texto) e empilham no celular. */
+  const pill = (text, width, padL, padR) =>
+    `<td class="col col-gap8" width="${width}" valign="top" style="padding:0 ${padR}px 8px ${padL}px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td align="center" bgcolor="#e3f0ee" style="${PILL}font-size:12px;line-height:16px;white-space:nowrap;padding:8px 6px;border-radius:999px;">${text}</td>
+      </tr></table>
+    </td>`;
   /* Pill longa, de duas linhas: meia largura cada, empilham no celular. */
   const pillLonga = (text, left) =>
     `<td class="col col-gap8" width="50%" valign="top" style="padding:0 ${left ? 4 : 0}px 0 ${left ? 0 : 4}px;">
@@ -374,7 +379,11 @@ function email2() {
           <tr><td style="padding:0;">${img("e2-piscina-box.jpg", "Piscina do condomínio", 520, 230, "border-radius:16px 16px 0 0;")}</td></tr>
           <tr><td class="card" style="padding:28px 24px 24px;">
             ${h2(`<strong style="font-weight:600;">A poucos metros do mar.</strong><br>A muitas possibilidades de viver.`)}
-            <div style="font-size:0;line-height:0;">${pill("Apês de 2 quartos com varanda")}${pill("Condomínio fechado")}${pill("Lazer completo")}</div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+              ${pill("Apês de 2 quartos com varanda", "43%", 0, 4)}
+              ${pill("Condomínio fechado", "31%", 4, 4)}
+              ${pill("Lazer completo", "26%", 4, 0)}
+            </tr></table>
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
               ${pillLonga("Plantas de 37,63 m² a 65,92 m² de área total, conforme a tipologia", true)}
               ${pillLonga("204 unidades, todas com uma vaga de garagem", false)}
