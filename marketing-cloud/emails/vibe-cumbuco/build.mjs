@@ -23,8 +23,13 @@ import path from "node:path";
 
 const HERE = import.meta.dirname;
 const OUT_DIR = process.env.OUT_DIR || HERE;
-/* As imagens moram em public/images/emails/vibe-cumbuco e vão ao ar com o site. */
-const IMG = process.env.IMG_BASE || "https://more.victa.eng.br/images/emails/vibe-cumbuco";
+/*
+ * As imagens moram em public/images/emails/vibe-cumbuco e são servidas direto
+ * do GitHub (repo público), pela `main`: só abrem depois do merge do PR.
+ */
+const IMG =
+  process.env.IMG_BASE ||
+  "https://raw.githubusercontent.com/beatinyx/bosque-lp/main/public/images/emails/vibe-cumbuco";
 
 const LP = "https://more.victa.eng.br/vibe-cumbuco";
 const WHATSAPP = "https://wa.me/558535123512";

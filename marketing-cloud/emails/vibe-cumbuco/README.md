@@ -30,11 +30,13 @@ O HTML já traz o que o Marketing Cloud espera:
 
 ## Imagens
 
-Ficam em `public/images/emails/vibe-cumbuco/` e são servidas pelo mesmo
-domínio das LPs (`https://more.victa.eng.br/images/emails/vibe-cumbuco/...`).
-**Só existem nessa URL depois que o commit for publicado** — antes disso o
-e-mail abre sem imagem. Não renomear nem apagar depois do envio: e-mail já
-entregue continua apontando para lá.
+Ficam em `public/images/emails/vibe-cumbuco/` e são servidas direto do GitHub,
+pela `main`
+(`https://raw.githubusercontent.com/beatinyx/bosque-lp/main/public/images/emails/vibe-cumbuco/...`).
+**Só existem nessa URL depois do merge na `main`, e só enquanto o repositório
+for público** — se ele voltar a ser privado, as imagens somem de todo e-mail já
+enviado. Não renomear nem apagar depois do envio: e-mail já entregue continua
+apontando para lá.
 
 Se preferir hospedar no Content Builder, suba os arquivos lá e gere de novo
 com a base trocada:
