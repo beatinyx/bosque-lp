@@ -70,7 +70,7 @@ const spacer = (h) =>
   `<tr><td height="${h}" style="height:${h}px;line-height:${h}px;font-size:0;">&nbsp;</td></tr>`;
 
 /** Uma faixa de 600 com cor de fundo e respiro lateral. */
-const band = (bg, inner, pad = "0 44px") =>
+const band = (bg, inner, pad = "0 40px") =>
   `<tr><td class="px" bgcolor="${bg}" style="background-color:${bg};padding:${pad};">${inner}</td></tr>`;
 
 const p = (html, color = C.texto, extra = "") =>
@@ -287,7 +287,7 @@ function email1() {
          ${h1(`O que faz um destino atrair <strong style="font-weight:600;">os olhares do mundo?</strong>`)}
          ${p(`No Cumbuco, a resposta está na combinação entre paisagens naturais e condições privilegiadas de vento, que fazem da região um dos <strong style="color:${C.petroleo};font-weight:600;">principais destinos brasileiros</strong> para a prática de kitesurf e windsurf.`)}
          ${p("Conhecido como a meca internacional do kitesurf, o Cumbuco faz parte de um cenário para o turismo cearense. Os números traduzem esse movimento:", C.texto, "margin-bottom:0;")}`,
-        "44px 44px 36px",
+        "44px 40px 36px",
       ),
       box(
         `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -307,7 +307,7 @@ function email1() {
         `${p("Para quem investe, acompanhar o movimento dos destinos turísticos é também uma forma de identificar novas possibilidades no mercado imobiliário.")}
          ${h2(`E os ventos do Cumbuco estão trazendo <strong style="font-weight:600;">uma novidade.</strong>`)}
          <div style="padding:10px 0 0;">${button("Quero conhecer a novidade", cta, "email-1-cta", { bg: C.petroleo, color: C.linho })}</div>`,
-        "40px 44px 44px",
+        "40px 40px 44px",
       ),
       signature(),
       footer(LEGAL_DESTINO),
@@ -361,7 +361,7 @@ function email2() {
         `${eyebrow("Lançamento", C.mar)}
          ${h2(`No destino onde os ventos atraem o mundo, <strong style="font-weight:600;">chega uma nova possibilidade</strong> para quem deseja investir no litoral cearense.`)}
          ${p(`Conheça o <strong style="color:${C.petroleo};font-weight:600;">Vibe Cumbuco</strong>, lançamento da Victa que reúne localização, lazer e experiências em sintonia com o estilo de vida de um destino internacionalmente reconhecido.`, C.texto, "margin-bottom:0;")}`,
-        "44px 44px 34px",
+        "44px 40px 34px",
       ),
       band(
         C.linho,
@@ -377,7 +377,7 @@ function email2() {
             </table>
           </td></tr>
         </table>`,
-        "0 28px 28px",
+        "0 40px 28px",
       ),
       box(
         `${eyebrow("No topo", C.citrino)}
@@ -388,7 +388,7 @@ function email2() {
         C.linho,
         `${p("Para aproveitar o litoral ou diversificar seu patrimônio, descubra as possibilidades que o Vibe Cumbuco tem para oferecer.", C.texto, "text-align:center;")}
          <div style="padding:8px 0 0;">${button("Conheça o Vibe Cumbuco", cta, "email-2-cta", { bg: C.petroleo, color: C.linho })}</div>`,
-        "40px 44px 44px",
+        "40px 40px 44px",
       ),
       signature(),
       footer(LEGAL_PRODUTO),
@@ -435,7 +435,7 @@ function email3() {
          ${h2(`Agora, é hora de conhecer as possibilidades para transformar esse endereço em <strong style="font-weight:600;">parte do seu patrimônio.</strong>`)}
          <div style="height:14px;line-height:14px;font-size:0;">&nbsp;</div>
          ${p(`<strong style="color:${C.petroleo};font-weight:600;">Escolha a planta que combina com seus planos.</strong> Apartamentos de 2 quartos, com uma vaga de garagem e diferentes configurações, a poucos metros do mar.`, C.texto, "margin-bottom:0;")}`,
-        "44px 44px 26px",
+        "44px 40px 26px",
       ),
       band(
         C.linho,
@@ -443,7 +443,7 @@ function email3() {
            <tr>${plant("a", "Tipo A", "37,63", true)}${plant("b", "Tipo B", "39,97", false)}</tr>
            <tr>${plant("c", "Tipo C", "65,92", true)}${plant("d", "Tipo D", "65,92", false)}</tr>
          </table>`,
-        "0 28px 22px",
+        "0 40px 22px",
       ),
       box(
         `${eyebrow("Condições", C.citrino)}
@@ -460,7 +460,7 @@ function email3() {
         `${p("Conte com um atendimento especializado para conhecer as unidades disponíveis, esclarecer suas dúvidas e avaliar as condições de aquisição.", C.texto, "text-align:center;")}
          ${p(`<strong style="color:${C.petroleo};font-weight:600;">Dê o próximo passo em direção ao Cumbuco.</strong>`, C.texto, "text-align:center;")}
          <div style="padding:8px 0 0;">${button("Fale com um especialista", cta, "email-3-cta-whatsapp", { bg: C.petroleo, color: C.linho })}</div>`,
-        "40px 44px 44px",
+        "40px 40px 44px",
       ),
       signature(),
       footer(LEGAL_PRODUTO),
