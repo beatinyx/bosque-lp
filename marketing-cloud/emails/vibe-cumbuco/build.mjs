@@ -220,7 +220,7 @@ function layout({ n, date, subject, preheader, rows }) {
 <style>table,td,h1,h2,p,a{font-family:Arial,Helvetica,sans-serif !important;}</style>
 <![endif]-->
 <!--[if !mso]><!-->
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;700&display=swap" rel="stylesheet">
 <!--<![endif]-->
 <style>
   body{margin:0;padding:0;width:100% !important;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
@@ -410,7 +410,7 @@ function email3() {
   const cond = (label, big) =>
     `<td class="col col-gap" width="50%" valign="top" style="padding:0 12px 0 0;">
       <p style="margin:0 0 4px;font-family:${FONT};font-size:12px;line-height:18px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:${C.areia};">${label}</p>
-      <p class="big" style="margin:0;font-family:${FONT};font-size:46px;line-height:50px;font-weight:300;letter-spacing:-1px;color:${C.citrino};">${big}</p>
+      <p class="big" style="margin:0;font-family:${FONT};font-size:46px;line-height:50px;font-weight:700;letter-spacing:-1px;color:${C.citrino};">${big}</p>
     </td>`;
 
   return layout({
