@@ -231,7 +231,7 @@ function layout({ n, date, subject, preheader, rows }) {
     .wrap{width:100% !important;}
     .px{padding-left:24px !important;padding-right:24px !important;}
     .box{padding:34px 26px 32px !important;}
-    .grade{padding:16px !important;}
+    .grade{padding:16px 16px 8px !important;}
     .px0{padding-left:0 !important;padding-right:0 !important;}
     .col{display:block !important;width:100% !important;max-width:100% !important;padding-left:0 !important;padding-right:0 !important;}
     .col-gap{padding-bottom:22px !important;}
@@ -344,11 +344,16 @@ function email2() {
          que cai em spam e some com imagens bloqueadas.
          O fundo (areia do KV com a forma inclinada por cima) é imagem de
          fundo da célula: o Outlook desktop não mostra e fica só a cor de areia. */
-      `<tr><td class="grade" background="${IMG}/e2-fundo-areia.jpg" bgcolor="#e3cfa6" style="background-color:#e3cfa6;background-image:url('${IMG}/e2-fundo-areia.jpg');background-size:cover;background-position:center top;background-repeat:no-repeat;padding:26px;">
+      `<tr><td background="${IMG}/e2-fundo-areia.jpg" bgcolor="#e3cfa6" style="background-color:#e3cfa6;background-image:url('${IMG}/e2-fundo-areia.jpg');background-size:cover;background-position:center top;background-repeat:no-repeat;padding:0;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="grade" style="padding:26px 26px 14px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr><td colspan="2" style="padding:0;"><a href="${cta}" alias="email-2-fachada" target="_blank" style="text-decoration:none;">${img("e2-fachada.jpg", "Fachada do Vibe Cumbuco", 548, 347, R_A)}</a></td></tr>
           <tr>${half("e2-rooftop.jpg", "Rooftop com lounge aberto e vista para o mar", true, R_B)}${half("e2-piscina.jpg", "Piscina do condomínio", false, R_A)}</tr>
           <tr>${half("e2-living.jpg", "Living", true, R_A)}${half("e2-coworking.jpg", "Coworking", false, R_B)}</tr>
+        </table>
+        </td></tr>
+        <!-- Divisão em ondas: PNG com o linho embaixo e transparente em cima. -->
+        <tr><td style="padding:0;font-size:0;line-height:0;">${img("onda-linho.png", "", 600, 44)}</td></tr>
         </table>
       </td></tr>`,
       band(
