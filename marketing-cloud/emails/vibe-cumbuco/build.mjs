@@ -231,6 +231,7 @@ function layout({ n, date, subject, preheader, rows }) {
     .wrap{width:100% !important;}
     .px{padding-left:24px !important;padding-right:24px !important;}
     .box{padding:34px 26px 32px !important;}
+    .grade{padding:16px !important;}
     .px0{padding-left:0 !important;padding-right:0 !important;}
     .col{display:block !important;width:100% !important;max-width:100% !important;padding-left:0 !important;padding-right:0 !important;}
     .col-gap{padding-bottom:22px !important;}
@@ -318,9 +319,12 @@ function email1() {
 
 function email2() {
   const cta = `${LP}?${UTM}&utm_content=email-2-cta`;
-  const G = 8; // respiro entre as fotos da montagem
-  const half = (file, alt, left) =>
-    `<td width="50%" valign="top" style="padding:${G}px ${left ? G / 2 : 0}px 0 ${left ? 0 : G / 2}px;">${img(file, alt, 288, 214, "border-radius:10px;")}</td>`;
+  const G = 12; // respiro entre as fotos da montagem
+  /* Cantos das fotos como os boxes do KV, alternando os dois sentidos. */
+  const R_A = "border-radius:0 30px 0 30px;";
+  const R_B = "border-radius:30px 0 30px 0;";
+  const half = (file, alt, left, radius) =>
+    `<td width="50%" valign="top" style="padding:${G}px ${left ? G / 2 : 0}px 0 ${left ? 0 : G / 2}px;">${img(file, alt, 268, 199, radius)}</td>`;
   const item = (html) =>
     `<tr>
       <td width="26" valign="top" style="padding:7px 0 0;"><div style="width:9px;height:9px;border-radius:9px;background-color:${C.mar};font-size:0;line-height:0;">&nbsp;</div></td>
@@ -333,16 +337,18 @@ function email2() {
     subject: "Conheça o novo lançamento da Victa a poucos metros do mar. 👀",
     preheader: "Localização a poucos metros do mar, lazer completo e opções de plantas no Cumbuco",
     rows: [
-      header({ linha: "Lançamento Victa &middot; Cumbuco, CE" }),
+      header(),
       /* Montagem: fachada em cima, quatro ambientes embaixo, todos do mesmo
          tamanho para nenhum pesar mais que o outro. São imagens separadas
          (e não uma colagem só) para o e-mail não virar "uma imagem gigante",
-         que cai em spam e some com imagens bloqueadas. */
-      `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0 ${G}px ${G}px;">
+         que cai em spam e some com imagens bloqueadas.
+         O fundo (areia do KV com a forma inclinada por cima) é imagem de
+         fundo da célula: o Outlook desktop não mostra e fica só a cor de areia. */
+      `<tr><td class="grade" background="${IMG}/e2-fundo-areia.jpg" bgcolor="#e3cfa6" style="background-color:#e3cfa6;background-image:url('${IMG}/e2-fundo-areia.jpg');background-size:cover;background-position:center top;background-repeat:no-repeat;padding:26px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr><td colspan="2" style="padding:0;"><a href="${cta}" alias="email-2-fachada" target="_blank" style="text-decoration:none;">${img("e2-fachada.jpg", "Fachada do Vibe Cumbuco", 584, 370, "border-radius:10px;")}</a></td></tr>
-          <tr>${half("e2-rooftop.jpg", "Rooftop com lounge aberto e vista para o mar", true)}${half("e2-piscina.jpg", "Piscina do condomínio", false)}</tr>
-          <tr>${half("e2-living.jpg", "Living", true)}${half("e2-coworking.jpg", "Coworking", false)}</tr>
+          <tr><td colspan="2" style="padding:0;"><a href="${cta}" alias="email-2-fachada" target="_blank" style="text-decoration:none;">${img("e2-fachada.jpg", "Fachada do Vibe Cumbuco", 548, 347, R_A)}</a></td></tr>
+          <tr>${half("e2-rooftop.jpg", "Rooftop com lounge aberto e vista para o mar", true, R_B)}${half("e2-piscina.jpg", "Piscina do condomínio", false, R_A)}</tr>
+          <tr>${half("e2-living.jpg", "Living", true, R_A)}${half("e2-coworking.jpg", "Coworking", false, R_B)}</tr>
         </table>
       </td></tr>`,
       band(
@@ -368,12 +374,10 @@ function email2() {
         </table>`,
         "0 28px 28px",
       ),
-      band(
-        C.petroleo,
+      box(
         `${eyebrow("No topo", C.citrino)}
          ${h2("Um rooftop à altura da paisagem.", C.linho)}
          ${p("Com vista panorâmica para o mar, o rooftop reúne lounge aberto, espaço de coworking e brinquedoteca, proporcionando diferentes experiências em um mesmo endereço.", C.areia, "margin-bottom:0;")}`,
-        "40px 44px",
       ),
       band(
         C.linho,
@@ -415,7 +419,7 @@ function email3() {
     subject: "Seu próximo investimento pode começar com R$ 999*",
     preheader: "Conheça as condições especiais para investir no Vibe Cumbuco.",
     rows: [
-      header({ linha: "Lançamento Victa &middot; Cumbuco, CE" }),
+      header(),
       `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0;">
         ${img("e3-rooftop.jpg", "Rooftop do Vibe Cumbuco, com lounge aberto e vista para o mar", 600, 380)}
       </td></tr>`,
