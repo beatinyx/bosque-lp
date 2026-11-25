@@ -98,24 +98,33 @@ const button = (label, href, alias, { bg, color }) => `
   </tr>
 </table>`;
 
-const header = ({ produto }) =>
+/** Logo do Vibe centralizado; `linha` é a assinatura opcional embaixo dele. */
+const header = ({ linha } = {}) =>
   band(
     C.petroleo,
-    produto
-      ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-          <td align="center" style="padding:34px 0 30px;">
-            <a href="${LP}?${UTM}&utm_content=logo" alias="logo-vibe-cumbuco" target="_blank" style="text-decoration:none;">
-              <img src="${IMG}/logo-vibe-areia.png" alt="Vibe Cumbuco" width="150" height="66" style="display:block;border:0;width:150px;height:auto;margin:0 auto;">
-            </a>
-            <p style="margin:16px 0 0;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${C.areia};">Lançamento Victa &middot; Cumbuco, CE</p>
-          </td></tr></table>`
-      : /* E-mail 1 ainda não revela o produto: só a Victa assina. */
-        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-          <td align="left" valign="middle" style="padding:26px 0;">
-            <img src="${IMG}/logo-victa-claro.png" alt="Victa" width="104" height="24" style="display:block;border:0;width:104px;height:auto;">
-          </td>
-          <td align="right" valign="middle" style="padding:26px 0;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${C.areia};">Cumbuco &middot; Ceará</td>
-        </tr></table>`,
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+      <td align="center" style="padding:34px 0 30px;">
+        <a href="${LP}?${UTM}&utm_content=logo" alias="logo-vibe-cumbuco" target="_blank" style="text-decoration:none;">
+          <img src="${IMG}/logo-vibe-areia.png" alt="Vibe Cumbuco" width="150" height="66" style="display:block;border:0;width:150px;height:auto;margin:0 auto;">
+        </a>
+        ${linha ? `<p style="margin:16px 0 0;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${C.areia};">${linha}</p>` : ""}
+      </td></tr></table>`,
+  );
+
+/**
+ * Box do KV: petróleo sobre o linho, cantos 0-50-0-50 (reto em cima à esquerda
+ * e embaixo à direita), 40px de margem de cada lado. No Outlook desktop sai de
+ * cantos retos.
+ */
+const box = (inner, pad = "0 40px 0") =>
+  band(
+    C.linho,
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.petroleo}" style="background-color:${C.petroleo};border-radius:0 50px 0 50px;border-collapse:separate;">
+      <tr><td class="box" style="padding:42px 40px 40px;border-radius:0 50px 0 50px;">
+        ${inner}
+      </td></tr>
+    </table>`,
+    pad,
   );
 
 const signature = () =>
@@ -132,29 +141,57 @@ const signature = () =>
  * Marketing Cloud para envio comercial: sem endereço físico e link de
  * descadastro a validação do e-mail reprova.
  */
+const VICTA_VERDE = "#6ecc01";
+const REDES = [
+  ["facebook", "Facebook", "https://www.facebook.com/victaengenharia"],
+  ["instagram", "Instagram", "https://www.instagram.com/victaengenharia/"],
+  ["youtube", "YouTube", "https://www.youtube.com/@victaengenharia"],
+];
+
+/* Rodapé padrão Victa: fundo branco, logo de 10 anos, site e WhatsApp numa
+   linha (empilham no celular), redes sociais em círculos verdes embaixo. */
 const footer = (legal) =>
   band(
-    C.petroleo,
+    C.branco,
     `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr><td align="center" style="padding:38px 0 18px;">
-        <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-logo" alias="rodape-logo-victa" target="_blank" style="text-decoration:none;">
-          <img src="${IMG}/logo-victa-claro.png" alt="Victa" width="120" height="28" style="display:block;border:0;width:120px;height:auto;margin:0 auto;">
-        </a>
+      <tr><td align="center" style="padding:36px 0 0;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;"><tr>
+          <td class="col col-gap" align="center" valign="middle" style="padding:0 18px 0 0;">
+            <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-logo" alias="rodape-logo-victa" target="_blank" style="text-decoration:none;">
+              <img src="${IMG}/logo-victa-10-anos.png" alt="Victa 10 anos" width="180" height="40" style="display:block;border:0;width:180px;height:auto;margin:0 auto;">
+            </a>
+          </td>
+          <td class="col col-gap" align="center" valign="middle" style="padding:0 18px 0 0;font-family:${FONT};font-size:17px;line-height:22px;font-weight:700;">
+            <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-site" alias="rodape-site" target="_blank" style="color:${VICTA_VERDE};text-decoration:none;">victa.eng.br</a>
+          </td>
+          <td class="col" align="center" valign="middle">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;"><tr>
+              <td bgcolor="${VICTA_VERDE}" style="background-color:${VICTA_VERDE};border-radius:999px;padding:8px 16px 8px 12px;">
+                <a href="${WHATSAPP}" alias="rodape-whatsapp" target="_blank" style="text-decoration:none;font-family:${FONT};font-size:16px;line-height:24px;color:${C.branco};white-space:nowrap;">
+                  <img src="${IMG}/icone-whatsapp-branco.png" alt="WhatsApp" width="24" height="24" style="display:inline-block;border:0;width:24px;height:24px;vertical-align:middle;">&nbsp;(85) <strong style="font-weight:700;">3512-3512</strong>
+                </a>
+              </td>
+            </tr></table>
+          </td>
+        </tr></table>
       </td></tr>
-      <tr><td align="center" style="padding:0 0 26px;font-family:${FONT};font-size:15px;line-height:22px;font-weight:600;color:${C.areia};">
-        <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-site" alias="rodape-site" target="_blank" style="color:${C.citrino};text-decoration:none;">victa.eng.br</a>
-        <span style="color:${C.mar};">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="tel:+558535123512" alias="rodape-telefone" style="color:${C.areia};text-decoration:none;">(85) 3512-3512</a>
+      <tr><td align="center" style="padding:26px 0 30px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;"><tr>
+          ${REDES.map(
+            ([id, nome, url]) =>
+              `<td style="padding:0 8px;"><a href="${url}" alias="rodape-${id}" target="_blank" style="text-decoration:none;"><img src="${IMG}/icone-${id}.png" alt="${nome}" width="36" height="36" style="display:block;border:0;width:36px;height:36px;"></a></td>`,
+          ).join("")}
+        </tr></table>
       </td></tr>
-      <tr><td style="border-top:1px solid ${C.petroleo2};padding:22px 0 0;font-family:${FONT};font-size:10px;line-height:16px;color:#9fbdbb;text-align:left;">
+      <tr><td style="border-top:1px solid #e6e6e6;padding:22px 0 0;font-family:${FONT};font-size:10px;line-height:16px;color:#7a7a7a;text-align:left;">
         ${legal}
       </td></tr>
-      <tr><td align="center" style="padding:22px 0 36px;font-family:${FONT};font-size:11px;line-height:18px;color:#9fbdbb;">
+      <tr><td align="center" style="padding:22px 0 34px;font-family:${FONT};font-size:11px;line-height:18px;color:#7a7a7a;">
         Este e-mail foi enviado por %%Member_Busname%%<br>
         %%Member_Addr%% &middot; %%Member_City%%, %%Member_State%% &middot; %%Member_PostalCode%% &middot; %%Member_Country%%<br>
-        <a href="%%profile_center_url%%" alias="central-de-preferencias" style="color:${C.areia};text-decoration:underline;">Preferências</a>
+        <a href="%%profile_center_url%%" alias="central-de-preferencias" style="color:#4a4a4a;text-decoration:underline;">Preferências</a>
         &nbsp;&middot;&nbsp;
-        <a href="%%unsub_center_url%%" alias="descadastrar" style="color:${C.areia};text-decoration:underline;">Descadastrar</a>
+        <a href="%%unsub_center_url%%" alias="descadastrar" style="color:#4a4a4a;text-decoration:underline;">Descadastrar</a>
       </td></tr>
     </table>`,
   );
@@ -230,7 +267,7 @@ ${rows.join("\n")}
 function email1() {
   const cta = `${LP}?${UTM}&utm_content=email-1-cta`;
   const stat = (big, label) =>
-    `<p class="big" style="margin:0 0 8px;font-family:${FONT};font-size:46px;line-height:50px;font-weight:300;letter-spacing:-1px;color:${C.citrino};">${big}</p>
+    `<p style="margin:0 0 8px;font-family:${FONT};font-size:36px;line-height:42px;font-weight:300;letter-spacing:-0.8px;white-space:nowrap;color:${C.citrino};">${big}</p>
      <p style="margin:0;font-family:${FONT};font-size:15px;line-height:23px;color:${C.areia};">${label}</p>`;
 
   return layout({
@@ -239,7 +276,7 @@ function email1() {
     subject: "Cumbuco: um novo horizonte para quem investe! 🚀",
     preheader: "O movimento do turismo cearense convida a olhar para novas oportunidades.",
     rows: [
-      header({ produto: false }),
+      header(),
       `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0;">
         <a href="${cta}" alias="email-1-imagem" target="_blank" style="text-decoration:none;">${img("e1-praia-kitesurf.jpg", "Praia do Cumbuco ao entardecer, com pipas de kitesurf no céu e velejadores no mar", 600, 338)}</a>
       </td></tr>`,
@@ -251,8 +288,7 @@ function email1() {
          ${p("Conhecido como a meca internacional do kitesurf, o Cumbuco faz parte de um cenário para o turismo cearense. Os números traduzem esse movimento:", C.texto, "margin-bottom:0;")}`,
         "44px 44px 36px",
       ),
-      band(
-        C.petroleo,
+      box(
         `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td class="col col-gap" width="50%" valign="top" style="padding:0 16px 0 0;">
@@ -264,7 +300,6 @@ function email1() {
           </tr>
           <tr><td colspan="2" class="col" style="padding:26px 0 0;font-family:${FONT};font-size:11px;line-height:16px;letter-spacing:0.4px;color:#9fbdbb;">Fonte: Secretaria do Turismo do Ceará (Setur-CE).</td></tr>
         </table>`,
-        "42px 44px 38px",
       ),
       band(
         C.linho,
@@ -298,7 +333,7 @@ function email2() {
     subject: "Conheça o novo lançamento da Victa a poucos metros do mar. 👀",
     preheader: "Localização a poucos metros do mar, lazer completo e opções de plantas no Cumbuco",
     rows: [
-      header({ produto: true }),
+      header({ linha: "Lançamento Victa &middot; Cumbuco, CE" }),
       /* Montagem: fachada em cima, quatro ambientes embaixo, todos do mesmo
          tamanho para nenhum pesar mais que o outro. São imagens separadas
          (e não uma colagem só) para o e-mail não virar "uma imagem gigante",
@@ -380,7 +415,7 @@ function email3() {
     subject: "Seu próximo investimento pode começar com R$ 999*",
     preheader: "Conheça as condições especiais para investir no Vibe Cumbuco.",
     rows: [
-      header({ produto: true }),
+      header({ linha: "Lançamento Victa &middot; Cumbuco, CE" }),
       `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0;">
         ${img("e3-rooftop.jpg", "Rooftop do Vibe Cumbuco, com lounge aberto e vista para o mar", 600, 380)}
       </td></tr>`,
@@ -401,21 +436,14 @@ function email3() {
          </table>`,
         "0 28px 22px",
       ),
-      /* Box do KV: petróleo sobre o linho, cantos 0-50-0-50 (reto em cima à
-         esquerda e embaixo à direita). No Outlook desktop sai de cantos retos. */
-      band(
-        C.linho,
-        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.petroleo}" style="background-color:${C.petroleo};border-radius:0 50px 0 50px;border-collapse:separate;">
-          <tr><td class="box" style="padding:42px 40px 40px;border-radius:0 50px 0 50px;">
-            ${eyebrow("Condições", C.citrino)}
+      box(
+        `${eyebrow("Condições", C.citrino)}
             ${h2(`Novos horizontes para investir.<br><strong style="font-weight:600;">Condições para começar.</strong>`, C.linho)}
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:10px;">
               <tr>${cond("Sinal a partir de", "R$ 999*")}${cond("Mensais em até", "72x*")}</tr>
               <tr><td colspan="2" class="col" style="padding:26px 0 0;border-top:0;font-family:${FONT};font-size:16px;line-height:24px;color:${C.linho};">Financiamento facilitado pela <strong style="font-weight:600;">Caixa Econômica Federal</strong>.</td></tr>
               <tr><td colspan="2" class="col" style="padding:18px 0 0;font-family:${FONT};font-size:11px;line-height:17px;color:#9fbdbb;">*Condições sujeitas à tabela vigente e à disponibilidade de unidades.</td></tr>
-            </table>
-          </td></tr>
-        </table>`,
+            </table>`,
         "18px 40px 0",
       ),
       band(

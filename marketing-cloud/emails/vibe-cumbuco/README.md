@@ -58,6 +58,8 @@ node marketing-cloud/emails/vibe-cumbuco/build.mjs
 
 - **Nota legal (e-mails 2 e 3):** o número do ofício ainda está `xxxxº`, como
   na LP. Trocar em `LEGAL_PRODUTO` no `build.mjs`.
-- **Logo "Victa 10 anos":** o briefing pede esse selo no rodapé; o arquivo não
-  estava no repo nem na pasta de logos, então o rodapé usa o logo Victa padrão.
+- **Logo "Victa 10 anos":** o arquivo original não estava no repo nem na pasta
+  de logos; o `logo-victa-10-anos.png` do rodapé é um recorte de captura de
+  tela (296×66), em baixa resolução. Trocar pelo arquivo oficial, com o mesmo
+  nome, quando estiver à mão.
 - **E-mail 4:** o briefing (PDF e Runrun.it) só traz três e-mails.
