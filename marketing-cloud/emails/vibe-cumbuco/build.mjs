@@ -276,7 +276,6 @@ function email1() {
     subject: "Cumbuco: um novo horizonte para quem investe! 🚀",
     preheader: "O movimento do turismo cearense convida a olhar para novas oportunidades.",
     rows: [
-      header(),
       `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0;">
         <a href="${cta}" alias="email-1-imagem" target="_blank" style="text-decoration:none;">${img("e1-praia-kitesurf.jpg", "Praia do Cumbuco ao entardecer, com pipas de kitesurf no céu e velejadores no mar", 600, 338)}</a>
       </td></tr>`,
@@ -357,7 +356,7 @@ function email2() {
       `<tr><td background="${IMG}/e2-fundo-areia.jpg" bgcolor="#e3cfa6" style="background-color:#e3cfa6;background-image:url('${IMG}/e2-fundo-areia.jpg');background-size:cover;background-position:center top;background-repeat:no-repeat;padding:0;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="grade" style="padding:26px 26px 14px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr><td colspan="2" style="padding:0;"><a href="${cta}" alias="email-2-fachada" target="_blank" style="text-decoration:none;">${img("e2-fachada.jpg", "Fachada do Vibe Cumbuco", 548, 347, R_A)}</a></td></tr>
+          <tr><td colspan="2" style="padding:0;"><a href="${cta}" alias="email-2-fachada" target="_blank" style="text-decoration:none;">${img("e2-fachada-mcmv.jpg", "Fachada do Vibe Cumbuco, com o selo do Minha Casa, Minha Vida", 548, 347, R_A)}</a></td></tr>
           <tr>${half("e2-rooftop.jpg", "Rooftop com lounge aberto e vista para o mar", true, R_B)}${half("e2-academia.jpg", "Academia", false, R_A)}</tr>
           <tr><td colspan="2" style="padding:${G}px 0 0;">${img("e2-coworking-largo.jpg", "Coworking", 548, 210, R_A)}</td></tr>
         </table>
@@ -460,7 +459,10 @@ function email3() {
       ),
       box(
         `
-            ${h2(`Novos horizontes para investir.<br><strong style="font-weight:600;">Condições para começar.</strong>`, C.linho)}
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+              <td valign="middle">${h2(`Novos horizontes para investir.<br><strong style="font-weight:600;">Condições para começar.</strong>`, C.linho)}</td>
+              <td width="80" align="right" valign="top" style="padding:0 0 12px 8px;"><img src="${IMG}/selo-mcmv.png" alt="Minha Casa, Minha Vida" width="72" height="72" style="display:block;border:0;width:72px;height:72px;"></td>
+            </tr></table>
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:10px;">
               <tr>${cond("Sinal a partir de", "R$ 999*")}${cond("Mensais em até", "72x*")}</tr>
               <tr><td colspan="2" class="col" style="padding:26px 0 0;border-top:0;font-family:${FONT};font-size:16px;line-height:24px;color:${C.linho};">Financiamento facilitado pela <strong style="font-weight:600;">Caixa Econômica Federal</strong>.</td></tr>
