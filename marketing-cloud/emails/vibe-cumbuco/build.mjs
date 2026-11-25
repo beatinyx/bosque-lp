@@ -70,7 +70,7 @@ const spacer = (h) =>
   `<tr><td height="${h}" style="height:${h}px;line-height:${h}px;font-size:0;">&nbsp;</td></tr>`;
 
 /** Uma faixa de 600 com cor de fundo e respiro lateral. */
-const band = (bg, inner, pad = "0 44px") =>
+const band = (bg, inner, pad = "0 40px") =>
   `<tr><td class="px" bgcolor="${bg}" style="background-color:${bg};padding:${pad};">${inner}</td></tr>`;
 
 const p = (html, color = C.texto, extra = "") =>
@@ -98,24 +98,33 @@ const button = (label, href, alias, { bg, color }) => `
   </tr>
 </table>`;
 
-const header = ({ produto }) =>
+/** Logo do Vibe centralizado; `linha` é a assinatura opcional embaixo dele. */
+const header = ({ linha } = {}) =>
   band(
     C.petroleo,
-    produto
-      ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-          <td align="center" style="padding:34px 0 30px;">
-            <a href="${LP}?${UTM}&utm_content=logo" alias="logo-vibe-cumbuco" target="_blank" style="text-decoration:none;">
-              <img src="${IMG}/logo-vibe-areia.png" alt="Vibe Cumbuco" width="150" height="66" style="display:block;border:0;width:150px;height:auto;margin:0 auto;">
-            </a>
-            <p style="margin:16px 0 0;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${C.areia};">Lançamento Victa &middot; Cumbuco, CE</p>
-          </td></tr></table>`
-      : /* E-mail 1 ainda não revela o produto: só a Victa assina. */
-        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-          <td align="left" valign="middle" style="padding:26px 0;">
-            <img src="${IMG}/logo-victa-claro.png" alt="Victa" width="104" height="24" style="display:block;border:0;width:104px;height:auto;">
-          </td>
-          <td align="right" valign="middle" style="padding:26px 0;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${C.areia};">Cumbuco &middot; Ceará</td>
-        </tr></table>`,
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+      <td align="center" style="padding:34px 0 30px;">
+        <a href="${LP}?${UTM}&utm_content=logo" alias="logo-vibe-cumbuco" target="_blank" style="text-decoration:none;">
+          <img src="${IMG}/logo-vibe-areia.png" alt="Vibe Cumbuco" width="150" height="66" style="display:block;border:0;width:150px;height:auto;margin:0 auto;">
+        </a>
+        ${linha ? `<p style="margin:16px 0 0;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${C.areia};">${linha}</p>` : ""}
+      </td></tr></table>`,
+  );
+
+/**
+ * Box do KV: petróleo sobre o linho, cantos 0-50-0-50 (reto em cima à esquerda
+ * e embaixo à direita), 40px de margem de cada lado. No Outlook desktop sai de
+ * cantos retos.
+ */
+const box = (inner, pad = "0 40px 0") =>
+  band(
+    C.linho,
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.petroleo}" style="background-color:${C.petroleo};border-radius:0 50px 0 50px;border-collapse:separate;">
+      <tr><td class="box" style="padding:42px 40px 40px;border-radius:0 50px 0 50px;">
+        ${inner}
+      </td></tr>
+    </table>`,
+    pad,
   );
 
 const signature = () =>
@@ -132,29 +141,57 @@ const signature = () =>
  * Marketing Cloud para envio comercial: sem endereço físico e link de
  * descadastro a validação do e-mail reprova.
  */
+const VICTA_VERDE = "#6ecc01";
+const REDES = [
+  ["facebook", "Facebook", "https://www.facebook.com/victaengenharia"],
+  ["instagram", "Instagram", "https://www.instagram.com/victaengenharia/"],
+  ["youtube", "YouTube", "https://www.youtube.com/@victaengenharia"],
+];
+
+/* Rodapé padrão Victa: fundo branco, logo de 10 anos, site e WhatsApp numa
+   linha (empilham no celular), redes sociais em círculos verdes embaixo. */
 const footer = (legal) =>
   band(
-    C.petroleo,
+    C.branco,
     `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr><td align="center" style="padding:38px 0 18px;">
-        <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-logo" alias="rodape-logo-victa" target="_blank" style="text-decoration:none;">
-          <img src="${IMG}/logo-victa-claro.png" alt="Victa" width="120" height="28" style="display:block;border:0;width:120px;height:auto;margin:0 auto;">
-        </a>
+      <tr><td align="center" style="padding:36px 0 0;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;"><tr>
+          <td class="col col-gap" align="center" valign="middle" style="padding:0 18px 0 0;">
+            <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-logo" alias="rodape-logo-victa" target="_blank" style="text-decoration:none;">
+              <img src="${IMG}/logo-victa-10-anos.png" alt="Victa 10 anos" width="180" height="40" style="display:block;border:0;width:180px;height:auto;margin:0 auto;">
+            </a>
+          </td>
+          <td class="col col-gap" align="center" valign="middle" style="padding:0 18px 0 0;font-family:${FONT};font-size:17px;line-height:22px;font-weight:700;">
+            <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-site" alias="rodape-site" target="_blank" style="color:${VICTA_VERDE};text-decoration:none;">victa.eng.br</a>
+          </td>
+          <td class="col" align="center" valign="middle">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;"><tr>
+              <td bgcolor="${VICTA_VERDE}" style="background-color:${VICTA_VERDE};border-radius:999px;padding:8px 16px 8px 12px;">
+                <a href="${WHATSAPP}" alias="rodape-whatsapp" target="_blank" style="text-decoration:none;font-family:${FONT};font-size:16px;line-height:24px;color:${C.branco};white-space:nowrap;">
+                  <img src="${IMG}/icone-whatsapp-branco.png" alt="WhatsApp" width="24" height="24" style="display:inline-block;border:0;width:24px;height:24px;vertical-align:middle;">&nbsp;(85) <strong style="font-weight:700;">3512-3512</strong>
+                </a>
+              </td>
+            </tr></table>
+          </td>
+        </tr></table>
       </td></tr>
-      <tr><td align="center" style="padding:0 0 26px;font-family:${FONT};font-size:15px;line-height:22px;font-weight:600;color:${C.areia};">
-        <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-site" alias="rodape-site" target="_blank" style="color:${C.citrino};text-decoration:none;">victa.eng.br</a>
-        <span style="color:${C.mar};">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-        <a href="tel:+558535123512" alias="rodape-telefone" style="color:${C.areia};text-decoration:none;">(85) 3512-3512</a>
+      <tr><td align="center" style="padding:26px 0 30px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;"><tr>
+          ${REDES.map(
+            ([id, nome, url]) =>
+              `<td style="padding:0 8px;"><a href="${url}" alias="rodape-${id}" target="_blank" style="text-decoration:none;"><img src="${IMG}/icone-${id}.png" alt="${nome}" width="36" height="36" style="display:block;border:0;width:36px;height:36px;"></a></td>`,
+          ).join("")}
+        </tr></table>
       </td></tr>
-      <tr><td style="border-top:1px solid ${C.petroleo2};padding:22px 0 0;font-family:${FONT};font-size:10px;line-height:16px;color:#9fbdbb;text-align:left;">
+      <tr><td style="border-top:1px solid #e6e6e6;padding:22px 0 0;font-family:${FONT};font-size:10px;line-height:16px;color:#7a7a7a;text-align:left;">
         ${legal}
       </td></tr>
-      <tr><td align="center" style="padding:22px 0 36px;font-family:${FONT};font-size:11px;line-height:18px;color:#9fbdbb;">
+      <tr><td align="center" style="padding:22px 0 34px;font-family:${FONT};font-size:11px;line-height:18px;color:#7a7a7a;">
         Este e-mail foi enviado por %%Member_Busname%%<br>
         %%Member_Addr%% &middot; %%Member_City%%, %%Member_State%% &middot; %%Member_PostalCode%% &middot; %%Member_Country%%<br>
-        <a href="%%profile_center_url%%" alias="central-de-preferencias" style="color:${C.areia};text-decoration:underline;">Preferências</a>
+        <a href="%%profile_center_url%%" alias="central-de-preferencias" style="color:#4a4a4a;text-decoration:underline;">Preferências</a>
         &nbsp;&middot;&nbsp;
-        <a href="%%unsub_center_url%%" alias="descadastrar" style="color:${C.areia};text-decoration:underline;">Descadastrar</a>
+        <a href="%%unsub_center_url%%" alias="descadastrar" style="color:#4a4a4a;text-decoration:underline;">Descadastrar</a>
       </td></tr>
     </table>`,
   );
@@ -183,7 +220,7 @@ function layout({ n, date, subject, preheader, rows }) {
 <style>table,td,h1,h2,p,a{font-family:Arial,Helvetica,sans-serif !important;}</style>
 <![endif]-->
 <!--[if !mso]><!-->
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600;700&display=swap" rel="stylesheet">
 <!--<![endif]-->
 <style>
   body{margin:0;padding:0;width:100% !important;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
@@ -194,6 +231,7 @@ function layout({ n, date, subject, preheader, rows }) {
     .wrap{width:100% !important;}
     .px{padding-left:24px !important;padding-right:24px !important;}
     .box{padding:34px 26px 32px !important;}
+    .grade{padding:16px 16px 8px !important;}
     .px0{padding-left:0 !important;padding-right:0 !important;}
     .col{display:block !important;width:100% !important;max-width:100% !important;padding-left:0 !important;padding-right:0 !important;}
     .col-gap{padding-bottom:22px !important;}
@@ -230,7 +268,7 @@ ${rows.join("\n")}
 function email1() {
   const cta = `${LP}?${UTM}&utm_content=email-1-cta`;
   const stat = (big, label) =>
-    `<p class="big" style="margin:0 0 8px;font-family:${FONT};font-size:46px;line-height:50px;font-weight:300;letter-spacing:-1px;color:${C.citrino};">${big}</p>
+    `<p style="margin:0 0 8px;font-family:${FONT};font-size:36px;line-height:42px;font-weight:300;letter-spacing:-0.8px;white-space:nowrap;color:${C.citrino};">${big}</p>
      <p style="margin:0;font-family:${FONT};font-size:15px;line-height:23px;color:${C.areia};">${label}</p>`;
 
   return layout({
@@ -239,7 +277,7 @@ function email1() {
     subject: "Cumbuco: um novo horizonte para quem investe! 🚀",
     preheader: "O movimento do turismo cearense convida a olhar para novas oportunidades.",
     rows: [
-      header({ produto: false }),
+      header(),
       `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0;">
         <a href="${cta}" alias="email-1-imagem" target="_blank" style="text-decoration:none;">${img("e1-praia-kitesurf.jpg", "Praia do Cumbuco ao entardecer, com pipas de kitesurf no céu e velejadores no mar", 600, 338)}</a>
       </td></tr>`,
@@ -249,10 +287,9 @@ function email1() {
          ${h1(`O que faz um destino atrair <strong style="font-weight:600;">os olhares do mundo?</strong>`)}
          ${p(`No Cumbuco, a resposta está na combinação entre paisagens naturais e condições privilegiadas de vento, que fazem da região um dos <strong style="color:${C.petroleo};font-weight:600;">principais destinos brasileiros</strong> para a prática de kitesurf e windsurf.`)}
          ${p("Conhecido como a meca internacional do kitesurf, o Cumbuco faz parte de um cenário para o turismo cearense. Os números traduzem esse movimento:", C.texto, "margin-bottom:0;")}`,
-        "44px 44px 36px",
+        "44px 40px 36px",
       ),
-      band(
-        C.petroleo,
+      box(
         `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
           <tr>
             <td class="col col-gap" width="50%" valign="top" style="padding:0 16px 0 0;">
@@ -264,14 +301,13 @@ function email1() {
           </tr>
           <tr><td colspan="2" class="col" style="padding:26px 0 0;font-family:${FONT};font-size:11px;line-height:16px;letter-spacing:0.4px;color:#9fbdbb;">Fonte: Secretaria do Turismo do Ceará (Setur-CE).</td></tr>
         </table>`,
-        "42px 44px 38px",
       ),
       band(
         C.linho,
         `${p("Para quem investe, acompanhar o movimento dos destinos turísticos é também uma forma de identificar novas possibilidades no mercado imobiliário.")}
          ${h2(`E os ventos do Cumbuco estão trazendo <strong style="font-weight:600;">uma novidade.</strong>`)}
          <div style="padding:10px 0 0;">${button("Quero conhecer a novidade", cta, "email-1-cta", { bg: C.petroleo, color: C.linho })}</div>`,
-        "40px 44px 44px",
+        "40px 40px 44px",
       ),
       signature(),
       footer(LEGAL_DESTINO),
@@ -283,9 +319,12 @@ function email1() {
 
 function email2() {
   const cta = `${LP}?${UTM}&utm_content=email-2-cta`;
-  const G = 8; // respiro entre as fotos da montagem
-  const half = (file, alt, left) =>
-    `<td width="50%" valign="top" style="padding:${G}px ${left ? G / 2 : 0}px 0 ${left ? 0 : G / 2}px;">${img(file, alt, 288, 214, "border-radius:10px;")}</td>`;
+  const G = 12; // respiro entre as fotos da montagem
+  /* Cantos das fotos como os boxes do KV, alternando os dois sentidos. */
+  const R_A = "border-radius:0 30px 0 30px;";
+  const R_B = "border-radius:30px 0 30px 0;";
+  const half = (file, alt, left, radius) =>
+    `<td width="50%" valign="top" style="padding:${G}px ${left ? G / 2 : 0}px 0 ${left ? 0 : G / 2}px;">${img(file, alt, 268, 199, radius)}</td>`;
   const item = (html) =>
     `<tr>
       <td width="26" valign="top" style="padding:7px 0 0;"><div style="width:9px;height:9px;border-radius:9px;background-color:${C.mar};font-size:0;line-height:0;">&nbsp;</div></td>
@@ -298,16 +337,23 @@ function email2() {
     subject: "Conheça o novo lançamento da Victa a poucos metros do mar. 👀",
     preheader: "Localização a poucos metros do mar, lazer completo e opções de plantas no Cumbuco",
     rows: [
-      header({ produto: true }),
+      header(),
       /* Montagem: fachada em cima, quatro ambientes embaixo, todos do mesmo
          tamanho para nenhum pesar mais que o outro. São imagens separadas
          (e não uma colagem só) para o e-mail não virar "uma imagem gigante",
-         que cai em spam e some com imagens bloqueadas. */
-      `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0 ${G}px ${G}px;">
+         que cai em spam e some com imagens bloqueadas.
+         O fundo (areia do KV com a forma inclinada por cima) é imagem de
+         fundo da célula: o Outlook desktop não mostra e fica só a cor de areia. */
+      `<tr><td background="${IMG}/e2-fundo-areia.jpg" bgcolor="#e3cfa6" style="background-color:#e3cfa6;background-image:url('${IMG}/e2-fundo-areia.jpg');background-size:cover;background-position:center top;background-repeat:no-repeat;padding:0;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="grade" style="padding:26px 26px 14px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tr><td colspan="2" style="padding:0;"><a href="${cta}" alias="email-2-fachada" target="_blank" style="text-decoration:none;">${img("e2-fachada.jpg", "Fachada do Vibe Cumbuco", 584, 370, "border-radius:10px;")}</a></td></tr>
-          <tr>${half("e2-rooftop.jpg", "Rooftop com lounge aberto e vista para o mar", true)}${half("e2-piscina.jpg", "Piscina do condomínio", false)}</tr>
-          <tr>${half("e2-living.jpg", "Living", true)}${half("e2-coworking.jpg", "Coworking", false)}</tr>
+          <tr><td colspan="2" style="padding:0;"><a href="${cta}" alias="email-2-fachada" target="_blank" style="text-decoration:none;">${img("e2-fachada.jpg", "Fachada do Vibe Cumbuco", 548, 347, R_A)}</a></td></tr>
+          <tr>${half("e2-rooftop.jpg", "Rooftop com lounge aberto e vista para o mar", true, R_B)}${half("e2-piscina.jpg", "Piscina do condomínio", false, R_A)}</tr>
+          <tr>${half("e2-living.jpg", "Living", true, R_A)}${half("e2-coworking.jpg", "Coworking", false, R_B)}</tr>
+        </table>
+        </td></tr>
+        <!-- Divisão em ondas: PNG com o linho embaixo e transparente em cima. -->
+        <tr><td style="padding:0;font-size:0;line-height:0;">${img("onda-linho.png", "", 600, 44)}</td></tr>
         </table>
       </td></tr>`,
       band(
@@ -315,7 +361,7 @@ function email2() {
         `${eyebrow("Lançamento", C.mar)}
          ${h2(`No destino onde os ventos atraem o mundo, <strong style="font-weight:600;">chega uma nova possibilidade</strong> para quem deseja investir no litoral cearense.`)}
          ${p(`Conheça o <strong style="color:${C.petroleo};font-weight:600;">Vibe Cumbuco</strong>, lançamento da Victa que reúne localização, lazer e experiências em sintonia com o estilo de vida de um destino internacionalmente reconhecido.`, C.texto, "margin-bottom:0;")}`,
-        "44px 44px 34px",
+        "44px 40px 34px",
       ),
       band(
         C.linho,
@@ -331,20 +377,18 @@ function email2() {
             </table>
           </td></tr>
         </table>`,
-        "0 28px 28px",
+        "0 40px 28px",
       ),
-      band(
-        C.petroleo,
+      box(
         `${eyebrow("No topo", C.citrino)}
          ${h2("Um rooftop à altura da paisagem.", C.linho)}
          ${p("Com vista panorâmica para o mar, o rooftop reúne lounge aberto, espaço de coworking e brinquedoteca, proporcionando diferentes experiências em um mesmo endereço.", C.areia, "margin-bottom:0;")}`,
-        "40px 44px",
       ),
       band(
         C.linho,
         `${p("Para aproveitar o litoral ou diversificar seu patrimônio, descubra as possibilidades que o Vibe Cumbuco tem para oferecer.", C.texto, "text-align:center;")}
          <div style="padding:8px 0 0;">${button("Conheça o Vibe Cumbuco", cta, "email-2-cta", { bg: C.petroleo, color: C.linho })}</div>`,
-        "40px 44px 44px",
+        "40px 40px 44px",
       ),
       signature(),
       footer(LEGAL_PRODUTO),
@@ -371,7 +415,7 @@ function email3() {
   const cond = (label, big) =>
     `<td class="col col-gap" width="50%" valign="top" style="padding:0 12px 0 0;">
       <p style="margin:0 0 4px;font-family:${FONT};font-size:12px;line-height:18px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:${C.areia};">${label}</p>
-      <p class="big" style="margin:0;font-family:${FONT};font-size:46px;line-height:50px;font-weight:300;letter-spacing:-1px;color:${C.citrino};">${big}</p>
+      <p class="big" style="margin:0;font-family:${FONT};font-size:46px;line-height:50px;font-weight:700;letter-spacing:-1px;color:${C.citrino};">${big}</p>
     </td>`;
 
   return layout({
@@ -380,7 +424,7 @@ function email3() {
     subject: "Seu próximo investimento pode começar com R$ 999*",
     preheader: "Conheça as condições especiais para investir no Vibe Cumbuco.",
     rows: [
-      header({ produto: true }),
+      header(),
       `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0;">
         ${img("e3-rooftop.jpg", "Rooftop do Vibe Cumbuco, com lounge aberto e vista para o mar", 600, 380)}
       </td></tr>`,
@@ -391,7 +435,7 @@ function email3() {
          ${h2(`Agora, é hora de conhecer as possibilidades para transformar esse endereço em <strong style="font-weight:600;">parte do seu patrimônio.</strong>`)}
          <div style="height:14px;line-height:14px;font-size:0;">&nbsp;</div>
          ${p(`<strong style="color:${C.petroleo};font-weight:600;">Escolha a planta que combina com seus planos.</strong> Apartamentos de 2 quartos, com uma vaga de garagem e diferentes configurações, a poucos metros do mar.`, C.texto, "margin-bottom:0;")}`,
-        "44px 44px 26px",
+        "44px 40px 26px",
       ),
       band(
         C.linho,
@@ -399,23 +443,16 @@ function email3() {
            <tr>${plant("a", "Tipo A", "37,63", true)}${plant("b", "Tipo B", "39,97", false)}</tr>
            <tr>${plant("c", "Tipo C", "65,92", true)}${plant("d", "Tipo D", "65,92", false)}</tr>
          </table>`,
-        "0 28px 22px",
+        "0 40px 22px",
       ),
-      /* Box do KV: petróleo sobre o linho, cantos 0-50-0-50 (reto em cima à
-         esquerda e embaixo à direita). No Outlook desktop sai de cantos retos. */
-      band(
-        C.linho,
-        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.petroleo}" style="background-color:${C.petroleo};border-radius:0 50px 0 50px;border-collapse:separate;">
-          <tr><td class="box" style="padding:42px 40px 40px;border-radius:0 50px 0 50px;">
-            ${eyebrow("Condições", C.citrino)}
+      box(
+        `${eyebrow("Condições", C.citrino)}
             ${h2(`Novos horizontes para investir.<br><strong style="font-weight:600;">Condições para começar.</strong>`, C.linho)}
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:10px;">
               <tr>${cond("Sinal a partir de", "R$ 999*")}${cond("Mensais em até", "72x*")}</tr>
               <tr><td colspan="2" class="col" style="padding:26px 0 0;border-top:0;font-family:${FONT};font-size:16px;line-height:24px;color:${C.linho};">Financiamento facilitado pela <strong style="font-weight:600;">Caixa Econômica Federal</strong>.</td></tr>
               <tr><td colspan="2" class="col" style="padding:18px 0 0;font-family:${FONT};font-size:11px;line-height:17px;color:#9fbdbb;">*Condições sujeitas à tabela vigente e à disponibilidade de unidades.</td></tr>
-            </table>
-          </td></tr>
-        </table>`,
+            </table>`,
         "18px 40px 0",
       ),
       band(
@@ -423,7 +460,7 @@ function email3() {
         `${p("Conte com um atendimento especializado para conhecer as unidades disponíveis, esclarecer suas dúvidas e avaliar as condições de aquisição.", C.texto, "text-align:center;")}
          ${p(`<strong style="color:${C.petroleo};font-weight:600;">Dê o próximo passo em direção ao Cumbuco.</strong>`, C.texto, "text-align:center;")}
          <div style="padding:8px 0 0;">${button("Fale com um especialista", cta, "email-3-cta-whatsapp", { bg: C.petroleo, color: C.linho })}</div>`,
-        "40px 44px 44px",
+        "40px 40px 44px",
       ),
       signature(),
       footer(LEGAL_PRODUTO),
