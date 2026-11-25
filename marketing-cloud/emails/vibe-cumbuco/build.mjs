@@ -1,0 +1,446 @@
+/*
+ * Régua de e-mail do Vibe Cumbuco (VBC-0020-26) — gera os HTMLs que vão colados
+ * no Marketing Cloud (Content Builder > E-mail > "Colar HTML").
+ *
+ *   node marketing-cloud/emails/vibe-cumbuco/build.mjs
+ *
+ * Os .html desta pasta são saída deste script: mexer aqui e gerar de novo, não
+ * editar o HTML na mão. Texto: briefing de redação (PDF do job). Visual: KV
+ * "Vibe Cumbuco · Apresentação" (Book V2).
+ *
+ * Por que o HTML é "feio" (tabelas, estilo inline, largura fixa de 600):
+ * cliente de e-mail não é navegador. Outlook desktop renderiza com o motor do
+ * Word (sem flex, sem grid, sem border-radius, sem imagem de fundo confiável)
+ * e o Gmail descarta boa parte do <style>. O que está em <style> aqui é só
+ * reforço para o celular.
+ *
+ * Variáveis de ambiente (só para pré-visualizar localmente):
+ *   IMG_BASE  troca a base das imagens (padrão: domínio publicado das LPs)
+ *   OUT_DIR   grava em outra pasta
+ */
+import fs from "node:fs";
+import path from "node:path";
+
+const HERE = import.meta.dirname;
+const OUT_DIR = process.env.OUT_DIR || HERE;
+/*
+ * As imagens moram em public/images/emails/vibe-cumbuco e são servidas direto
+ * do GitHub (repo público), pela `main`: só abrem depois do merge do PR.
+ */
+const IMG =
+  process.env.IMG_BASE ||
+  "https://raw.githubusercontent.com/beatinyx/bosque-lp/main/public/images/emails/vibe-cumbuco";
+
+const LP = "https://more.victa.eng.br/vibe-cumbuco";
+const WHATSAPP = "https://wa.me/558535123512";
+const UTM = "utm_source=marketing-cloud&utm_medium=email&utm_campaign=vbc-regua-investidores";
+
+/* Cartela do KV */
+const C = {
+  petroleo: "#0f4446",
+  petroleo2: "#105a5e",
+  mar: "#2b8c88",
+  areia: "#efe3cc",
+  linho: "#f7f2e8",
+  citrino: "#d8d93f",
+  texto: "#35504f",
+  branco: "#ffffff",
+};
+
+/* Figtree é a substituta da Articulat CF na LP; onde a webfont não carrega
+   (Gmail, Outlook) cai em Arial/Helvetica. */
+const FONT = "'Figtree','Segoe UI',Helvetica,Arial,sans-serif";
+
+/*
+ * Nota legal. A do produto é a mesma da LP (Footer.tsx), sem a frase do preço
+ * "a partir de", que ainda está sem valor. PENDENTE: o número do ofício
+ * ("xxxxº") veio em aberto no briefing da LP — preencher antes do envio do
+ * e-mail 2.
+ */
+const LEGAL_DESTINO = "Imagem meramente ilustrativa.";
+const LEGAL_PRODUTO =
+  "Os preços, condições comerciais, disponibilidade das unidades e formas de pagamento poderão ser alterados, suspensos ou atualizados sem aviso prévio, de acordo com a política comercial da incorporadora. O Memorial de Incorporação encontra-se registrado sob o R.3 da Matrícula nº 067.153, do xxxxº Ofício de Registro de Imóveis de Caucaia/CE. As imagens, perspectivas, mobiliários, objetos decorativos, vegetação e demais elementos apresentados neste material possuem caráter meramente ilustrativo e poderão sofrer alterações. Para informações detalhadas acerca das especificações técnicas, acabamentos, dimensões, áreas e demais características do empreendimento e de suas unidades, prevalecerão as disposições constantes do Memorial Descritivo, plantas e demais documentos integrantes do Memorial de Incorporação.";
+
+/* ------------------------------------------------------------------ peças */
+
+const img = (file, alt, w, h, style = "") =>
+  `<img src="${IMG}/${file}" alt="${alt}" width="${w}" height="${h}" style="display:block;width:100%;max-width:${w}px;height:auto;border:0;outline:none;text-decoration:none;${style}">`;
+
+const spacer = (h) =>
+  `<tr><td height="${h}" style="height:${h}px;line-height:${h}px;font-size:0;">&nbsp;</td></tr>`;
+
+/** Uma faixa de 600 com cor de fundo e respiro lateral. */
+const band = (bg, inner, pad = "0 44px") =>
+  `<tr><td class="px" bgcolor="${bg}" style="background-color:${bg};padding:${pad};">${inner}</td></tr>`;
+
+const p = (html, color = C.texto, extra = "") =>
+  `<p style="margin:0 0 18px;font-family:${FONT};font-size:16px;line-height:26px;color:${color};${extra}">${html}</p>`;
+
+const eyebrow = (text, color) =>
+  `<p style="margin:0 0 14px;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${color};">${text}</p>`;
+
+const h1 = (html, color = C.petroleo) =>
+  `<h1 class="h1" style="margin:0 0 22px;font-family:${FONT};font-size:34px;line-height:40px;font-weight:300;letter-spacing:-0.4px;color:${color};">${html}</h1>`;
+
+const h2 = (html, color = C.petroleo) =>
+  `<h2 class="h2" style="margin:0 0 18px;font-family:${FONT};font-size:26px;line-height:32px;font-weight:300;letter-spacing:-0.3px;color:${color};">${html}</h2>`;
+
+/**
+ * Botão "à prova de Outlook": a cor fica na célula (bgcolor), então aparece
+ * mesmo onde o CSS do link é ignorado. No Outlook sai de cantos retos.
+ */
+const button = (label, href, alias, { bg, color }) => `
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+  <tr>
+    <td align="center" bgcolor="${bg}" style="background-color:${bg};border-radius:999px;mso-padding-alt:16px 34px;">
+      <a href="${href}" alias="${alias}" target="_blank" style="display:inline-block;padding:16px 34px;font-family:${FONT};font-size:16px;line-height:20px;font-weight:600;color:${color};text-decoration:none;border-radius:999px;">${label}&nbsp;&nbsp;&rarr;</a>
+    </td>
+  </tr>
+</table>`;
+
+const header = ({ produto }) =>
+  band(
+    C.petroleo,
+    produto
+      ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td align="center" style="padding:34px 0 30px;">
+            <a href="${LP}?${UTM}&utm_content=logo" alias="logo-vibe-cumbuco" target="_blank" style="text-decoration:none;">
+              <img src="${IMG}/logo-vibe-areia.png" alt="Vibe Cumbuco" width="150" height="66" style="display:block;border:0;width:150px;height:auto;margin:0 auto;">
+            </a>
+            <p style="margin:16px 0 0;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${C.areia};">Lançamento Victa &middot; Cumbuco, CE</p>
+          </td></tr></table>`
+      : /* E-mail 1 ainda não revela o produto: só a Victa assina. */
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+          <td align="left" valign="middle" style="padding:26px 0;">
+            <img src="${IMG}/logo-victa-claro.png" alt="Victa" width="104" height="24" style="display:block;border:0;width:104px;height:auto;">
+          </td>
+          <td align="right" valign="middle" style="padding:26px 0;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${C.areia};">Cumbuco &middot; Ceará</td>
+        </tr></table>`,
+  );
+
+const signature = () =>
+  band(
+    C.linho,
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+      <td style="border-top:1px solid #dcd3bf;padding:26px 0 40px;font-family:${FONT};font-size:16px;line-height:26px;color:${C.texto};">
+        Um abraço,<br><strong style="color:${C.petroleo};font-weight:600;">Seu time Victa</strong>
+      </td></tr></table>`,
+  );
+
+/**
+ * Rodapé. O bloco final (%%Member_*%% e os dois links) é exigência do
+ * Marketing Cloud para envio comercial: sem endereço físico e link de
+ * descadastro a validação do e-mail reprova.
+ */
+const footer = (legal) =>
+  band(
+    C.petroleo,
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr><td align="center" style="padding:38px 0 18px;">
+        <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-logo" alias="rodape-logo-victa" target="_blank" style="text-decoration:none;">
+          <img src="${IMG}/logo-victa-claro.png" alt="Victa" width="120" height="28" style="display:block;border:0;width:120px;height:auto;margin:0 auto;">
+        </a>
+      </td></tr>
+      <tr><td align="center" style="padding:0 0 26px;font-family:${FONT};font-size:15px;line-height:22px;font-weight:600;color:${C.areia};">
+        <a href="https://victa.eng.br/?${UTM}&utm_content=rodape-site" alias="rodape-site" target="_blank" style="color:${C.citrino};text-decoration:none;">victa.eng.br</a>
+        <span style="color:${C.mar};">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <a href="tel:+558535123512" alias="rodape-telefone" style="color:${C.areia};text-decoration:none;">(85) 3512-3512</a>
+      </td></tr>
+      <tr><td style="border-top:1px solid ${C.petroleo2};padding:22px 0 0;font-family:${FONT};font-size:10px;line-height:16px;color:#9fbdbb;text-align:left;">
+        ${legal}
+      </td></tr>
+      <tr><td align="center" style="padding:22px 0 36px;font-family:${FONT};font-size:11px;line-height:18px;color:#9fbdbb;">
+        Este e-mail foi enviado por %%Member_Busname%%<br>
+        %%Member_Addr%% &middot; %%Member_City%%, %%Member_State%% &middot; %%Member_PostalCode%% &middot; %%Member_Country%%<br>
+        <a href="%%profile_center_url%%" alias="central-de-preferencias" style="color:${C.areia};text-decoration:underline;">Preferências</a>
+        &nbsp;&middot;&nbsp;
+        <a href="%%unsub_center_url%%" alias="descadastrar" style="color:${C.areia};text-decoration:underline;">Descadastrar</a>
+      </td></tr>
+    </table>`,
+  );
+
+/** Moldura do documento. `subject` e `preheader` vão também no comentário do topo. */
+function layout({ n, date, subject, preheader, rows }) {
+  return `<!DOCTYPE html>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<!--
+  Vibe Cumbuco · Régua de e-mail (VBC-0020-26) · E-mail ${n} · envio ${date}
+  Assunto:    ${subject}
+  Pré-header: ${preheader}
+  Gerado por marketing-cloud/emails/vibe-cumbuco/build.mjs — não editar à mão.
+-->
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no,address=no,email=no,date=no">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>${subject}</title>
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+<style>table,td,h1,h2,p,a{font-family:Arial,Helvetica,sans-serif !important;}</style>
+<![endif]-->
+<!--[if !mso]><!-->
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;600&display=swap" rel="stylesheet">
+<!--<![endif]-->
+<style>
+  body{margin:0;padding:0;width:100% !important;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
+  table{border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;}
+  img{-ms-interpolation-mode:bicubic;}
+  a[x-apple-data-detectors]{color:inherit !important;text-decoration:none !important;}
+  @media only screen and (max-width:620px){
+    .wrap{width:100% !important;}
+    .px{padding-left:24px !important;padding-right:24px !important;}
+    .box{padding:34px 26px 32px !important;}
+    .px0{padding-left:0 !important;padding-right:0 !important;}
+    .col{display:block !important;width:100% !important;max-width:100% !important;padding-left:0 !important;padding-right:0 !important;}
+    .col-gap{padding-bottom:22px !important;}
+    .h1{font-size:28px !important;line-height:34px !important;}
+    .h2{font-size:23px !important;line-height:29px !important;}
+    .big{font-size:44px !important;line-height:48px !important;}
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:${C.areia};">
+<!-- Pré-header: aparece ao lado do assunto na caixa de entrada, some no corpo. -->
+<div style="display:none;max-height:0;max-width:0;overflow:hidden;opacity:0;mso-hide:all;font-size:1px;line-height:1px;color:${C.areia};">${preheader}${"&nbsp;&zwnj;".repeat(60)}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.areia}" style="background-color:${C.areia};">
+<tr><td align="center" style="padding:0;">
+  <!--[if mso]><table role="presentation" width="600" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+  <table role="presentation" class="wrap" width="600" align="center" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;margin:0 auto;">
+    <tr><td align="center" style="padding:14px 16px;font-family:${FONT};font-size:11px;line-height:16px;color:#7b7461;">
+      Não está vendo as imagens? <a href="%%view_email_url%%" alias="ver-no-navegador" style="color:${C.petroleo};text-decoration:underline;">Abra no navegador</a>
+    </td></tr>
+${rows.join("\n")}
+    ${spacer(28)}
+  </table>
+  <!--[if mso]></td></tr></table><![endif]-->
+</td></tr>
+</table>
+<custom name="opencounter" type="tracking" />
+</body>
+</html>
+`;
+}
+
+/* --------------------------------------------------------------- e-mail 1 */
+
+function email1() {
+  const cta = `${LP}?${UTM}&utm_content=email-1-cta`;
+  const stat = (big, label) =>
+    `<p class="big" style="margin:0 0 8px;font-family:${FONT};font-size:46px;line-height:50px;font-weight:300;letter-spacing:-1px;color:${C.citrino};">${big}</p>
+     <p style="margin:0;font-family:${FONT};font-size:15px;line-height:23px;color:${C.areia};">${label}</p>`;
+
+  return layout({
+    n: 1,
+    date: "24/11",
+    subject: "Cumbuco: um novo horizonte para quem investe! 🚀",
+    preheader: "O movimento do turismo cearense convida a olhar para novas oportunidades.",
+    rows: [
+      header({ produto: false }),
+      `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0;">
+        <a href="${cta}" alias="email-1-imagem" target="_blank" style="text-decoration:none;">${img("e1-praia-kitesurf.jpg", "Praia do Cumbuco ao entardecer, com pipas de kitesurf no céu e velejadores no mar", 600, 338)}</a>
+      </td></tr>`,
+      band(
+        C.linho,
+        `${eyebrow("Turismo &amp; investimento", C.mar)}
+         ${h1(`O que faz um destino atrair <strong style="font-weight:600;">os olhares do mundo?</strong>`)}
+         ${p(`No Cumbuco, a resposta está na combinação entre paisagens naturais e condições privilegiadas de vento, que fazem da região um dos <strong style="color:${C.petroleo};font-weight:600;">principais destinos brasileiros</strong> para a prática de kitesurf e windsurf.`)}
+         ${p("Conhecido como a meca internacional do kitesurf, o Cumbuco faz parte de um cenário para o turismo cearense. Os números traduzem esse movimento:", C.texto, "margin-bottom:0;")}`,
+        "44px 44px 36px",
+      ),
+      band(
+        C.petroleo,
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td class="col col-gap" width="50%" valign="top" style="padding:0 16px 0 0;">
+              ${stat("+17,6%", `<strong style="font-weight:600;color:${C.branco};">de crescimento</strong> no fluxo de turistas do segmento esportivo e de aventura entre 2024 e 2025.`)}
+            </td>
+            <td class="col" width="50%" valign="top" style="padding:0 0 0 16px;">
+              ${stat("R$ 1,387 bi", `<strong style="font-weight:600;color:${C.branco};">R$ 1,387 bilhão</strong> em receita turística direta do segmento em 2025.`)}
+            </td>
+          </tr>
+          <tr><td colspan="2" class="col" style="padding:26px 0 0;font-family:${FONT};font-size:11px;line-height:16px;letter-spacing:0.4px;color:#9fbdbb;">Fonte: Secretaria do Turismo do Ceará (Setur-CE).</td></tr>
+        </table>`,
+        "42px 44px 38px",
+      ),
+      band(
+        C.linho,
+        `${p("Para quem investe, acompanhar o movimento dos destinos turísticos é também uma forma de identificar novas possibilidades no mercado imobiliário.")}
+         ${h2(`E os ventos do Cumbuco estão trazendo <strong style="font-weight:600;">uma novidade.</strong>`)}
+         <div style="padding:10px 0 0;">${button("Quero conhecer a novidade", cta, "email-1-cta", { bg: C.petroleo, color: C.linho })}</div>`,
+        "40px 44px 44px",
+      ),
+      signature(),
+      footer(LEGAL_DESTINO),
+    ],
+  });
+}
+
+/* --------------------------------------------------------------- e-mail 2 */
+
+function email2() {
+  const cta = `${LP}?${UTM}&utm_content=email-2-cta`;
+  const G = 8; // respiro entre as fotos da montagem
+  const half = (file, alt, left) =>
+    `<td width="50%" valign="top" style="padding:${G}px ${left ? G / 2 : 0}px 0 ${left ? 0 : G / 2}px;">${img(file, alt, 288, 214, "border-radius:10px;")}</td>`;
+  const item = (html) =>
+    `<tr>
+      <td width="26" valign="top" style="padding:7px 0 0;"><div style="width:9px;height:9px;border-radius:9px;background-color:${C.mar};font-size:0;line-height:0;">&nbsp;</div></td>
+      <td valign="top" style="padding:0 0 12px;font-family:${FONT};font-size:16px;line-height:24px;color:${C.petroleo};">${html}</td>
+    </tr>`;
+
+  return layout({
+    n: 2,
+    date: "30/11",
+    subject: "Conheça o novo lançamento da Victa a poucos metros do mar. 👀",
+    preheader: "Localização a poucos metros do mar, lazer completo e opções de plantas no Cumbuco",
+    rows: [
+      header({ produto: true }),
+      /* Montagem: fachada em cima, quatro ambientes embaixo, todos do mesmo
+         tamanho para nenhum pesar mais que o outro. São imagens separadas
+         (e não uma colagem só) para o e-mail não virar "uma imagem gigante",
+         que cai em spam e some com imagens bloqueadas. */
+      `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0 ${G}px ${G}px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr><td colspan="2" style="padding:0;"><a href="${cta}" alias="email-2-fachada" target="_blank" style="text-decoration:none;">${img("e2-fachada.jpg", "Fachada do Vibe Cumbuco", 584, 370, "border-radius:10px;")}</a></td></tr>
+          <tr>${half("e2-rooftop.jpg", "Rooftop com lounge aberto e vista para o mar", true)}${half("e2-piscina.jpg", "Piscina do condomínio", false)}</tr>
+          <tr>${half("e2-living.jpg", "Living", true)}${half("e2-coworking.jpg", "Coworking", false)}</tr>
+        </table>
+      </td></tr>`,
+      band(
+        C.linho,
+        `${eyebrow("Lançamento", C.mar)}
+         ${h2(`No destino onde os ventos atraem o mundo, <strong style="font-weight:600;">chega uma nova possibilidade</strong> para quem deseja investir no litoral cearense.`)}
+         ${p(`Conheça o <strong style="color:${C.petroleo};font-weight:600;">Vibe Cumbuco</strong>, lançamento da Victa que reúne localização, lazer e experiências em sintonia com o estilo de vida de um destino internacionalmente reconhecido.`, C.texto, "margin-bottom:0;")}`,
+        "44px 44px 34px",
+      ),
+      band(
+        C.linho,
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.branco}" style="background-color:${C.branco};border-radius:16px;">
+          <tr><td class="px" style="padding:32px 32px 22px;">
+            ${h2(`<strong style="font-weight:600;">A poucos metros do mar.</strong><br>A muitas possibilidades de viver.`)}
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              ${item("Apês de 2 quartos com varanda")}
+              ${item("Plantas de 37,63 m² a 65,92 m² de área total, conforme a tipologia")}
+              ${item("Condomínio fechado")}
+              ${item("Lazer completo")}
+              ${item("204 unidades, todas com uma vaga de garagem")}
+            </table>
+          </td></tr>
+        </table>`,
+        "0 28px 28px",
+      ),
+      band(
+        C.petroleo,
+        `${eyebrow("No topo", C.citrino)}
+         ${h2("Um rooftop à altura da paisagem.", C.linho)}
+         ${p("Com vista panorâmica para o mar, o rooftop reúne lounge aberto, espaço de coworking e brinquedoteca, proporcionando diferentes experiências em um mesmo endereço.", C.areia, "margin-bottom:0;")}`,
+        "40px 44px",
+      ),
+      band(
+        C.linho,
+        `${p("Para aproveitar o litoral ou diversificar seu patrimônio, descubra as possibilidades que o Vibe Cumbuco tem para oferecer.", C.texto, "text-align:center;")}
+         <div style="padding:8px 0 0;">${button("Conheça o Vibe Cumbuco", cta, "email-2-cta", { bg: C.petroleo, color: C.linho })}</div>`,
+        "40px 44px 44px",
+      ),
+      signature(),
+      footer(LEGAL_PRODUTO),
+    ],
+  });
+}
+
+/* --------------------------------------------------------------- e-mail 3 */
+
+function email3() {
+  const lp = `${LP}?${UTM}&utm_content=email-3-plantas`;
+  const cta = `${WHATSAPP}?text=${encodeURIComponent("Olá! Recebi o e-mail do Vibe Cumbuco e quero falar com um especialista.")}`;
+  /* Metragens por tipo: quadros 18 a 21 do Book V2 (C e D incluem jardim privativo). */
+  const plant = (key, tipo, area, left) =>
+    `<td class="col col-gap" width="50%" valign="top" style="padding:0 ${left ? 8 : 0}px 16px ${left ? 0 : 8}px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.branco}" style="background-color:${C.branco};border-radius:14px;">
+        <tr><td style="padding:6px 6px 0;"><a href="${lp}" alias="email-3-planta-${key}" target="_blank" style="text-decoration:none;">${img(`planta-${key}.jpg`, `Planta humanizada do apartamento ${tipo}, ${area} m²`, 520, 430, "border-radius:10px;")}</a></td></tr>
+        <tr><td style="padding:10px 18px 18px;font-family:${FONT};">
+          <span style="font-size:17px;line-height:22px;font-weight:600;color:${C.petroleo};">${tipo}</span><br>
+          <span style="font-size:15px;line-height:22px;color:${C.mar};">${area} m²</span>
+        </td></tr>
+      </table>
+    </td>`;
+  const cond = (label, big) =>
+    `<td class="col col-gap" width="50%" valign="top" style="padding:0 12px 0 0;">
+      <p style="margin:0 0 4px;font-family:${FONT};font-size:12px;line-height:18px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:${C.areia};">${label}</p>
+      <p class="big" style="margin:0;font-family:${FONT};font-size:46px;line-height:50px;font-weight:300;letter-spacing:-1px;color:${C.citrino};">${big}</p>
+    </td>`;
+
+  return layout({
+    n: 3,
+    date: "07/12",
+    subject: "Seu próximo investimento pode começar com R$ 999*",
+    preheader: "Conheça as condições especiais para investir no Vibe Cumbuco.",
+    rows: [
+      header({ produto: true }),
+      `<tr><td bgcolor="${C.petroleo}" style="background-color:${C.petroleo};padding:0;">
+        ${img("e3-rooftop.jpg", "Rooftop do Vibe Cumbuco, com lounge aberto e vista para o mar", 600, 380)}
+      </td></tr>`,
+      band(
+        C.linho,
+        `${eyebrow("Para investir", C.mar)}
+         ${p("Você já descobriu o potencial turístico do Cumbuco e conheceu os diferenciais do novo lançamento da Victa.")}
+         ${h2(`Agora, é hora de conhecer as possibilidades para transformar esse endereço em <strong style="font-weight:600;">parte do seu patrimônio.</strong>`)}
+         <div style="height:14px;line-height:14px;font-size:0;">&nbsp;</div>
+         ${p(`<strong style="color:${C.petroleo};font-weight:600;">Escolha a planta que combina com seus planos.</strong> Apartamentos de 2 quartos, com uma vaga de garagem e diferentes configurações, a poucos metros do mar.`, C.texto, "margin-bottom:0;")}`,
+        "44px 44px 26px",
+      ),
+      band(
+        C.linho,
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+           <tr>${plant("a", "Tipo A", "37,63", true)}${plant("b", "Tipo B", "39,97", false)}</tr>
+           <tr>${plant("c", "Tipo C", "65,92", true)}${plant("d", "Tipo D", "65,92", false)}</tr>
+         </table>`,
+        "0 28px 22px",
+      ),
+      /* Box do KV: petróleo sobre o linho, cantos 0-50-0-50 (reto em cima à
+         esquerda e embaixo à direita). No Outlook desktop sai de cantos retos. */
+      band(
+        C.linho,
+        `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.petroleo}" style="background-color:${C.petroleo};border-radius:0 50px 0 50px;border-collapse:separate;">
+          <tr><td class="box" style="padding:42px 40px 40px;border-radius:0 50px 0 50px;">
+            ${eyebrow("Condições", C.citrino)}
+            ${h2(`Novos horizontes para investir.<br><strong style="font-weight:600;">Condições para começar.</strong>`, C.linho)}
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:10px;">
+              <tr>${cond("Sinal a partir de", "R$ 999*")}${cond("Mensais em até", "72x*")}</tr>
+              <tr><td colspan="2" class="col" style="padding:26px 0 0;border-top:0;font-family:${FONT};font-size:16px;line-height:24px;color:${C.linho};">Financiamento facilitado pela <strong style="font-weight:600;">Caixa Econômica Federal</strong>.</td></tr>
+              <tr><td colspan="2" class="col" style="padding:18px 0 0;font-family:${FONT};font-size:11px;line-height:17px;color:#9fbdbb;">*Condições sujeitas à tabela vigente e à disponibilidade de unidades.</td></tr>
+            </table>
+          </td></tr>
+        </table>`,
+        "18px 40px 0",
+      ),
+      band(
+        C.linho,
+        `${p("Conte com um atendimento especializado para conhecer as unidades disponíveis, esclarecer suas dúvidas e avaliar as condições de aquisição.", C.texto, "text-align:center;")}
+         ${p(`<strong style="color:${C.petroleo};font-weight:600;">Dê o próximo passo em direção ao Cumbuco.</strong>`, C.texto, "text-align:center;")}
+         <div style="padding:8px 0 0;">${button("Fale com um especialista", cta, "email-3-cta-whatsapp", { bg: C.petroleo, color: C.linho })}</div>`,
+        "40px 44px 44px",
+      ),
+      signature(),
+      footer(LEGAL_PRODUTO),
+    ],
+  });
+}
+
+/* ------------------------------------------------------------------ saída */
+
+const files = {
+  "email-1-destino-cumbuco.html": email1(),
+  "email-2-lancamento.html": email2(),
+  "email-3-plantas-e-condicoes.html": email3(),
+};
+fs.mkdirSync(OUT_DIR, { recursive: true });
+for (const [name, html] of Object.entries(files)) {
+  fs.writeFileSync(path.join(OUT_DIR, name), html);
+  // O Gmail corta o e-mail ("Ver mensagem inteira") acima de ~102 KB de HTML.
+  console.log(`${name}  ${(Buffer.byteLength(html) / 1024).toFixed(1)} KB`);
+}
