@@ -76,9 +76,6 @@ const band = (bg, inner, pad = "0 40px") =>
 const p = (html, color = C.texto, extra = "") =>
   `<p style="margin:0 0 18px;font-family:${FONT};font-size:16px;line-height:26px;color:${color};${extra}">${html}</p>`;
 
-const eyebrow = (text, color) =>
-  `<p style="margin:0 0 14px;font-family:${FONT};font-size:11px;line-height:16px;font-weight:600;letter-spacing:2.4px;text-transform:uppercase;color:${color};">${text}</p>`;
-
 const h1 = (html, color = C.petroleo) =>
   `<h1 class="h1" style="margin:0 0 22px;font-family:${FONT};font-size:34px;line-height:40px;font-weight:300;letter-spacing:-0.4px;color:${color};">${html}</h1>`;
 
@@ -283,7 +280,7 @@ function email1() {
       </td></tr>`,
       band(
         C.linho,
-        `${eyebrow("Turismo &amp; investimento", C.mar)}
+        `
          ${h1(`O que faz um destino atrair<br><strong style="font-weight:600;">os olhares do mundo?</strong>`)}
          ${p(`No Cumbuco, a resposta está na combinação entre paisagens naturais e condições privilegiadas de vento, que fazem da região um dos <strong style="color:${C.petroleo};font-weight:600;">principais destinos brasileiros</strong> para a prática de kitesurf e windsurf.`)}
          ${p("Conhecido como a meca internacional do kitesurf, o Cumbuco faz parte de um cenário para o turismo cearense. Os números traduzem esse movimento:", C.texto, "margin-bottom:0;")}`,
@@ -358,7 +355,7 @@ function email2() {
       </td></tr>`,
       band(
         C.linho,
-        `${eyebrow("Lançamento", C.mar)}
+        `
          ${h2(`No destino onde os ventos atraem o mundo, <strong style="font-weight:600;">chega uma nova possibilidade</strong> para quem deseja investir no litoral cearense.`)}
          ${p(`Conheça o <strong style="color:${C.petroleo};font-weight:600;">Vibe Cumbuco</strong>, lançamento da Victa que reúne localização, lazer e experiências em sintonia com o estilo de vida de um destino internacionalmente reconhecido.`, C.texto, "margin-bottom:0;")}`,
         "44px 40px 34px",
@@ -380,7 +377,7 @@ function email2() {
         "0 40px 28px",
       ),
       box(
-        `${eyebrow("No topo", C.citrino)}
+        `
          ${h2("Um rooftop à altura da paisagem.", C.linho)}
          ${p("Com vista panorâmica para o mar, o rooftop reúne lounge aberto, espaço de coworking e brinquedoteca, proporcionando diferentes experiências em um mesmo endereço.", C.areia, "margin-bottom:0;")}`,
       ),
@@ -430,7 +427,7 @@ function email3() {
       </td></tr>`,
       band(
         C.linho,
-        `${eyebrow("Para investir", C.mar)}
+        `
          ${p("Você já descobriu o potencial turístico do Cumbuco e conheceu os diferenciais do novo lançamento da Victa.")}
          ${h2(`Agora, é hora de conhecer as possibilidades para transformar esse endereço em <strong style="font-weight:600;">parte do seu patrimônio.</strong>`)}
          <div style="height:14px;line-height:14px;font-size:0;">&nbsp;</div>
@@ -446,7 +443,7 @@ function email3() {
         "0 40px 22px",
       ),
       box(
-        `${eyebrow("Condições", C.citrino)}
+        `
             ${h2(`Novos horizontes para investir.<br><strong style="font-weight:600;">Condições para começar.</strong>`, C.linho)}
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:10px;">
               <tr>${cond("Sinal a partir de", "R$ 999*")}${cond("Mensais em até", "72x*")}</tr>
