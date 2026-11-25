@@ -268,7 +268,7 @@ ${rows.join("\n")}
 function email1() {
   const cta = `${LP}?${UTM}&utm_content=email-1-cta`;
   const stat = (big, label) =>
-    `<p style="margin:0 0 8px;font-family:${FONT};font-size:36px;line-height:42px;font-weight:300;letter-spacing:-0.8px;white-space:nowrap;color:${C.citrino};">${big}</p>
+    `<p style="margin:0 0 8px;font-family:${FONT};font-size:34px;line-height:42px;font-weight:700;letter-spacing:-0.8px;white-space:nowrap;color:${C.citrino};">${big}</p>
      <p style="margin:0;font-family:${FONT};font-size:15px;line-height:23px;color:${C.areia};">${label}</p>`;
 
   return layout({
@@ -284,7 +284,7 @@ function email1() {
       band(
         C.linho,
         `${eyebrow("Turismo &amp; investimento", C.mar)}
-         ${h1(`O que faz um destino atrair <strong style="font-weight:600;">os olhares do mundo?</strong>`)}
+         ${h1(`O que faz um destino atrair<br><strong style="font-weight:600;">os olhares do mundo?</strong>`)}
          ${p(`No Cumbuco, a resposta está na combinação entre paisagens naturais e condições privilegiadas de vento, que fazem da região um dos <strong style="color:${C.petroleo};font-weight:600;">principais destinos brasileiros</strong> para a prática de kitesurf e windsurf.`)}
          ${p("Conhecido como a meca internacional do kitesurf, o Cumbuco faz parte de um cenário para o turismo cearense. Os números traduzem esse movimento:", C.texto, "margin-bottom:0;")}`,
         "44px 40px 36px",
