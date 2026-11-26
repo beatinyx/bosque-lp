@@ -10,8 +10,8 @@ import { LeadForm } from "./LeadForm";
  * sobre o mar, à direita; no mobile ela centraliza.
  *
  * No Figma o formulário não tem card: quem pinta o verde atrás dele é o
- * próprio embed do RD. Aqui o form é nosso (vai para o Marketing Cloud) e o
- * verde é deste card.
+ * próprio embed do RD. Aqui o card é nosso (ver o tema em styles.css), para o
+ * fundo não depender do painel do RD.
  */
 export function HeroSection() {
   return (
@@ -52,7 +52,7 @@ export function HeroSection() {
               Invista no m² que mais cresce na região!
             </p>
 
-            <div className="mt-6 w-full max-w-[377px] bg-brand/90 px-4 py-5 lg:mt-[31px]">
+            <div className="rd-form-card mt-6 w-full max-w-[377px] bg-brand/90 px-4 py-5 lg:mt-[31px]">
               <LeadForm />
             </div>
 

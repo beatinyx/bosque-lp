@@ -56,7 +56,7 @@ export function HeroSection() {
                 Um pedaço do seu futuro <strong className="font-bold">amanhece agora</strong>
               </h1>
 
-              <div className="mx-auto mt-7 w-full max-w-[375px] rounded-[20px] bg-brand px-4 py-5">
+              <div className="rd-form-card mx-auto mt-7 w-full max-w-[375px] rounded-[20px] bg-brand px-4 py-5">
                 <LeadForm />
               </div>
             </div>

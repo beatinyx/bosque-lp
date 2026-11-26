@@ -18,7 +18,7 @@ rota:
 | `/`                | —                         | Redireciona (302) para `https://www.victa.eng.br/`  |
 
 Cada LP tem também a sua página de obrigado em `/obrigado/<produto>` — o destino
-do redirect da CloudPage que recebe o formulário e o gatilho de conversão do GTM. Ver
+do redirect do formulário do RD Station e o gatilho de conversão do GTM. Ver
 [Medição e conversão](#medição-e-conversão).
 
 As cinco LPs compartilham stack, componentes de UI (`src/components/ui`), o shell
@@ -113,18 +113,9 @@ mapa ilustrado saíram todos de lá.
 - **Chanfro** — a classe `.chamfer` reproduz a moldura do folder, com o canto
   superior direito cortado na diagonal (`.chamfer-sm` / `.chamfer-lg` mudam o
   tamanho do corte).
-- **Captação** — formulário próprio em `src/components/viver-bosque/LeadForm.tsx`,
-  enviado para o **Marketing Cloud** (não é mais o RD Station). É um POST
-  comum para uma CloudPage (`MC_LEAD_ENDPOINT`) que grava na DE `leads_bosque`
-  (Contact Builder → Extensões de Dados → pasta _viver bosque_, chave externa
-  `05ACEDC3-95F1-467D-AFD8-54CC2971FA5C`) e redireciona para
-  `/obrigado/viver-bosque` — ou de volta para a LP com `?cadastro=erro`, que
-  mostra o aviso acima dos campos. O código da CloudPage está em
-  `marketing-cloud/viver-bosque-lead.html`: ao mudar, colar de novo no Cloud e
-  republicar. As UTMs vão em campos ocultos (`utm_*`, mesma origem de
-  `src/lib/rd-utm.ts`), o telefone chega à DE só com dígitos e o 55 na frente,
-  e um campo-armadilha (`website`) descarta envio de robô. A DE não tem chave
-  primária: cada envio é uma linha nova.
+- **Captação** — embed do RD Station `bosque-6026d4e5f95b4ee9aa59`, montado em
+  `src/components/viver-bosque/LeadForm.tsx`. Aqui o formulário assenta direto
+  sobre o vídeo, sem card: o CSS repinta rótulos, inputs e botão.
 
 ## Vitória Eusébio — `/vitoria-eusebio`
 
@@ -140,15 +131,9 @@ Apartamentos de 2 quartos com opção de jardim privativo, no Eusébio.
 
 - **Tipografia** — **Montserrat** nas manchetes e no corpo, com Cormorant
   Garamond disponível como serifada de apoio.
-- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
-  receita do Viver Bosque (não é mais o embed do RD
-  `eusebio-4044c95a9a0395652ffc`). POST comum para a CloudPage
-  `MC_LEAD_ENDPOINT`, que grava na DE `leads_eusebio` (pasta
-  _leads_eusebio_, chave externa `A06EF2B1-E981-4000-8E4A-C6A0EB5EF4A7`) e redireciona para
-  `/obrigado/vitoria-eusebio` — ou de volta com `?cadastro=erro`. Código da
-  CloudPage em `marketing-cloud/vitoria-eusebio-lead.html`. O desenho repete o
-  do embed: card verde escuro, pílulas brancas e o botão azul "QUERO
-  CONHECER".
+- **Captação** — embed do RD Station `eusebio-4044c95a9a0395652ffc`, montado em
+  `src/components/vitoria-eusebio/LeadForm.tsx`. Aqui o formulário fica dentro de
+  um card verde escuro, então só o botão precisa de tratamento no CSS.
 
 ## Hype Condomínio Clube — `/viver-hype`
 
@@ -177,15 +162,8 @@ prevista para janeiro de 2030.
   traço.
 - **Tipografia** — Montserrat, a mesma família do Vitória Eusébio, então a
   rota não pede fonte nova ao Google.
-- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
-  receita do Viver Bosque (não é mais o embed do RD
-  `hype-73927ee2be76598111e4`). POST comum para a CloudPage
-  `MC_LEAD_ENDPOINT`, que grava na DE `leads_hype` (pasta _leads_hype_, chave
-  externa `4C359E42-7F28-4FF1-907A-17A39D5DDEA2`) e redireciona para
-  `/obrigado/viver-hype` — ou de volta com `?cadastro=erro`. Código da
-  CloudPage em `marketing-cloud/viver-hype-lead.html`. O desenho repete o do
-  embed: rótulos em caixa alta, campos creme e o botão teal "CADASTRE-SE
-  AGORA". O formulário **não existe no
+- **Captação** — embed do RD Station `hype-73927ee2be76598111e4`, montado em
+  `src/components/viver-hype/LeadForm.tsx`. O formulário **não existe no
   design**: o Figma fecha as duas dobras de CTA com um botão que sai para
   `cloud.victacomunica.com.br/hype`. Ele entrou depois, dentro do card laranja
   do hero — o card é alto e o design deixa vazia a área embaixo da manchete,
@@ -241,16 +219,10 @@ R. Antero de Quental, 383 (Paupina). É a única LP roxa do repositório.
 - **Tipografia** — Montserrat, com itálico nos destaques ("para toda a
   família", "seu momento", os tempos do entorno) e Montserrat Alternates só nos
   números da dobra institucional.
-- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
-  receita do Viver Bosque (não é mais o embed do RD
-  `vitoria-jasmin-94114a5c148789bc1bee`). É um POST comum para a CloudPage
-  `MC_LEAD_ENDPOINT`, que grava na DE `leads_jasmim` (Contact Builder →
-  Extensões de Dados → pasta _leads_jasmim_, chave externa
-  `B5159D79-159A-474C-9977-A732732153C8`, mesmos campos da `leads_bosque`) e
-  redireciona para `/obrigado/vitoria-jasmim` — ou de volta com
-  `?cadastro=erro`. O código da CloudPage está em
-  `marketing-cloud/vitoria-jasmim-lead.html`. O desenho repete o do embed:
-  pílulas brancas no card roxo e botão dourado.
+- **Captação** — embed do RD Station `vitoria-jasmin-94114a5c148789bc1bee`
+  (grafia com "n", é o id cadastrado no RD), o mesmo que a página do Figma já
+  usa. O `LeadForm` também guarda as UTMs da URL e preenche os campos
+  `cf_utm_*` escondidos, como o code layer do Figma faz.
 - **CTAs** — no Figma os três botões não levam a lugar nenhum (não há
   interação de URL em nenhum deles). Aqui eles rolam para `#inicio`, o
   formulário do hero.
@@ -277,17 +249,9 @@ texto do **Parque Vitória Messejana**, o bairro planejado onde o Íris fica, e 
 mapa ilustrado é o de Messejana com o pino do Íris.
 
 Estrutura (hero → lugar → localização → lazer → institucional → rodapé), tema
-`.theme-vitoria-iris`. Pontos a saber:
+`.theme-vitoria-iris` e formulário `vitoria-iris-bfbb1b5b19b7c5e74b84` do RD.
+Pontos a saber:
 
-- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
-  receita do Viver Bosque e do Jasmim (não é mais o embed do RD
-  `vitoria-iris-bfbb1b5b19b7c5e74b84`). POST comum para a CloudPage
-  `MC_LEAD_ENDPOINT`, que grava na DE `leads_iris` (pasta _leads_iris_, chave
-  externa `C211659D-4100-4DB5-AFD1-9CF378B4CCD1`, mesmos campos da
-  `leads_bosque`) e redireciona para `/obrigado/vitoria-iris` — ou de volta com
-  `?cadastro=erro`. Código da CloudPage em
-  `marketing-cloud/vitoria-iris-lead.html`. O desenho repete o do embed:
-  pílulas brancas no bloco azul e botão verde "Quero descobrir".
 - **Faixa de lazer e legenda do mapa** são imagens, como no Figma (a legenda
   traz os 33 nomes e não existe como texto em lugar nenhum); o `alt` resume o
   conteúdo.
@@ -296,31 +260,18 @@ Estrutura (hero → lugar → localização → lazer → institucional → roda
   é o que ficou, como nas outras LPs.
 - **GTM e obrigado:** a página `/obrigado/vitoria-iris` existe, e o Íris carrega o
   container `GTM-M7HJDQRK` — o **mesmo do Vitória Jasmim**, por indicação do time;
-  se o Íris ganhar container próprio, trocar em `src/routes/__root.tsx`. O
-  redirect para `https://more.victa.eng.br/obrigado/vitoria-iris` está fixo no
-  código da CloudPage.
+  se o Íris ganhar container próprio, trocar em `src/routes/__root.tsx`. O redirect
+  do formulário no RD (fora do código) precisa apontar para
+  `https://more.victa.eng.br/obrigado/vitoria-iris`.
 
 ## Atlântico — `/atlantico`
 
 Também transcrito do Figma Sites (`/atlantico`), pelo site publicado. Hero com
-formulário, localização, lounge, lazer,
+formulário do RD (`atlantico-34bc527c3d8e5ca98ed2`), localização, lounge, lazer,
 condições (sinal a partir de R$ 999*, renda R$ 8.000*, entrada em até 48x),
 institucional e rodapé com o texto legal do empreendimento. Tema
 `.theme-atlantico`: azul `#4061a6`, sálvia, verde-água e cacau.
 
-- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
-  receita do Viver Bosque (não é mais o embed do RD
-  `atlantico-34bc527c3d8e5ca98ed2`). POST comum para a CloudPage
-  `MC_LEAD_ENDPOINT`, que grava na DE `leads_atlantico` (pasta
-  _leads_atlantico_, chave externa `6398E286-557B-43B8-A6B9-1EEE1EDA68FD`) e
-  redireciona para `/obrigado/atlantico` — ou de volta com `?cadastro=erro`.
-  Código da CloudPage em `marketing-cloud/atlantico-lead.html`. A DE já
-  existia e já tinha leads; ganhou as UTMs, `Origem` e `DataCadastro`, todas
-  opcionais, e manteve o Email como chave primária — por isso esta CloudPage,
-  ao contrário das outras, grava com upsert: quem se cadastra de novo atualiza
-  a própria linha. O desenho repete o do embed, com a frase "Preencha o
-  formulário e fale com um de nossos corretores" no topo do card azul e o
-  botão laranja "Enviar".
 - **Texturas e lettering são imagens**, como no Figma (água, azul, creme; os dois
   títulos em lettering). A lista de itens do lazer é um SVG com texto em curvas,
   em duas versões (desktop e mobile), e o `alt` repete os oito itens.
@@ -328,33 +279,21 @@ institucional e rodapé com o texto legal do empreendimento. Tema
   usa `order-*` para reproduzir as duas.
 - **Obrigado e GTM:** a página `/obrigado/atlantico` existe e o Atlântico carrega o
   container `GTM-NCH7568J` (`src/routes/__root.tsx`), então a conversão é o
-  pageview dela. O redirect para `https://more.victa.eng.br/obrigado/atlantico`
-  está fixo no código da CloudPage.
+  pageview dela. O redirect do formulário no RD já aponta para
+  `https://more.victa.eng.br/obrigado/atlantico`.
 
 ## Vista Costeira — `/vista-costeira`
 
 Apartamentos de 2 quartos com suíte e varanda no Cumbuco (Av. Central da Tabuba,
 4169 — Caucaia), a 1 minuto do mar. Transcrito do Figma Sites (página
-`/costeira`) pelo site publicado, como o Atlântico: hero com formulário,
-praia e localização sobre o mesmo fundo
+`/costeira`) pelo site publicado, como o Atlântico: hero com formulário do RD
+(`costeira-c425f54d178632eba730`), praia e localização sobre o mesmo fundo
 areia, lazer com carrossel, lista de itens e o vídeo de apresentação do YouTube,
 institucional e rodapé com o texto legal do empreendimento. Tema
 `.theme-vista-costeira`: petróleo `#005676`, areia `#e6bb94`, pêssego `#e29759`
 e o verde `#31e519` dos CTAs. Montserrat, com Poppins só nas etiquetas do
 carrossel.
 
-- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
-  receita do Atlântico (não é mais o embed do RD
-  `costeira-c425f54d178632eba730`). POST comum para a CloudPage
-  `MC_LEAD_ENDPOINT`, que grava na DE `leads_costeira` (pasta
-  _leads_costeira_, chave externa `51723294-F87D-4E05-85D4-B30C2222D3F1`) e
-  redireciona para `/obrigado/vista-costeira` — ou de volta com
-  `?cadastro=erro`. Código da CloudPage em
-  `marketing-cloud/vista-costeira-lead.html`. A DE já existia e já tinha
-  leads; ganhou `Origem` e `DataCadastro`, as UTMs passaram a opcionais com
-  255 caracteres, e o Email continua como chave primária — por isso a
-  CloudPage grava com upsert, como a do Atlântico. O desenho repete o do
-  embed: pílulas brancas no box translúcido e a pílula verde "Quero simular".
 - **Carrossel** — dois desenhos, como no Figma: no desktop o render ativo grande
   com os vizinhos menores vazando pelas bordas; no mobile um card só, com setas
   laterais e arraste. Os dois dão a volta nas pontas (no Figma o desktop para).
@@ -363,37 +302,28 @@ carrossel.
 - **CTAs** — no Figma todos rolam para o hero, e aqui também; o "fale com a
   gente" da dobra institucional abre o WhatsApp da Victa, como nas outras LPs.
 - **Obrigado e GTM:** a página `/obrigado/vista-costeira` existe e a LP carrega o
-  container `GTM-NP9LS9B7` (o mesmo que o Figma usa em `/costeira`). O redirect
-  para `https://more.victa.eng.br/obrigado/vista-costeira` está fixo no código
-  da CloudPage (o form do RD apontava para
-  `cloud.victacomunica.com.br/agradecimento`).
+  container `GTM-NP9LS9B7` (o mesmo que o Figma usa em `/costeira`). **O redirect
+  do formulário no RD ainda aponta para
+  `https://cloud.victacomunica.com.br/agradecimento`** (conferido em
+  2026-10-14): enquanto não for trocado para
+  `https://more.victa.eng.br/obrigado/vista-costeira`, o lead sai da LP e a
+  conversão não é contada aqui.
 
 ## Vista Coqueiral — `/vista-coqueiral`
 
 Apartamentos de 2 quartos com suíte e varanda pé na areia na Praia do Cumbuco
 (Caucaia). Transcrito do Figma Sites (página `/vista-coqueiral-lancamento`)
 pelo site publicado, com os mesmos componentes do Vista Costeira: hero com
-formulário, investimento e
+formulário do RD (`vista-coqueiral-6bd0476496edd77126c5`), investimento e
 localização sobre o verde-coqueiro, lazer com carrossel de dez renders e o
 quadro de itens com ícones, institucional e rodapé com o texto legal do
 empreendimento. Tema `.theme-vista-coqueiral`: verde-coqueiro `#2c6045`,
 verde-claro `#a3c74c`, teal `#008c8b` e o caramelo `#d3863f` dos CTAs.
 Montserrat, com Poppins nos botões e nas etiquetas do carrossel.
 
-- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
-  receita do Viver Bosque (não é mais o embed do RD
-  `vista-coqueiral-6bd0476496edd77126c5`, que o Figma usa nesta página; o
-  `vista-coqueiral-51b9c8fad669ffb64547` é de outra página do arquivo). POST
-  comum para a CloudPage `MC_LEAD_ENDPOINT`, que grava na DE `leads_coqueiral`
-  (pasta _leads_coqueiral_, chave externa
-  `8D3F3E14-AA71-4EB7-A99F-2BCCB4C1374C`) e redireciona para
-  `/obrigado/vista-coqueiral` — ou de volta com `?cadastro=erro`. Código da
-  CloudPage em `marketing-cloud/vista-coqueiral-lead.html`. A DE já existia (de
-  julho, sem uso) e foi acertada para o padrão da `leads_bosque`: UTMs
-  opcionais com 255 caracteres, `Origem` e `DataCadastro` novos e o Email sem
-  chave primária, para cada envio virar uma linha. Ela tem a mais o booleano
-  `Comunicação` (padrão `true`). O desenho repete o do embed: pílulas brancas
-  no card verde e o botão caramelo "Quero minha unidade".
+- **Formulário** — o Figma tem dois embeds do Coqueiral no RD; o desta página
+  (o code layer do hero) é `vista-coqueiral-6bd0476496edd77126c5`. O
+  `vista-coqueiral-51b9c8fad669ffb64547` é de outra página do arquivo.
 - **Mapa sem endereço** — o embed do Figma ainda é o placeholder do Figma Sites
   ("San Francisco City Hall"), e nenhuma página do arquivo traz o endereço da
   obra. O mapa centraliza na Praia do Cumbuco até o endereço oficial chegar
@@ -402,9 +332,10 @@ Montserrat, com Poppins nos botões e nas etiquetas do carrossel.
   parallax e arraste no mobile), com as setas teal e a etiqueta verde do design.
 - **Obrigado e GTM:** a página `/obrigado/vista-coqueiral` existe e a LP carrega o
   container `GTM-5DV6MQBG` (o mesmo que o Figma usa nas três páginas do
-  Coqueiral). O redirect para
-  `https://more.victa.eng.br/obrigado/vista-coqueiral` está fixo no código da
-  CloudPage.
+  Coqueiral). **O redirect do formulário no RD ainda aponta para
+  `https://cloud.victacomunica.com.br/agradecimento`** (conferido em
+  2026-10-14): precisa ser trocado para
+  `https://more.victa.eng.br/obrigado/vista-coqueiral`.
 
 ## Viver Essencial — `/viver-essencial`
 
@@ -434,17 +365,10 @@ famílias de texto na mesma página.
 - **Tipografia** — Poppins nas dobras do produto e Montserrat no institucional,
   no rodapé e nas pastilhas de vantagem, como no arquivo. É o que a classe
   `font-montserrat` faz; as duas famílias são pedidas num link só na rota.
-- **Captação** — form próprio enviado para o **Marketing Cloud**, a mesma
-  receita do Viver Bosque, do Jasmim e do Íris (não é mais o embed do RD
-  `viver-pici-lancamento-64a33be93e868edfe509`, que a página do Figma usa).
-  POST comum para a CloudPage `MC_LEAD_ENDPOINT`, que grava na DE
-  `leads_essencial` (pasta _leads_essencial_, chave
-  externa `80359BA4-A4C2-43B6-891D-F15396EBF249`, mesmos campos da
-  `leads_bosque`) e redireciona para `/obrigado/viver-essencial` — ou de volta com
-  `?cadastro=erro`. Código da CloudPage em
-  `marketing-cloud/viver-essencial-lead.html`. O desenho repete o do embed:
-  rótulos em negrito, pílulas brancas sobre o degradê e botão laranja "Quero
-  mais informações".
+- **Captação** — embed do RD Station `viver-pici-lancamento-64a33be93e868edfe509`
+  (cadastrado pelo bairro, não pelo nome do produto), o mesmo que a página do
+  Figma já usa. O `LeadForm` também guarda as UTMs da URL e preenche os campos
+  `cf_utm_*` escondidos, como o code layer do Figma faz.
 - **CTAs** — no Figma os botões não levam a lugar nenhum. Aqui "quero ver a
   planta", "quero morar aqui" e "descubra meu perfil" rolam para `#inicio`, o
   formulário do hero; "fale com a gente", da dobra institucional, abre o
@@ -495,8 +419,9 @@ bem abertos.
   Montserrat via `font-montserrat`, como no Viver Essencial.
 - **Mapa** — o recorte do mapa ilustrado do quadro `Book Pré · 07`, com o
   contorno do terreno e o pin desenhados por cima em HTML nas posições do Figma.
-- **Captação** — form próprio para o **Marketing Cloud**, a mesma receita das
-  outras LPs: POST para a CloudPage `MC_LEAD_ENDPOINT`
+- **Captação** — a única LP que **não está no RD Station**: nunca teve
+  formulário lá. Segue com form próprio para o **Marketing Cloud**, até existir
+  um formulário do RD para ela: POST para a CloudPage `MC_LEAD_ENDPOINT`
   (`cloud.victacomunica.com.br/vibe-cumbuco-lead`), que grava na DE
   `leads_vibe` (pasta _leads_vibe_, chave externa
   `C3E269DD-D1E4-4007-9DE3-3ACD7CDD378A`) e redireciona para
@@ -511,15 +436,32 @@ bem abertos.
 - **Pendente também** — o container do GTM (a rota ainda não está em
   `GTM_IDS_BY_PATH`) e os campos `xxxx` da nota legal no rodapé.
 
-## Formulários
+## Formulários do RD Station
 
-Nenhuma LP usa mais o embed do RD Station. Cada uma tem um form próprio em
-`src/components/<produto>/LeadForm.tsx` que faz um POST comum para uma
-CloudPage do Marketing Cloud; a CloudPage grava na DE do produto e redireciona
-para a página de obrigado. O código de cada CloudPage está versionado em
-`marketing-cloud/<produto>-lead.html` — ao mudar ali, colar de novo na
-CloudPage e republicar. A URL publicada tem de ser a mesma de
-`MC_LEAD_ENDPOINT` no LeadForm.
+Em novembro de 2026 as nove LPs que tinham saído para o Marketing Cloud
+voltaram para o embed do RD Station; só o Vibe Cumbuco, que nunca teve
+formulário no RD, continua com form próprio (ver a seção dele). As CloudPages e
+as DEs `leads_*` continuam publicadas no Marketing Cloud, e o código delas
+segue em `marketing-cloud/` como registro, mas nenhuma dessas nove LPs envia
+mais para lá.
+
+O markup vem pronto do painel do RD, então os seletores em `src/styles.css`
+são os dele e precisam de `!important`. A regra que esconde os campos de UTM
+(preenchidos pela URL da campanha, não pelo usuário) é compartilhada; o resto é
+escopado por classe de tema. Cada LP tem o seu embed, todos no token
+`UA-169812363-1`:
+
+| LP              | Formulário do RD                             |
+| --------------- | -------------------------------------------- |
+| Viver Bosque    | `bosque-6026d4e5f95b4ee9aa59`                |
+| Vitória Eusébio | `eusebio-4044c95a9a0395652ffc`               |
+| Viver Hype      | `hype-73927ee2be76598111e4`                  |
+| Vitória Jasmim  | `vitoria-jasmin-94114a5c148789bc1bee`        |
+| Viver Essencial | `viver-pici-lancamento-64a33be93e868edfe509` |
+| Vitória Íris    | `vitoria-iris-bfbb1b5b19b7c5e74b84`          |
+| Atlântico       | `atlantico-34bc527c3d8e5ca98ed2`             |
+| Vista Coqueiral | `vista-coqueiral-6bd0476496edd77126c5`       |
+| Vista Costeira  | `costeira-c425f54d178632eba730`              |
 
 ## Medição e conversão
 
@@ -538,14 +480,22 @@ conversão fica num gatilho de Page View com _Page Path_ contendo `/obrigado`,
 que serve para as cinco; gatilho de clique, se existir, é micro-conversão e
 nunca a conversão.
 
-O redirect para a página de obrigado está fixo no código de cada CloudPage
-(`marketing-cloud/<produto>-lead.html`), e nunca vem da requisição.
+Isso depende de um passo que não está neste repositório: **a URL de redirect de
+cada formulário, configurada no painel do RD**. Sem ela o embed
+mostra a mensagem de sucesso no lugar, ninguém chega na página de obrigado e não
+há conversão para contar.
 
-As UTMs vão no próprio envio, em seis campos ocultos (source, medium,
-campaign, term, content e placement) que cada LeadForm preenche com
-`src/lib/rd-utm.ts` — o nome é do tempo do RD. Ele lê os `utm_*` da URL na
-chegada e guarda o conjunto inteiro no `localStorage` (chave `victa:utm`), para
-quem volta depois sem UTM na URL continuar atribuído à campanha.
+As UTMs chegam ao RD por outro caminho, e ele também não é automático. Os
+formulários trazem seis campos personalizados `cf_utm_*` (source, medium,
+campaign, term, content e placement), escondidos pelo CSS, e o script do RD não
+preenche campo nenhum a partir da URL — a única coisa que ele lê é o cookie
+`__trf.src` do código de monitoramento, e só para o campo oculto
+`traffic_source`, no envio. Quem preenche os `cf_utm_*` é `src/lib/rd-utm.ts`:
+lê os `utm_*` da URL na chegada, guarda o conjunto inteiro no `localStorage`
+(chave `victa:utm`) e escreve nos campos quando o RD injeta o formulário e de
+novo no `submit`. A origem nativa do RD (`traffic_source`) continua dependendo
+do código de monitoramento, que entra pelo GTM: container sem a tag do RD deixa
+o lead com as UTMs nos campos personalizados e sem origem.
 
 As cinco páginas de obrigado são `noindex, nofollow` — indexadas, receberiam
 visita orgânica de quem nunca preencheu o formulário. A URL continua acessível,
