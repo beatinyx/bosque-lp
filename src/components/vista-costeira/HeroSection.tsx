@@ -43,7 +43,7 @@ export function HeroSection() {
           />
 
           <div className="mt-10 grid items-end gap-8 lg:mt-[101px] lg:grid-cols-[1fr_433px]">
-            <div className="mx-auto w-full max-w-[433px] rounded-tr-[60px] rounded-bl-[60px] bg-brand-ink/80 px-4 pt-6 pb-6 lg:order-2 lg:px-6 lg:pt-9">
+            <div className="rd-form-card mx-auto w-full max-w-[433px] rounded-tr-[60px] rounded-bl-[60px] bg-brand-ink/80 px-4 pt-6 pb-6 lg:order-2 lg:px-6 lg:pt-9">
               <h1 className="text-center text-2xl leading-normal font-normal lg:text-[2rem]">
                 O <strong className="font-bold">mar.</strong> Seu novo{" "}
                 <strong className="font-bold">lar.</strong>

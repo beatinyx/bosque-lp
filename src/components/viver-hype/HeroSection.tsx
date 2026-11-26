@@ -11,7 +11,7 @@ import { LeadForm } from "./LeadForm";
  * à direita, na frente do prédio. O logo é centrado na largura do card, então
  * os dois leem como um bloco só.
  *
- * O formulário não existe no design. Ele entra dentro do card
+ * O formulário do RD Station não existe no design. Ele entra dentro do card
  * laranja, na área que o Figma deixa vazia embaixo da manchete: é o único
  * espaço livre da dobra, e usá-lo mantém a silhueta do painel intacta em vez
  * de criar um bloco novo que o design não prevê.
@@ -87,7 +87,7 @@ export function HeroSection() {
             canto inferior esquerdo, como na peça.
           */}
             <div
-              className="chamfer-bl w-full px-7 pt-8 pb-9 text-white shadow-[0_24px_60px_rgba(0,0,0,0.32)] sm:px-9"
+              className="chamfer-bl rd-form-card w-full px-7 pt-8 pb-9 text-white shadow-[0_24px_60px_rgba(0,0,0,0.32)] sm:px-9"
               style={{ background: "linear-gradient(168deg, #e8833f 0%, #c2431e 100%)" }}
             >
               <h1 className="text-center text-[clamp(1.25rem,2.4vw,1.6rem)] leading-[1.35] font-normal">

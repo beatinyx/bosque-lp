@@ -55,7 +55,7 @@ export function HeroSection() {
             loading="eager"
           />
 
-          <div className="w-full rounded-[0_60px_0_60px] bg-brand px-6 py-9 shadow-[0_24px_60px_rgba(0,0,0,0.28)] sm:px-9 lg:w-[522px]">
+          <div className="rd-form-card w-full rounded-[0_60px_0_60px] bg-brand px-6 py-9 shadow-[0_24px_60px_rgba(0,0,0,0.28)] sm:px-9 lg:w-[522px]">
             <h1 className="text-center text-[clamp(1.5rem,3.4vw,2rem)] leading-[1.3] font-normal">
               Onde os <strong className="font-bold">sonhos</strong>
               <br />

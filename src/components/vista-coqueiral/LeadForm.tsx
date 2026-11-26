@@ -1,247 +1,88 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useRef } from "react";
 
-import { resolveUtmParams, type UtmParams } from "../../lib/rd-utm";
+import { bindRdUtmFields } from "../../lib/rd-utm";
 
-/**
- * CloudPage do Marketing Cloud que recebe o envio, grava o lead na DE
- * `leads_coqueiral` e redireciona para /obrigado/vista-coqueiral (ou de volta
- * para cá com `?cadastro=erro`). O código dela está versionado em
- * marketing-cloud/vista-coqueiral-lead.html — esta URL tem de ser a mesma em
- * que ele foi publicado.
- */
-const MC_LEAD_ENDPOINT = "https://cloud.victacomunica.com.br/leads_coqueiral";
-
-const UTM_FIELDS = [
-  "utm_source",
-  "utm_medium",
-  "utm_campaign",
-  "utm_term",
-  "utm_content",
-  "utm_placement",
-] as const;
-
-type FieldName = "Nome" | "Email" | "Telefone";
-type FieldErrors = Partial<Record<FieldName, string>>;
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-/** `85999998888` → `(85) 99999-8888`, montando a máscara enquanto se digita. */
-function formatPhone(value: string) {
-  const digits = value.replace(/\D/g, "").slice(0, 11);
-  if (digits.length === 0) return "";
-  if (digits.length <= 2) return `(${digits}`;
-  const ddd = digits.slice(0, 2);
-  const rest = digits.slice(2);
-  if (rest.length <= 4) return `(${ddd}) ${rest}`;
-  // Fixo tem 8 dígitos depois do DDD (4-4), celular tem 9 (5-4).
-  const split = rest.length === 9 ? 5 : 4;
-  return `(${ddd}) ${rest.slice(0, split)}-${rest.slice(split)}`;
-}
-
-function validate(form: HTMLFormElement): FieldErrors {
-  const data = new FormData(form);
-  const value = (name: FieldName) => String(data.get(name) ?? "").trim();
-  const errors: FieldErrors = {};
-
-  if (value("Nome") === "") errors.Nome = "Conte pra gente o seu nome.";
-  if (!EMAIL_PATTERN.test(value("Email"))) errors.Email = "Confira o e-mail — falta algo nele.";
-  const phoneDigits = value("Telefone").replace(/\D/g, "").length;
-  if (phoneDigits < 10) errors.Telefone = "Informe o telefone com DDD.";
-
-  return errors;
-}
-
-const LABEL_CLASS = "mb-1.5 block text-base text-white";
-
-/* Pílulas brancas com o texto no verde-coqueiro do produto — o desenho do embed do RD. */
-const INPUT_CLASS =
-  "h-9 w-full rounded-full border-0 bg-white px-4 text-[1.05rem] text-brand placeholder:text-brand/55 focus:ring-2 focus:ring-brand-caramel focus:outline-none aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-brand-caramel";
-
-const ERROR_CLASS = "mt-1 text-sm font-semibold text-white";
-
-/**
- * Formulário de captação do hero, enviado para o Marketing Cloud.
+/*
+ * Formulário oficial do Vista Coqueiral no RD Station.
  *
- * É um POST de formulário comum, sem fetch: a CloudPage grava e responde com o
- * redirect para a página de obrigado, cujo pageview é a conversão no GTM (ver
- * README, "Medição e conversão"). Sem CORS, sem iframe e sem script de
- * terceiro no hero. Mesma receita do form do Viver Bosque
- * (src/components/viver-bosque/LeadForm.tsx), com o desenho do embed que
- * ficava no card verde do hero: pílulas brancas e o botão caramelo dos CTAs.
+ * O id saiu do próprio Figma Sites publicado (o code layer do hero chama
+ * `new RDStationForms("vista-coqueiral-6bd0476496edd77126c5", "UA-169812363-1")`),
+ * então é o mesmo formulário que já recebe os leads da página do Figma.
  */
-export function LeadForm() {
-  const [phone, setPhone] = useState("");
-  const [errors, setErrors] = useState<FieldErrors>({});
-  const [utm, setUtm] = useState<UtmParams>({});
-  const [submitting, setSubmitting] = useState(false);
-  const [serverError, setServerError] = useState(false);
+const RD_FORM_ID = "vista-coqueiral-6bd0476496edd77126c5";
+const RD_TOKEN = "UA-169812363-1";
+const RD_SCRIPT_SRC =
+  "https://d335luupugsy2.cloudfront.net/js/rdstation-forms/stable/rdstation-forms.min.js";
 
-  useEffect(() => {
-    // Só no cliente: lê as UTMs da URL ou as guardadas de uma visita anterior.
-    setUtm(resolveUtmParams());
+declare global {
+  interface Window {
+    RDStationForms?: new (formId: string, token: string) => { createForm: () => void };
+  }
+}
 
-    // A CloudPage devolve para cá com `?cadastro=erro` quando não consegue gravar.
-    const url = new URL(window.location.href);
-    if (url.searchParams.get("cadastro") === "erro") {
-      setServerError(true);
-      url.searchParams.delete("cadastro");
-      window.history.replaceState(window.history.state, "", url);
-    }
+/**
+ * Carrega o script do RD uma única vez por página — mesma receita das outras
+ * LPs (ver src/components/viver-hype/LeadForm.tsx).
+ */
+let scriptPromise: Promise<void> | null = null;
 
-    // Quem volta da página de obrigado pelo botão "voltar" recebe a página do
-    // bfcache, com o botão ainda em "Enviando…".
-    const onPageShow = (event: PageTransitionEvent) => {
-      if (event.persisted) setSubmitting(false);
-    };
-    window.addEventListener("pageshow", onPageShow);
-    return () => window.removeEventListener("pageshow", onPageShow);
-  }, []);
+function loadRdScript(): Promise<void> {
+  if (scriptPromise) return scriptPromise;
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    const form = event.currentTarget;
-    const found = validate(form);
-    setErrors(found);
-
-    const firstInvalid = (Object.keys(found) as FieldName[])[0];
-    if (firstInvalid || submitting) {
-      event.preventDefault();
-      if (firstInvalid) form.querySelector<HTMLInputElement>(`[name="${firstInvalid}"]`)?.focus();
+  scriptPromise = new Promise((resolve, reject) => {
+    if (window.RDStationForms) {
+      resolve();
       return;
     }
 
-    // Sem preventDefault: o navegador segue com o POST para a CloudPage.
-    setServerError(false);
-    setSubmitting(true);
-  }
+    const existing = document.querySelector<HTMLScriptElement>(`script[src="${RD_SCRIPT_SRC}"]`);
+    const script = existing ?? document.createElement("script");
 
-  function clearError(name: FieldName) {
-    if (errors[name]) setErrors((current) => ({ ...current, [name]: undefined }));
-  }
+    script.addEventListener("load", () => resolve(), { once: true });
+    script.addEventListener("error", () => reject(new Error("RD Station: script não carregou")), {
+      once: true,
+    });
 
-  function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
-    setPhone(formatPhone(event.target.value));
-    clearError("Telefone");
-  }
+    if (!existing) {
+      script.src = RD_SCRIPT_SRC;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  });
 
-  return (
-    <div id="cadastro" className="scroll-mt-6">
-      <form
-        action={MC_LEAD_ENDPOINT}
-        method="post"
-        noValidate
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-2.5 text-left"
-      >
-        {serverError && (
-          <p
-            role="alert"
-            className="rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-brand"
-          >
-            Não conseguimos concluir o seu cadastro. Confira os dados e tente de novo.
-          </p>
-        )}
+  return scriptPromise;
+}
 
-        <div>
-          <label htmlFor="lead-nome" className={LABEL_CLASS}>
-            Nome*
-          </label>
-          <input
-            id="lead-nome"
-            name="Nome"
-            type="text"
-            autoComplete="name"
-            maxLength={50}
-            required
-            placeholder="Nome *"
-            aria-invalid={errors.Nome ? true : undefined}
-            aria-describedby={errors.Nome ? "lead-nome-erro" : undefined}
-            onChange={() => clearError("Nome")}
-            className={INPUT_CLASS}
-          />
-          {errors.Nome && (
-            <p id="lead-nome-erro" className={ERROR_CLASS}>
-              {errors.Nome}
-            </p>
-          )}
-        </div>
+export function LeadForm() {
+  const formRef = useRef<HTMLDivElement>(null);
 
-        <div>
-          <label htmlFor="lead-email" className={LABEL_CLASS}>
-            Email*
-          </label>
-          <input
-            id="lead-email"
-            name="Email"
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            maxLength={254}
-            required
-            placeholder="Email *"
-            aria-invalid={errors.Email ? true : undefined}
-            aria-describedby={errors.Email ? "lead-email-erro" : undefined}
-            onChange={() => clearError("Email")}
-            className={INPUT_CLASS}
-          />
-          {errors.Email && (
-            <p id="lead-email-erro" className={ERROR_CLASS}>
-              {errors.Email}
-            </p>
-          )}
-        </div>
+  useEffect(() => {
+    let cancelled = false;
+    const container = formRef.current;
+    if (!container) return;
 
-        <div>
-          <label htmlFor="lead-telefone" className={LABEL_CLASS}>
-            Telefone*
-          </label>
-          <input
-            id="lead-telefone"
-            name="Telefone"
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel-national"
-            required
-            placeholder="(85) 99999-9999"
-            value={phone}
-            onChange={handlePhoneChange}
-            aria-invalid={errors.Telefone ? true : undefined}
-            aria-describedby={errors.Telefone ? "lead-telefone-erro" : undefined}
-            className={INPUT_CLASS}
-          />
-          {errors.Telefone && (
-            <p id="lead-telefone-erro" className={ERROR_CLASS}>
-              {errors.Telefone}
-            </p>
-          )}
-        </div>
+    // Preenche os `cf_utm_*` quando o RD injetar o formulário — ver src/lib/rd-utm.ts.
+    const unbindUtm = bindRdUtmFields(container);
 
-        {UTM_FIELDS.map((name) => (
-          <input key={name} type="hidden" name={name} value={utm[name] ?? ""} />
-        ))}
+    loadRdScript()
+      .then(() => {
+        if (cancelled || !window.RDStationForms) return;
 
-        {/*
-          Campo-armadilha contra robô: fora da tela, fora do Tab e sem
-          autocomplete, então só quem preenche tudo às cegas escreve aqui. A
-          CloudPage descarta o envio que chega com ele preenchido.
-        */}
-        <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-          <label htmlFor="lead-website">Não preencha este campo</label>
-          <input id="lead-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
-        </div>
+        /* Marca no nó e ANTES da chamada — ver a nota em viver-hype/LeadForm. */
+        if (container.dataset["rdMounted"] === "1") return;
+        container.dataset["rdMounted"] = "1";
+        container.replaceChildren();
+        new window.RDStationForms(RD_FORM_ID, RD_TOKEN).createForm();
+      })
+      .catch((error: unknown) => {
+        console.error(error);
+      });
 
-        <button
-          type="submit"
-          disabled={submitting}
-          style={{ fontFamily: '"Poppins", var(--font-sans)' }}
-          className="mt-4 h-12 w-full rounded-full bg-brand-caramel px-3 text-[clamp(0.8rem,3.6vw,1.05rem)] font-bold whitespace-nowrap uppercase text-white transition-colors duration-300 ease-out hover:bg-brand-caramel-deep focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none disabled:cursor-wait disabled:opacity-80"
-        >
-          {submitting ? "Enviando…" : "Quero minha unidade"}
-        </button>
+    return () => {
+      cancelled = true;
+      unbindUtm();
+    };
+  }, []);
 
-        <p className="mt-1 text-[0.8rem] leading-snug text-white">
-          Prometemos não utilizar suas informações de contato para enviar qualquer tipo de SPAM.
-        </p>
-      </form>
-    </div>
-  );
+  return <div role="main" id={RD_FORM_ID} ref={formRef} />;
 }
