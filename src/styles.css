@@ -1736,4 +1736,118 @@
   .theme-viver-essencial .rd-form-card form {
     margin-bottom: 0 !important;
   }
+
+  /*
+   * Formulário do RD Station no card de linho do hero do Vibe Cumbuco.
+   *
+   * O card (moldura, fundo e título) é da página; o embed entra dentro dele,
+   * então o fundo que o RD pinta some e a coluna volta a ocupar a largura
+   * toda. O resto reproduz o form próprio que a LP tinha: rótulo pequeno em
+   * petróleo, campo claro de canto arredondado e o CTA laranja em pílula.
+   */
+  .theme-vibe-cumbuco .rd-form-card [class*="rd-section"],
+  .theme-vibe-cumbuco .rd-form-card [class*="rd-row"],
+  .theme-vibe-cumbuco .rd-form-card [class*="rd-column"],
+  .theme-vibe-cumbuco .rd-form-card [class*="rd-column"] > div {
+    background-color: transparent !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card div:has(> .bricks-form) {
+    padding: 0 !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card .bricks-form {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card .bricks-form__label,
+  .theme-vibe-cumbuco .rd-form-card label {
+    color: color-mix(in srgb, var(--color-brand) 70%, transparent) !important;
+    font-family: var(--font-sans) !important;
+    font-size: 0.72rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card p,
+  .theme-vibe-cumbuco .rd-form-card p *,
+  .theme-vibe-cumbuco .rd-form-card small,
+  .theme-vibe-cumbuco .rd-form-card small * {
+    color: color-mix(in srgb, var(--color-brand) 60%, transparent) !important;
+    font-family: var(--font-sans) !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card input:not([type="checkbox"]):not([type="radio"]),
+  .theme-vibe-cumbuco .rd-form-card select,
+  .theme-vibe-cumbuco .rd-form-card textarea {
+    height: 3rem !important;
+    border: 1px solid color-mix(in srgb, var(--color-brand) 15%, transparent) !important;
+    border-radius: 0.75rem !important;
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    color: var(--color-brand) !important;
+    font-family: var(--font-sans) !important;
+    font-size: 0.98rem !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card input:not([type="checkbox"]):not([type="radio"]):focus {
+    border-color: var(--color-brand-petrol) !important;
+    background-color: #fff !important;
+    outline: 2px solid color-mix(in srgb, var(--color-brand-petrol) 20%, transparent) !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card input::placeholder {
+    color: color-mix(in srgb, var(--color-brand) 40%, transparent) !important;
+  }
+
+  /* Bandeira + telefone leem como um controle só — ver a nota no Jasmim. */
+  .theme-vibe-cumbuco .rd-form-card .phone-input-group .select2-container.phone-country,
+  .theme-vibe-cumbuco .rd-form-card .phone-input-group .select2-choice {
+    height: 3rem !important;
+    border-radius: 0.75rem 0 0 0.75rem !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card .phone-input-group .select2-choice {
+    display: flex !important;
+    align-items: center !important;
+    padding-left: 0.5rem !important;
+    border-color: color-mix(in srgb, var(--color-brand) 15%, transparent) !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card .phone-input-group .select2-arrow {
+    border-radius: 0 !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card .phone-input-group input.js-phone {
+    border-radius: 0 0.75rem 0.75rem 0 !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card .rd-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* O RD recua o botão 5px de cada lado em relação aos campos. */
+    width: calc(100% + 10px) !important;
+    height: 3.5rem !important;
+    margin: 0.5rem -5px 0 !important;
+    padding: 0 1rem !important;
+    line-height: 1 !important;
+    border: 0 !important;
+    border-radius: 9999px !important;
+    background-color: var(--color-brand-orange) !important;
+    color: #fff !important;
+    font-family: var(--font-sans) !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    transition: background-color 0.3s !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card .rd-button:hover {
+    background-color: var(--color-brand-orange-deep) !important;
+  }
+
+  .theme-vibe-cumbuco .rd-form-card form {
+    margin-bottom: 0 !important;
+  }
 }
