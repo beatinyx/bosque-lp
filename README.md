@@ -419,31 +419,25 @@ bem abertos.
   Montserrat via `font-montserrat`, como no Viver Essencial.
 - **Mapa** — o recorte do mapa ilustrado do quadro `Book Pré · 07`, com o
   contorno do terreno e o pin desenhados por cima em HTML nas posições do Figma.
-- **Captação** — a única LP que **não está no RD Station**: nunca teve
-  formulário lá. Segue com form próprio para o **Marketing Cloud**, até existir
-  um formulário do RD para ela: POST para a CloudPage `MC_LEAD_ENDPOINT`
-  (`cloud.victacomunica.com.br/vibe-cumbuco-lead`), que grava na DE
-  `leads_vibe` (pasta _leads_vibe_, chave externa
-  `C3E269DD-D1E4-4007-9DE3-3ACD7CDD378A`) e redireciona para
-  `/obrigado/vibe-cumbuco` — ou de volta com `?cadastro=erro`. Código em
-  `marketing-cloud/vibe-cumbuco-lead.html`. A DE foi criada em 2026-11-09
-  copiando a estrutura da `leads_hype`: Nome, Email e Telefone obrigatórios,
-  as seis UTMs opcionais, `Origem` e `DataCadastro` (`GETDATE()`), sem chave
-  primária (cada envio é uma linha). CloudPage publicada e testada em
-  2026-11-09: GET volta para a LP, envio inválido volta com `?cadastro=erro`,
-  armadilha vai para o obrigado sem gravar, e um envio válido gravou a linha
-  com telefone normalizado (`55…`), UTMs e `Origem`.
+- **Captação** — embed do RD Station, formulário
+  `vibe-cumbuco-124d60f2a7f6d22d1225`, criado em 2026-11-26 com os seis
+  `cf_utm_*` e redirect para `/obrigado/vibe-cumbuco`. O embed entra dentro do
+  card de linho do hero e é vestido por `.theme-vibe-cumbuco .rd-form-card` em
+  `src/styles.css`; o texto do botão e a linha legal vêm do painel do RD. Até
+  essa data a LP enviava para o Marketing Cloud (CloudPage
+  `cloud.victacomunica.com.br/vibe-cumbuco-lead`, DE `leads_vibe`, código em
+  `marketing-cloud/vibe-cumbuco-lead.html`), que continua publicada mas não
+  recebe mais nada daqui.
 - **Pendente também** — o container do GTM (a rota ainda não está em
   `GTM_IDS_BY_PATH`) e os campos `xxxx` da nota legal no rodapé.
 
 ## Formulários do RD Station
 
 Em novembro de 2026 as nove LPs que tinham saído para o Marketing Cloud
-voltaram para o embed do RD Station; só o Vibe Cumbuco, que nunca teve
-formulário no RD, continua com form próprio (ver a seção dele). As CloudPages e
-as DEs `leads_*` continuam publicadas no Marketing Cloud, e o código delas
-segue em `marketing-cloud/` como registro, mas nenhuma dessas nove LPs envia
-mais para lá.
+voltaram para o embed do RD Station, e o Vibe Cumbuco, que nunca tinha tido
+formulário no RD, ganhou o dele. As CloudPages e as DEs `leads_*` continuam
+publicadas no Marketing Cloud, e o código delas segue em `marketing-cloud/`
+como registro, mas nenhuma LP envia mais para lá.
 
 O markup vem pronto do painel do RD, então os seletores em `src/styles.css`
 são os dele e precisam de `!important`. A regra que esconde os campos de UTM
@@ -462,6 +456,7 @@ escopado por classe de tema. Cada LP tem o seu embed, todos no token
 | Atlântico       | `atlantico-34bc527c3d8e5ca98ed2`             |
 | Vista Coqueiral | `vista-coqueiral-6bd0476496edd77126c5`       |
 | Vista Costeira  | `costeira-c425f54d178632eba730`              |
+| Vibe Cumbuco    | `vibe-cumbuco-124d60f2a7f6d22d1225`          |
 
 ## Medição e conversão
 
