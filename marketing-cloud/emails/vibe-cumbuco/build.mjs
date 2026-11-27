@@ -368,8 +368,8 @@ function email2() {
       band(
         C.linho,
         `
-         ${h2(`No destino onde os ventos atraem o mundo, <strong style="font-weight:600;">chega uma nova possibilidade</strong> para quem deseja investir no litoral cearense.`)}
-         ${p(`Conheça o <strong style="color:${C.petroleo};font-weight:600;">Vibe Cumbuco</strong>, lançamento da Victa que reúne localização, lazer e experiências em sintonia com o estilo de vida de um destino internacionalmente reconhecido.`, C.texto, "margin-bottom:0;")}`,
+         ${h2(`No destino onde os ventos atraem o mundo, <strong style="font-weight:600;">chega uma nova oportunidade</strong> para quem deseja investir no litoral cearense.`)}
+         ${p(`Conheça o <strong style="color:${C.petroleo};font-weight:600;">Vibe Cumbuco</strong>, o lançamento da Victa que reúne localização, lazer completo e o estilo de vida do Cumbuco, reconhecido internacionalmente.`, C.texto, "margin-bottom:0;")}`,
         "44px 40px 34px",
       ),
       band(
@@ -377,7 +377,7 @@ function email2() {
         `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="${C.branco}" style="background-color:${C.branco};border-radius:16px;">
           <tr><td style="padding:0;">${img("e2-piscina-box.jpg", "Piscina do condomínio", 520, 230, "border-radius:16px 16px 0 0;")}</td></tr>
           <tr><td class="card" style="padding:28px 24px 24px;">
-            ${h2(`<strong style="font-weight:600;">A poucos metros do mar.</strong><br>A muitas possibilidades de viver.`)}
+            ${h2(`<strong style="font-weight:600;">A poucos metros do mar.</strong><br>Com muitas possibilidades de viver.`)}
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
               ${pill("Apês de 2 quartos com varanda", "43%", 0, 4)}
               ${pill("Condomínio fechado", "31%", 4, 4)}
